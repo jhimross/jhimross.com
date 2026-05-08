@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jhimross Olinares — Web & WordPress Developer</title>
+  <meta name="description"
+    content="Web and WordPress developer building accessible, pixel-perfect websites and custom WordPress solutions." />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0b1220;
+      --muted: #5b6473;
+      --border: #e5e8ee;
+      --secondary: #f4f6fa;
+      --card: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased
+    }
+
+    img {
+      max-width: 100%;
+      display: block
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    .narrow {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px
+    }
+
+    /* Nav */
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 255, 255, .8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border)
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--fg);
+      border-radius: 8px;
+      font-weight: 700
+    }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: var(--bg);
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      gap: 24px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .nav-links a {
+      transition: opacity .2s
+    }
+
+    .nav-links a:hover {
+      opacity: .6
+    }
+
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--fg);
+      transition: .3s;
+    }
+
+    @media (min-width:768px) {
+      .nav-links {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        width: auto;
+        padding: 0;
+        border: none;
+        gap: 32px;
+        font-size: 14px;
+      }
+      .nav-toggle {
+        display: none;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 112px 24px 128px
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      font-weight: 700;
+      margin: 0
+    }
+
+    .hero p {
+      margin: 32px auto 0;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--fg);
+      color: var(--bg);
+      padding: 16px 32px;
+      border-radius: 9999px;
+      font-weight: 500;
+      font-size: 16px;
+      transition: opacity .2s
+    }
+
+    .btn:hover {
+      opacity: .9
+    }
+
+    .btn-invert {
+      background: var(--bg);
+      color: var(--fg)
+    }
+
+    .hero-cta {
+      margin-top: 40px
+    }
+
+    @media(min-width:768px) {
+      .hero h1 {
+        font-size: 72px
+      }
+    }
+
+    /* Sections */
+    section {
+      padding: 96px 0
+    }
+
+    .section-title {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin: 0 0 64px;
+      text-align: center
+    }
+
+    @media(min-width:768px) {
+      .section-title {
+        font-size: 44px
+      }
+    }
+
+    /* About */
+    .about {
+      background: rgba(244, 246, 250, .6)
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center
+    }
+
+    @media(min-width:768px) {
+      .about-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 64px
+      }
+    }
+
+    .about img {
+      border-radius: 24px;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      width: 100%
+    }
+
+    .about h2 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin: 0 0 32px
+    }
+
+    .about p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+      margin: 0 0 20px
+    }
+
+    @media(min-width:768px) {
+      .about h2 {
+        font-size: 44px
+      }
+    }
+
+    /* Work */
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px
+    }
+
+    @media(min-width:768px) {
+      .work-grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    .project .thumb {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 20px
+    }
+
+    .project img {
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      width: 100%;
+      transition: transform .5s
+    }
+
+    .project:hover img {
+      transform: scale(1.05)
+    }
+
+    .project h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 8px
+    }
+
+    .project p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.6
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background: rgba(244, 246, 250, .6)
+    }
+
+    .testimonials .container {
+      max-width: 1440px
+    }
+
+    .t-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px
+    }
+
+    @media(min-width:768px) {
+      .t-grid {
+        grid-template-columns: repeat(3, 1fr)
+      }
+    }
+
+    .t-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .t-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, .05)
+    }
+
+    .t-card blockquote {
+      margin: 0 0 24px;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
+      font-style: italic;
+      position: relative
+    }
+
+    .t-card blockquote::before {
+      content: '“';
+      position: absolute;
+      top: -20px;
+      left: -10px;
+      font-size: 60px;
+      opacity: .1;
+      font-family: serif
+    }
+
+    .t-card figcaption {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border)
+    }
+
+    .t-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--secondary)
+    }
+
+    .t-info {
+      display: flex;
+      flex-direction: column
+    }
+
+    .t-name {
+      font-weight: 600;
+      font-size: 16px
+    }
+
+    .t-meta {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.2
+    }
+
+    /* Services */
+    .services-head {
+      max-width: 640px;
+      margin-bottom: 64px
+    }
+
+    .services-head h2 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin: 0 0 24px
+    }
+
+    .services-head p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 0
+    }
+
+    @media(min-width:768px) {
+      .services-head h2 {
+        font-size: 44px
+      }
+    }
+
+    .s-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px
+    }
+
+    @media(min-width:640px) {
+      .s-grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(min-width:1024px) {
+      .s-grid {
+        grid-template-columns: repeat(3, 1fr)
+      }
+    }
+
+    .s-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      transition: background .2s
+    }
+
+    .s-card:hover {
+      background: rgba(244, 246, 250, .6)
+    }
+
+    .s-icon {
+      display: inline-flex;
+      width: 48px;
+      height: 48px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: var(--fg);
+      color: var(--bg);
+      margin-bottom: 20px
+    }
+
+    .s-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.75
+    }
+
+    .s-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 12px
+    }
+
+    .s-card p {
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.6
+    }
+
+    /* CTA */
+    .cta {
+      background: var(--fg);
+      color: var(--bg);
+      text-align: center
+    }
+
+    .cta h2 {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin: 0 0 24px
+    }
+
+    .cta p {
+      opacity: .7;
+      font-size: 18px;
+      margin: 0 0 40px
+    }
+
+    @media(min-width:768px) {
+      .cta h2 {
+        font-size: 60px
+      }
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border)
+    }
+
+    .foot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 40px 0;
+      font-size: 14px;
+      color: var(--muted)
+    }
+
+    @media(min-width:768px) {
+      .foot {
+        flex-direction: row
+      }
+    }
+
+    .social-links {
+      display: flex;
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    @media(min-width:768px) {
+      .social-links {
+        margin-top: 0;
+      }
+    }
+
+    .social-links a {
+      color: var(--muted);
+      transition: color .2s, transform .2s;
+      display: flex;
+    }
+
+    .social-links a:hover {
+      color: var(--fg);
+      transform: translateY(-2px);
+    }
+
+    .social-links svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2;
+    }
+
+    .about-social {
+      margin-top: 32px;
+      justify-content: flex-start;
+    }
+
+    .about-social svg {
+      width: 24px;
+      height: 24px;
+    }
+  </style>
+</head>
+
+<body id="top">
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="logo">J.</a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="https://jhimross.wordpress.com" target="_blank">Blog</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>I Build Things <br /> for the Web</h1>
+    <p>Hi I'am Jhimross Olinares. A website and WordPress developer specializing in building exceptional digital
+      experiences. Currently focused
+      on creating accessible, pixel-perfect websites and custom WordPress solutions.</p>
+    <div class="hero-cta"><a class="btn" href="mailto:jhimross@gmail.com">Get in Touch</a></div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="container about-grid">
+      <img src="assets/about.jpg" alt="Portrait of Jhimross" loading="lazy" />
+      <div>
+        <h2>About Me</h2>
+        <p>I'm a passionate web developer with expertise in building modern, responsive websites and custom WordPress
+          solutions. I love turning ideas into beautiful, functional digital experiences.</p>
+        <p>With years of hands-on experience, I've worked with clients ranging from small businesses to larger
+          organizations, delivering tailored solutions that drive results.</p>
+        <p>My focus is on writing clean, maintainable code and creating websites that are not only visually appealing
+          but also fast, accessible, and SEO-friendly.</p>
+        <div class="social-links about-social">
+          <a href="https://profiles.wordpress.org/jhimross/" target="_blank" aria-label="WordPress Profile">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"/><path fill="white" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.176 2.986-.502-.02-.03-.037-.064-.052-.101l-2.776-7.602zM3.033 12c0 3.69 2.153 6.877 5.27 8.365l-3.99-10.98c-.85 1.255-1.28 2.62-1.28 2.615zm15.606 7.562c.967-.942 1.564-2.25 1.564-3.702 0-1.034-.393-1.744-.73-2.314-.426-.714-.827-1.32-.827-2.036 0-.775.584-1.498 1.127-1.498.05 0 .1 0 .15.007a8.961 8.961 0 0 0-4.816-3.42c.147.2.285.44.285.7 0 .53-.293 1.285-.56 2.057l-2.6 7.494 2.766 8.35a8.956 8.956 0 0 0 3.84-5.637zm-8.224-11.83c0 .337.074.673.224 1.01l1.498 3.37 1.498-4.38c.112-.337.187-.636.187-.936 0-.374-.262-.71-.71-.71s-.86.262-.86.71l.037.187c0 .112-.037.15-.112.15h-.262c-.075 0-.112-.038-.112-.15l.037-.187c0-.45-.41-.71-.86-.71s-.71.336-.71.71l.037.187c0 .112-.037.15-.112.15h-.262c-.075 0-.112-.038-.112-.15l.037-.187c0-.374-.262-.71-.71-.71s-.86.336-.86.71zm-2.097.45l2.6 7.234 2.6-7.234-.524-1.423a8.927 8.927 0 0 0-4.152 1.423z"/></svg>
+          </a>
+          <a href="https://github.com/jhimross" target="_blank" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@jhimross" target="_blank" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          </a>
+          <a href="https://x.com/jhimross" target="_blank" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+          </a>
+          <a href="https://www.strava.com/athletes/28397045" target="_blank" aria-label="Strava">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.065l-2.085 4.116z"/><path d="M10.29 10.172l-2.085 4.116-2.089-4.116H3L8.203 0l5.203 10.172h-3.116z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="container">
+      <h2 class="section-title">Things I've Built</h2>
+      <div class="work-grid">
+        <article class="project">
+          <div class="thumb"><img src="assets/proj-ecommerce.webp" alt="E-Commerce Store" loading="lazy" /></div>
+          <h3>E-Commerce Store</h3>
+          <p>A fully custom WooCommerce store with a bespoke theme, advanced product filtering, and seamless checkout
+            experience. Optimized for speed and conversions.</p>
+        </article>
+        <article class="project">
+          <div class="thumb"><img src="assets/proj-corporate.png" alt="Corporate Business Site" loading="lazy" /></div>
+          <h3>Corporate Business Site</h3>
+          <p>Modern, responsive corporate website built with a custom WordPress theme. Features include multilingual
+            support, team management, and dynamic content sections.</p>
+        </article>
+        <article class="project">
+          <div class="thumb"><img src="assets/proj-portfolio.jpg" alt="Portfolio & Blog Platform" loading="lazy" />
+          </div>
+          <h3>Portfolio & Blog Platform</h3>
+          <p>A sleek, performance-optimized portfolio and blog platform built with React. Features include markdown
+            rendering, dynamic routing, and a custom CMS integration.</p>
+        </article>
+        <article class="project">
+          <div class="thumb"><img src="assets/proj-restaurant.png" alt="Restaurant Booking System" loading="lazy" />
+          </div>
+          <h3>Restaurant Booking System</h3>
+          <p>Full-featured restaurant website with online reservation system, menu management, and an admin dashboard
+            for managing bookings and content.</p>
+        </article>
+        <article class="project">
+          <div class="thumb"><img src="assets/proj-realestate.webp" alt="Real Estate Listing Platform" loading="lazy" />
+          </div>
+          <h3>Real Estate Listing Platform</h3>
+          <p>Property listing website with advanced search filters, interactive maps, virtual tour integration, and a
+            CRM-connected lead capture system for agents.</p>
+        </article>
+        <article class="project">
+          <div class="thumb"><img src="assets/proj-custom-new.jpg" alt="Custom Development Solutions" loading="lazy" />
+          </div>
+          <h3>Custom Development Solutions</h3>
+          <p>Tailored web solutions built from scratch to meet unique business needs — from custom plugins and API
+            integrations to fully bespoke platforms that go beyond off-the-shelf themes.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials" class="testimonials">
+    <div class="container">
+      <h2 class="section-title">Testimonials</h2>
+      <div class="t-grid">
+        <figure class="t-card">
+          <blockquote>“I've worked with Jhimross for several years and can confidently say he is an exceptional
+            WordPress developer with strong technical expertise. He approaches every project proactively, communicates
+            clearly, and consistently delivers high-quality results with minimal supervision.”</blockquote>
+          <figcaption>
+            <img src="https://jhimross.wordpress.com/wp-content/uploads/2026/04/c3b3a-neil.webp" alt="Neil Matthews"
+              class="t-avatar" />
+            <div class="t-info">
+              <div class="t-name">Neil Matthews</div>
+              <div class="t-meta">WordPress Consultant</div>
+              <div class="t-meta">WPDude</div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="t-card">
+          <blockquote>“Jhimross manages several WordPress websites for me, from service-based platforms to course
+            providers with an eCommerce/WooCommerce element. I have complete peace of mind knowing my sites are secure,
+            backed up, and professionally maintained.”</blockquote>
+          <figcaption>
+            <img src="https://jhimross.wordpress.com/wp-content/uploads/2026/04/86a6d-karen.webp" alt="Karen Norman"
+              class="t-avatar" />
+            <div class="t-info">
+              <div class="t-name">Karen Norman</div>
+              <div class="t-meta">Marketing Manager</div>
+              <div class="t-meta">Sensible Marketing</div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="t-card">
+          <blockquote>“If you're looking for a WordPress developer who is reliable, responsive, and incredibly skilled —
+            Jhimross Olinares is the one. He's been my behind-the-scenes guardian angel for years. No matter how
+            complicated the issue, he fixes it.”</blockquote>
+          <figcaption>
+            <img src="https://jhimross.wordpress.com/wp-content/uploads/2026/04/a7eae-linda-day-harrison.webp"
+              alt="Linda Day Harrison" class="t-avatar" />
+            <div class="t-info">
+              <div class="t-name">Linda Day Harrison</div>
+              <div class="t-meta">Founder</div>
+              <div class="t-meta">The Broker List</div>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="services-head">
+        <h2>Maintenance & Troubleshooting</h2>
+        <p>I offer ongoing WordPress website maintenance and troubleshooting services to keep your site fast, secure,
+          and up-to-date.</p>
+      </div>
+      <div class="s-grid">
+        <div class="s-card">
+          <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+              <path d="M21 3v5h-5" />
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+              <path d="M3 21v-5h5" />
+            </svg></div>
+          <h3>Updates</h3>
+          <p>Regular WordPress core, theme, and plugin updates to keep your site secure and running smoothly.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg></div>
+          <h3>Security</h3>
+          <p>Proactive security monitoring, malware scanning, and hardening to protect your site from threats.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+              stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3" />
+              <path d="M3 12a9 3 0 0 0 5 2.69" />
+              <path d="M21 9.3V5" />
+              <path d="M3 5v14a9 3 0 0 0 6.47 2.88" />
+              <path d="M12 12v4h4" />
+              <path d="M13 20a5 5 0 1 0 9-3" />
+            </svg></div>
+          <h3>Daily Backup</h3>
+          <p>Automated daily backups with secure offsite storage, so your data is always safe and recoverable.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path
+                d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.5.5 0 0 1-.96 0L9.68 3.18a.5.5 0 0 0-.96 0l-2.35 8.36A2 2 0 0 1 4.44 13H2" />
+            </svg></div>
+          <h3>Uptime Monitoring</h3>
+          <p>24/7 uptime monitoring with instant alerts, ensuring your site stays online and accessible.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5z" />
+              <polyline points="14 2 14 8 20 8" />
+              <path d="M8 18v-2" />
+              <path d="M12 18v-4" />
+              <path d="M16 18v-6" />
+            </svg></div>
+          <h3>Monthly Reports</h3>
+          <p>Detailed monthly reports covering updates performed, security status, and uptime stats.</p>
+        </div>
+        <div class="s-card">
+          <div class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path
+                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+            </svg></div>
+          <h3>Troubleshooting</h3>
+          <p>Proactive WordPress troubleshooting and fixes to keep your site stable, and secure.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="cta">
+    <div class="narrow">
+      <h2>Let's build something together.</h2>
+      <p>Have a project in mind or need help with your WordPress site? I'd love to hear from you.</p>
+      <a class="btn btn-invert" href="mailto:jhimross@gmail.com">Get in Touch</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container foot">
+      <div>© <span id="y"></span> Jhimross Olinares — Web & WordPress Developer</div>
+      <div class="social-links">
+        <a href="https://profiles.wordpress.org/jhimross/" target="_blank" aria-label="WordPress Profile">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0z"/><path fill="white" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.176 2.986-.502-.02-.03-.037-.064-.052-.101l-2.776-7.602zM3.033 12c0 3.69 2.153 6.877 5.27 8.365l-3.99-10.98c-.85 1.255-1.28 2.62-1.28 2.615zm15.606 7.562c.967-.942 1.564-2.25 1.564-3.702 0-1.034-.393-1.744-.73-2.314-.426-.714-.827-1.32-.827-2.036 0-.775.584-1.498 1.127-1.498.05 0 .1 0 .15.007a8.961 8.961 0 0 0-4.816-3.42c.147.2.285.44.285.7 0 .53-.293 1.285-.56 2.057l-2.6 7.494 2.766 8.35a8.956 8.956 0 0 0 3.84-5.637zm-8.224-11.83c0 .337.074.673.224 1.01l1.498 3.37 1.498-4.38c.112-.337.187-.636.187-.936 0-.374-.262-.71-.71-.71s-.86.262-.86.71l.037.187c0 .112-.037.15-.112.15h-.262c-.075 0-.112-.038-.112-.15l.037-.187c0-.45-.41-.71-.86-.71s-.71.336-.71.71l.037.187c0 .112-.037.15-.112.15h-.262c-.075 0-.112-.038-.112-.15l.037-.187c0-.374-.262-.71-.71-.71s-.86.336-.86.71zm-2.097.45l2.6 7.234 2.6-7.234-.524-1.423a8.927 8.927 0 0 0-4.152 1.423z"/></svg>
+        </a>
+        <a href="https://github.com/jhimross" target="_blank" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@jhimross" target="_blank" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+        </a>
+        <a href="https://x.com/jhimross" target="_blank" aria-label="X (Twitter)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"/></svg>
+        </a>
+        <a href="https://www.strava.com/athletes/28397045" target="_blank" aria-label="Strava">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.065l-2.085 4.116z"/><path d="M10.29 10.172l-2.085 4.116-2.089-4.116H3L8.203 0l5.203 10.172h-3.116z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+
+</html>
