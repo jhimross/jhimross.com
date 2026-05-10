@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Jhimross Olinares</title>
+  <meta name="description" content="Get in touch with Jhimross Olinares for web development, WordPress solutions, or just to say hi." />
+  
+  <!-- Social Meta Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jhimross.com/contact.html" />
+  <meta property="og:title" content="Contact — Jhimross Olinares" />
+  <meta property="og:description" content="Get in touch with Jhimross Olinares for web development and WordPress solutions." />
+  <meta property="og:image" content="https://jhimross.com/assets/about.jpg" />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0b1220;
+      --muted: #5b6473;
+      --border: #e5e8ee;
+      --secondary: #f4f6fa;
+      --accent: #0b1220;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .narrow { max-width: 600px; margin: 0 auto; padding: 0 24px; }
+    
+    header.nav {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(255, 255, 255, .8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+    .logo { display: inline-flex; width: 40px; height: 40px; transition: transform .2s ease; }
+    .logo:hover { transform: scale(1.1); }
+    .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
+    a { color: inherit; text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .6; }
+
+    .contact-header { padding: 80px 0 48px; text-align: center; }
+    .contact-header h1 { font-size: 48px; font-weight: 700; margin: 0 0 16px; letter-spacing: -.02em; }
+    .contact-header p { font-size: 18px; color: var(--muted); margin: 0; }
+
+    .contact-form { margin-bottom: 80px; background: var(--secondary); padding: 40px; border-radius: 24px; }
+    .form-group { margin-bottom: 24px; }
+    .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: inherit;
+      transition: border-color .2s;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: var(--fg);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--fg);
+      color: var(--bg);
+      padding: 16px 32px;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      transition: opacity .2s;
+    }
+    .btn:hover { opacity: .9; }
+
+    footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--muted); font-size: 14px; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo" aria-label="Home">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="square"/>
+          <rect x="60" y="28" width="22" height="7" fill="currentColor"/>
+          <circle cx="71" cy="62" r="9" fill="currentColor"/>
+        </svg>
+      </a>
+      <nav class="nav-links">
+        <a href="/#about">About</a>
+        <a href="/#work">Work</a>
+        <a href="/blog.html">Journal</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container narrow">
+    <div class="contact-header">
+      <h1>Get in Touch</h1>
+      <p>Have a project in mind or just want to say hi? Send me a message below.</p>
+    </div>
+
+    <form action="https://formspree.io/f/jhimross@gmail.com" method="POST" class="contact-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="_replyto" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="How can I help you?" required></textarea>
+      </div>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="y"></span> Jhimross Olinares</div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
