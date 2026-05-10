@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog — Jhimross Olinares</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0b1220;
+      --muted: #5b6473;
+      --border: #e5e8ee;
+      --secondary: #f4f6fa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .narrow { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+    
+    header.nav {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(255, 255, 255, .8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+    .logo { display: inline-flex; width: 40px; height: 40px; transition: transform .2s ease; }
+    .logo:hover { transform: scale(1.1); }
+    .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
+    a { color: inherit; text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .6; }
+
+    .blog-header { padding: 80px 0 48px; text-align: center; }
+    .blog-header h1 { font-size: 48px; font-weight: 700; margin: 0; letter-spacing: -.02em; }
+    
+    .posts-grid { display: grid; gap: 32px; margin-bottom: 80px; }
+    .post-card {
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .post-card h2 { font-size: 24px; margin: 0 0 8px; }
+    .post-date { font-size: 14px; color: var(--muted); margin-bottom: 16px; display: block; }
+    .read-more { font-weight: 600; font-size: 14px; color: var(--fg); }
+
+    footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--muted); font-size: 14px; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo" aria-label="Home">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="square"/>
+          <rect x="60" y="28" width="22" height="7" fill="currentColor"/>
+          <circle cx="71" cy="62" r="9" fill="currentColor"/>
+        </svg>
+      </a>
+      <nav class="nav-links">
+        <a href="/#about">About</a>
+        <a href="/#work">Work</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="blog-header">
+      <h1>Articles & Thoughts</h1>
+    </div>
+    
+    <div id="postsList" class="posts-grid">
+      <!-- Posts will be loaded here -->
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="y"></span> Jhimross Olinares</div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    
+    fetch('posts/posts.json')
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(posts => {
+        const list = document.getElementById('postsList');
+        if (posts.length === 0) {
+          list.innerHTML = '<p>No posts found.</p>';
+          return;
+        }
+        list.innerHTML = posts.map(post => `
+          <article class="post-card">
+            <span class="post-date">${post.date}</span>
+            <a href="post.html?s=${post.slug}"><h2>${post.title}</h2></a>
+            <a href="post.html?s=${post.slug}" class="read-more">Read Article →</a>
+          </article>
+        `).join('');
+      })
+      .catch(err => {
+        console.error('Error loading posts:', err);
+        document.getElementById('postsList').innerHTML = `<p style="color: red;">Error loading posts: ${err.message}. Please ensure you are running this through a web server.</p>`;
+      });
+  </script>
+</body>
+</html>
