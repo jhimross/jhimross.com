@@ -78,11 +78,19 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
-      border: 1px solid var(--fg);
-      border-radius: 8px;
-      font-weight: 700
+      width: 40px;
+      height: 40px;
+      transition: transform .2s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.1);
+    }
+
+    .logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
 
     .nav-links {
@@ -571,7 +579,14 @@
 
   <header class="nav">
     <div class="container nav-inner">
-      <a href="#top" class="logo">J.</a>
+      <a href="/" class="logo" aria-label="Home">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="square"/>
+          <rect x="60" y="28" width="22" height="7" fill="currentColor"/>
+          <circle cx="71" cy="62" r="9" fill="currentColor"/>
+        </svg>
+      </a>
       <nav class="nav-links" id="navLinks">
         <a href="#about">About</a>
         <a href="#work">Work</a>
