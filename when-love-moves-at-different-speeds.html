@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <title>When Love Moves at Different Speeds — Jhimross Olinares</title>
+  <meta name="description" content="At times, on the path of love, One heart races forward with hope. Always ready, always present, Yet unaware, a weight is felt. Another heart moves gently and sl..." />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://jhimross.com/when-love-moves-at-different-speeds.html" />
+  <meta property="og:title" content="When Love Moves at Different Speeds — Jhimross Olinares" />
+  <meta property="og:description" content="At times, on the path of love, One heart races forward with hope. Always ready, always present, Yet unaware, a weight is felt. Another heart moves gently and sl..." />
+  <meta property="og:image" content="https://jhimross.com/assets/about.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://jhimross.com/when-love-moves-at-different-speeds.html" />
+  <meta property="twitter:title" content="When Love Moves at Different Speeds — Jhimross Olinares" />
+  <meta property="twitter:description" content="At times, on the path of love, One heart races forward with hope. Always ready, always present, Yet unaware, a weight is felt. Another heart moves gently and sl..." />
+  <meta property="twitter:image" content="https://jhimross.com/assets/about.jpg" />
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0b1220;
+      --muted: #5b6473;
+      --border: #e5e8ee;
+      --secondary: #f4f6fa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .narrow { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+    
+    header.nav {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(255, 255, 255, .8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
+    .logo { display: inline-flex; width: 40px; height: 40px; transition: transform .2s ease; }
+    .logo:hover { transform: scale(1.1); }
+    .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
+    a { color: inherit; text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .6; }
+
+    .post-header { padding: 80px 0 48px; }
+    .post-header h1 { font-size: 40px; font-weight: 700; margin: 0 0 16px; letter-spacing: -.02em; line-height: 1.2; }
+    .post-meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .post-categories { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .category-tag { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; color: var(--muted); background: var(--secondary); padding: 4px 8px; border-radius: 4px; }
+    
+    .content { font-size: 18px; color: #1a202c; padding-bottom: 80px; }
+    .content h2, .content h3 { margin-top: 40px; color: var(--fg); }
+    .content img { max-width: 100%; border-radius: 12px; margin: 32px 0; }
+    .content p { margin-bottom: 24px; }
+    .content blockquote { border-left: 4px solid var(--fg); margin: 0; padding-left: 24px; font-style: italic; color: var(--muted); }
+    
+    footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--muted); font-size: 14px; text-align: center; }
+    .back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; font-weight: 500; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo" aria-label="Home">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="square"/>
+          <rect x="60" y="28" width="22" height="7" fill="currentColor"/>
+          <circle cx="71" cy="62" r="9" fill="currentColor"/>
+        </svg>
+      </a>
+      <nav class="nav-links">
+        <a href="/#about">About</a>
+        <a href="/#work">Work</a>
+        <a href="/blog.html">Journal</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <article class="narrow">
+    <div class="post-header">
+      <a href="blog.html" class="back">← Back to Journal</a>
+      <h1 id="postTitle">Loading...</h1>
+      <div id="postCategories" class="post-categories"></div>
+      <div id="postMeta" class="post-meta"></div>
+    </div>
+    
+    <div id="postContent" class="content">
+      <!-- Markdown will be rendered here -->
+    </div>
+  </article>
+
+  <footer>
+    <div class="container">© <span id="y"></span> Jhimross Olinares</div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+    
+    const params = new URLSearchParams(window.location.search);
+    const slug = "when-love-moves-at-different-speeds";
+    
+    if (slug) {
+      fetch(`posts/${slug}.md`)
+        .then(response => {
+          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
+          return response.text();
+        })
+        .then(text => {
+          // Extract frontmatter
+          const parts = text.split('---');
+          if (parts.length >= 3) {
+            const fm = parts[1];
+            const content = parts.slice(2).join('---');
+            
+            // More robust parsing
+            const lines = fm.split('\n');
+            let title = "";
+            let date = "";
+            let categories = [];
+            
+            lines.forEach(line => {
+              if (line.startsWith('title:')) {
+                let rawTitle = line.replace('title:', '').trim();
+                if (rawTitle.startsWith('"')) {
+                  try {
+                    title = JSON.parse(rawTitle);
+                  } catch (e) {
+                    title = rawTitle.replace(/^"|"$/g, '');
+                  }
+                } else {
+                  title = rawTitle;
+                }
+              }
+              if (line.startsWith('date:')) {
+                date = line.replace('date:', '').trim().split(' ')[0];
+              }
+              if (line.startsWith('categories:')) {
+                let catText = line.replace('categories:', '').trim();
+                try {
+                  // Try to parse as array
+                  const cleaned = catText.replace(/'/g, '"');
+                  const cats = JSON.parse(cleaned);
+                  if (Array.isArray(cats)) categories = cats;
+                } catch (e) {
+                  // Fallback for simple comma separated
+                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
+                }
+              }
+            });
+            
+            if (!title) title = "Untitled Post";
+            
+            document.title = `${title} — Jhimross Olinares`;
+            document.getElementById('postTitle').textContent = title;
+            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
+            
+            const catsList = document.getElementById('postCategories');
+            if (categories.length > 0) {
+              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
+            } else {
+              catsList.innerHTML = '';
+            }
+            
+            if (typeof marked !== 'undefined') {
+              document.getElementById('postContent').innerHTML = marked.parse(content);
+            } else {
+              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
+              console.warn('Marked library not loaded');
+            }
+          } else {
+            throw new Error('Invalid post format');
+          }
+        })
+        .catch(err => {
+          console.error('Error loading post:', err);
+          document.getElementById('postTitle').textContent = "Error";
+          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
+        });
+    } else {
+      document.getElementById('postTitle').textContent = "Post Not Found";
+      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
+    }
+  </script>
+</body>
+</html>

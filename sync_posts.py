@@ -3,9 +3,30 @@ import json
 import re
 import ast
 
+def extract_first_image(content):
+    # Match markdown image syntax: ![alt](url)
+    match = re.search(r'!\[.*?\]\((.*?)\)', content)
+    if match:
+        return match.group(1)
+    return "https://jhimross.com/assets/about.jpg"
+
+def extract_description(content):
+    # Remove images and frontmatter
+    content = re.sub(r'---.*?---', '', content, flags=re.DOTALL)
+    content = re.sub(r'!\[.*?\]\((.*?)\)', '', content)
+    content = re.sub(r'#.*?\n', '', content)
+    # Get first 160 chars of text
+    text = content.strip()
+    text = re.sub(r'\s+', ' ', text)
+    return text[:160] + "..." if len(text) > 160 else text
+
 def sync_posts():
     posts_dir = 'posts'
     posts_json_path = os.path.join(posts_dir, 'posts.json')
+    
+    # Read the template
+    with open('post.html', 'r', encoding='utf-8') as f:
+        template = f.read()
     
     all_posts = []
     
@@ -13,10 +34,10 @@ def sync_posts():
         if filename.endswith('.md'):
             file_path = os.path.join(posts_dir, filename)
             with open(file_path, 'r', encoding='utf-8') as f:
-                content = f.read()
+                raw_content = f.read()
                 
                 # Extract frontmatter
-                fm_match = re.search(r'---\s*\n(.*?)\n---', content, re.DOTALL)
+                fm_match = re.search(r'---\s*\n(.*?)\n---', raw_content, re.DOTALL)
                 if fm_match:
                     fm_text = fm_match.group(1)
                     lines = fm_text.split('\n')
@@ -48,6 +69,42 @@ def sync_posts():
                             "categories": categories,
                             "file": filename
                         })
+                        
+                        # Generate static HTML for this post
+                        image = extract_first_image(raw_content)
+                        description = extract_description(raw_content)
+                        
+                        post_html = template
+                        
+                        # Inject Meta Tags
+                        meta_tags = f"""
+  <title>{title} — Jhimross Olinares</title>
+  <meta name="description" content="{description}" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://jhimross.com/{slug}.html" />
+  <meta property="og:title" content="{title} — Jhimross Olinares" />
+  <meta property="og:description" content="{description}" />
+  <meta property="og:image" content="{image}" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://jhimross.com/{slug}.html" />
+  <meta property="twitter:title" content="{title} — Jhimross Olinares" />
+  <meta property="twitter:description" content="{description}" />
+  <meta property="twitter:image" content="{image}" />
+"""
+                        # Replace generic title and meta
+                        post_html = re.sub(r'<title>.*?</title>', meta_tags, post_html, flags=re.DOTALL)
+                        
+                        # Modify the JS to load this specific slug automatically
+                        post_html = post_html.replace('const slug = params.get(\'s\');', f'const slug = "{slug}";')
+                        
+                        # Ensure the CSS/JS paths are correct (they are relative now, which is fine if files are at root)
+                        
+                        with open(f"{slug}.html", 'w', encoding='utf-8') as f_out:
+                            f_out.write(post_html)
     
     # Sort posts by date descending
     all_posts.sort(key=lambda x: (x['date'], x['slug']), reverse=True)
@@ -55,7 +112,7 @@ def sync_posts():
     with open(posts_json_path, 'w', encoding='utf-8') as f:
         json.dump(all_posts, f, indent=2)
         
-    print(f"Successfully synced {len(all_posts)} posts to {posts_json_path}")
+    print(f"Successfully synced {len(all_posts)} posts and generated static HTML files.")
 
 if __name__ == '__main__':
     sync_posts()

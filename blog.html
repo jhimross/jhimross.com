@@ -4,6 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Journal — Jhimross Olinares</title>
+  <meta name="description" content="Personal reflections, essays, and life thoughts from Jhimross Olinares." />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jhimross.com/blog.html" />
+  <meta property="og:title" content="Journal — Jhimross Olinares" />
+  <meta property="og:description" content="Personal reflections, essays, and life thoughts from Jhimross Olinares." />
+  <meta property="og:image" content="https://jhimross.com/assets/about.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://jhimross.com/blog.html" />
+  <meta property="twitter:title" content="Journal — Jhimross Olinares" />
+  <meta property="twitter:description" content="Personal reflections, essays, and life thoughts from Jhimross Olinares." />
+  <meta property="twitter:image" content="https://jhimross.com/assets/about.jpg" />
   <style>
     :root {
       --bg: #ffffff;
@@ -112,8 +127,8 @@
             <article class="post-card">
               <span class="post-date">${post.date}</span>
               ${cats}
-              <a href="post.html?s=${post.slug}"><h2>${post.title}</h2></a>
-              <a href="post.html?s=${post.slug}" class="read-more">Read →</a>
+              <a href="${post.slug}.html"><h2>${post.title}</h2></a>
+              <a href="${post.slug}.html" class="read-more">Read →</a>
             </article>
           `;
         }).join('');
