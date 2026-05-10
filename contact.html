@@ -248,7 +248,7 @@
       e.preventDefault();
 
       // Basic validation
-      if (form.access_key.value === 'e9b146a4-7a55-4038-9082-22b77c677cf9' || !form.access_key.value) {
+      if (!form.access_key.value || form.access_key.value === 'e9b146a4-7a55-4038-9082-22b77c677cf9') {
         alert('Form configuration error. Please check the access key.');
         return;
       }
