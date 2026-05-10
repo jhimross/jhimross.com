@@ -46,7 +46,9 @@
       border-bottom: 1px solid var(--border);
     }
     .post-card h2 { font-size: 24px; margin: 0 0 8px; }
-    .post-date { font-size: 14px; color: var(--muted); margin-bottom: 16px; display: block; }
+    .post-date { font-size: 14px; color: var(--muted); margin-bottom: 8px; display: block; }
+    .post-categories { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .category-tag { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; color: var(--muted); background: var(--secondary); padding: 4px 8px; border-radius: 4px; }
     .read-more { font-weight: 600; font-size: 14px; color: var(--fg); }
 
     footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--muted); font-size: 14px; text-align: center; }
@@ -101,13 +103,20 @@
           list.innerHTML = '<p>No posts found.</p>';
           return;
         }
-        list.innerHTML = posts.map(post => `
-          <article class="post-card">
-            <span class="post-date">${post.date}</span>
-            <a href="post.html?s=${post.slug}"><h2>${post.title}</h2></a>
-            <a href="post.html?s=${post.slug}" class="read-more">Read Article →</a>
-          </article>
-        `).join('');
+        list.innerHTML = posts.map(post => {
+          const cats = post.categories && post.categories.length > 0 
+            ? `<div class="post-categories">${post.categories.map(c => `<span class="category-tag">${c}</span>`).join('')}</div>`
+            : '';
+          
+          return `
+            <article class="post-card">
+              <span class="post-date">${post.date}</span>
+              ${cats}
+              <a href="post.html?s=${post.slug}"><h2>${post.title}</h2></a>
+              <a href="post.html?s=${post.slug}" class="read-more">Read →</a>
+            </article>
+          `;
+        }).join('');
       })
       .catch(err => {
         console.error('Error loading posts:', err);

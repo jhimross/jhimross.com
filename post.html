@@ -39,7 +39,9 @@
 
     .post-header { padding: 80px 0 48px; }
     .post-header h1 { font-size: 40px; font-weight: 700; margin: 0 0 16px; letter-spacing: -.02em; line-height: 1.2; }
-    .post-meta { color: var(--muted); font-size: 14px; }
+    .post-meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .post-categories { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .category-tag { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; color: var(--muted); background: var(--secondary); padding: 4px 8px; border-radius: 4px; }
     
     .content { font-size: 18px; color: #1a202c; padding-bottom: 80px; }
     .content h2, .content h3 { margin-top: 40px; color: var(--fg); }
@@ -75,6 +77,7 @@
     <div class="post-header">
       <a href="blog.html" class="back">← Back to Journal</a>
       <h1 id="postTitle">Loading...</h1>
+      <div id="postCategories" class="post-categories"></div>
       <div id="postMeta" class="post-meta"></div>
     </div>
     
@@ -110,6 +113,7 @@
             const lines = fm.split('\n');
             let title = "";
             let date = "";
+            let categories = [];
             
             lines.forEach(line => {
               if (line.startsWith('title:')) {
@@ -127,6 +131,18 @@
               if (line.startsWith('date:')) {
                 date = line.replace('date:', '').trim().split(' ')[0];
               }
+              if (line.startsWith('categories:')) {
+                let catText = line.replace('categories:', '').trim();
+                try {
+                  // Try to parse as array
+                  const cleaned = catText.replace(/'/g, '"');
+                  const cats = JSON.parse(cleaned);
+                  if (Array.isArray(cats)) categories = cats;
+                } catch (e) {
+                  // Fallback for simple comma separated
+                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
+                }
+              }
             });
             
             if (!title) title = "Untitled Post";
@@ -134,6 +150,13 @@
             document.title = `${title} — Jhimross Olinares`;
             document.getElementById('postTitle').textContent = title;
             document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
+            
+            const catsList = document.getElementById('postCategories');
+            if (categories.length > 0) {
+              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
+            } else {
+              catsList.innerHTML = '';
+            }
             
             if (typeof marked !== 'undefined') {
               document.getElementById('postContent').innerHTML = marked.parse(content);
