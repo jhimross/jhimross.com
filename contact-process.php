@@ -1,41 +1,50 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'phpmailer/Exception.php';
+require 'phpmailer/PHPMailer.php';
+require 'phpmailer/SMTP.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and get form data
     $name = strip_tags(trim($_POST["name"]));
     $email = filter_var(trim($_POST["_replyto"]), FILTER_SANITIZE_EMAIL);
     $message = trim($_POST["message"]);
 
-    // Check that data was sent to the mailer.
     if (empty($name) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);
         echo "Please complete the form and try again.";
         exit;
     }
 
-    // Set the recipient email address.
-    $recipient = "jhimross@gmail.com";
+    $mail = new PHPMailer(true);
 
-    // Set the email subject.
-    $subject = "New contact from $name";
+    try {
+        // --- SMTP CONFIGURATION (Optional but recommended) ---
+        // $mail->isSMTP();
+        // $mail->Host       = 'smtp.example.com';
+        // $mail->SMTPAuth   = true;
+        // $mail->Username   = 'user@example.com';
+        // $mail->Password   = 'password';
+        // $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        // $mail->Port       = 587;
+        // -----------------------------------------------------
 
-    // Build the email content.
-    $email_content = "Name: $name\n";
-    $email_content .= "Email: $email\n\n";
-    $email_content .= "Message:\n$message\n";
+        $mail->setFrom('noreply@jhimross.com', 'Jhimross Website'); // Some servers require a local domain email
+        $mail->addAddress('jhimross@gmail.com');
+        $mail->addReplyTo($email, $name);
 
-    // Build the email headers.
-    $email_headers = "From: $name <$email>";
+        $mail->isHTML(false);
+        $mail->Subject = "New contact from $name";
+        $mail->Body    = "Name: $name\nEmail: $email\n\nMessage:\n$message";
 
-    // Send the email.
-    if (mail($recipient, $subject, $email_content, $email_headers)) {
-        http_response_code(200);
+        $mail->send();
         header("Location: contact.html?success=1");
         exit;
-    } else {
+    } catch (Exception $e) {
         http_response_code(500);
-        echo "Oops! Something went wrong and we couldn't send your message.";
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
-
 } else {
     http_response_code(403);
     echo "There was a problem with your submission, please try again.";
