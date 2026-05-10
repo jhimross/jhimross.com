@@ -215,7 +215,7 @@
     </div>
 
     <form id="contactForm" class="contact-form">
-      <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+      <input type="hidden" name="access_key" value="e9b146a4-7a55-4038-9082-22b77c677cf9">
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" placeholder="Your Name" required>
@@ -248,8 +248,8 @@
       e.preventDefault();
 
       // Basic validation
-      if (form.access_key.value === 'YOUR_ACCESS_KEY_HERE') {
-        alert('e9b146a4-7a55-4038-9082-22b77c677cf9');
+      if (form.access_key.value === 'YOUR_ACCESS_KEY_HERE' || !form.access_key.value) {
+        alert('Form configuration error. Please check the access key.');
         return;
       }
 
