@@ -1,16 +1,19 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact — Jhimross Olinares</title>
-  <meta name="description" content="Get in touch with Jhimross Olinares for web development, WordPress solutions, or just to say hi." />
-  
+  <meta name="description"
+    content="Get in touch with Jhimross Olinares for web development, WordPress solutions, or just to say hi." />
+
   <!-- Social Meta Tags -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://jhimross.com/contact.html" />
   <meta property="og:title" content="Contact — Jhimross Olinares" />
-  <meta property="og:description" content="Get in touch with Jhimross Olinares for web development and WordPress solutions." />
+  <meta property="og:description"
+    content="Get in touch with Jhimross Olinares for web development and WordPress solutions." />
   <meta property="og:image" content="https://jhimross.com/assets/about.jpg" />
 
   <style>
@@ -22,7 +25,11 @@
       --secondary: #f4f6fa;
       --accent: #0b1220;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
@@ -30,30 +37,101 @@
       line-height: 1.5;
       margin: 0;
     }
-    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-    .narrow { max-width: 600px; margin: 0 auto; padding: 0 24px; }
-    
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .narrow {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
     header.nav {
-      position: sticky; top: 0; z-index: 40;
+      position: sticky;
+      top: 0;
+      z-index: 40;
       background: rgba(255, 255, 255, .8);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
     }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
-    .logo { display: inline-flex; width: 40px; height: 40px; transition: transform .2s ease; }
-    .logo:hover { transform: scale(1.1); }
-    .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
-    a { color: inherit; text-decoration: none; transition: opacity .2s; }
-    a:hover { opacity: .6; }
 
-    .contact-header { padding: 80px 0 48px; text-align: center; }
-    .contact-header h1 { font-size: 48px; font-weight: 700; margin: 0 0 16px; letter-spacing: -.02em; }
-    .contact-header p { font-size: 18px; color: var(--muted); margin: 0; }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
 
-    .contact-form { margin-bottom: 80px; background: var(--secondary); padding: 40px; border-radius: 24px; }
-    .form-group { margin-bottom: 24px; }
-    .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-    .form-group input, .form-group textarea {
+    .logo {
+      display: inline-flex;
+      width: 40px;
+      height: 40px;
+      transition: transform .2s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.1);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    a:hover {
+      opacity: .6;
+    }
+
+    .contact-header {
+      padding: 80px 0 48px;
+      text-align: center;
+    }
+
+    .contact-header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin: 0 0 16px;
+      letter-spacing: -.02em;
+    }
+
+    .contact-header p {
+      font-size: 18px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .contact-form {
+      margin-bottom: 80px;
+      background: var(--secondary);
+      padding: 40px;
+      border-radius: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea {
       width: 100%;
       padding: 12px 16px;
       border: 1px solid var(--border);
@@ -62,10 +140,13 @@
       font-family: inherit;
       transition: border-color .2s;
     }
-    .form-group input:focus, .form-group textarea:focus {
+
+    .form-group input:focus,
+    .form-group textarea:focus {
       outline: none;
       border-color: var(--fg);
     }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -81,20 +162,31 @@
       width: 100%;
       transition: opacity .2s;
     }
-    .btn:hover { opacity: .9; }
 
-    footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--muted); font-size: 14px; text-align: center; }
+    .btn:hover {
+      opacity: .9;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
   </style>
 </head>
+
 <body>
   <header class="nav">
     <div class="container nav-inner">
       <a href="/" class="logo" aria-label="Home">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4"/>
-          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="square"/>
-          <rect x="60" y="28" width="22" height="7" fill="currentColor"/>
-          <circle cx="71" cy="62" r="9" fill="currentColor"/>
+          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4" />
+          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12"
+            stroke-linecap="square" />
+          <rect x="60" y="28" width="22" height="7" fill="currentColor" />
+          <circle cx="71" cy="62" r="9" fill="currentColor" />
         </svg>
       </a>
       <nav class="nav-links">
@@ -112,11 +204,13 @@
       <p>Have a project in mind or just want to say hi? Send me a message below.</p>
     </div>
 
-    <div id="successMessage" style="display: none; background: #e6fffa; color: #2c7a7b; padding: 20px; border-radius: 12px; margin-bottom: 24px; text-align: center; font-weight: 600;">
+    <div id="successMessage"
+      style="display: none; background: #e6fffa; color: #2c7a7b; padding: 20px; border-radius: 12px; margin-bottom: 24px; text-align: center; font-weight: 600;">
       Thank you! Your message has been sent successfully.
     </div>
-    
-    <div id="errorMessage" style="display: none; background: #fff5f5; color: #c53030; padding: 20px; border-radius: 12px; margin-bottom: 24px; text-align: center; font-weight: 600;">
+
+    <div id="errorMessage"
+      style="display: none; background: #fff5f5; color: #c53030; padding: 20px; border-radius: 12px; margin-bottom: 24px; text-align: center; font-weight: 600;">
       Oops! Something went wrong. Please try again.
     </div>
 
@@ -144,18 +238,18 @@
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
-    
+
     const form = document.getElementById('contactForm');
     const successMsg = document.getElementById('successMessage');
     const errorMsg = document.getElementById('errorMessage');
     const submitBtn = document.getElementById('submitBtn');
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      
+
       // Basic validation
       if (form.access_key.value === 'YOUR_ACCESS_KEY_HERE') {
-        alert('Please add your Web3Forms Access Key to the code.');
+        alert('e9b146a4-7a55-4038-9082-22b77c677cf9');
         return;
       }
 
@@ -175,26 +269,27 @@
         },
         body: json
       })
-      .then(async (response) => {
-        let json = await response.json();
-        if (response.status == 200) {
-          successMsg.style.display = 'block';
-          form.style.display = 'none';
-        } else {
-          console.log(response);
-          errorMsg.textContent = json.message || 'Something went wrong.';
+        .then(async (response) => {
+          let json = await response.json();
+          if (response.status == 200) {
+            successMsg.style.display = 'block';
+            form.style.display = 'none';
+          } else {
+            console.log(response);
+            errorMsg.textContent = json.message || 'Something went wrong.';
+            errorMsg.style.display = 'block';
+          }
+        })
+        .catch(error => {
+          console.log(error);
           errorMsg.style.display = 'block';
-        }
-      })
-      .catch(error => {
-        console.log(error);
-        errorMsg.style.display = 'block';
-      })
-      .then(function() {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
-      });
+        })
+        .then(function () {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send Message';
+        });
     });
   </script>
 </body>
+
 </html>
