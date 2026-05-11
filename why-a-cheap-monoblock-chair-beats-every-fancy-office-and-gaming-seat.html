@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,7 +31,11 @@
       --border: #e5e8ee;
       --secondary: #f4f6fa;
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
@@ -38,55 +43,230 @@
       line-height: 1.7;
       margin: 0;
     }
-    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-    .narrow { max-width: 760px; margin: 0 auto; padding: 0 24px; }
-    
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .narrow {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
     header.nav {
-      position: sticky; top: 0; z-index: 40;
+      position: sticky;
+      top: 0;
+      z-index: 40;
       background: rgba(255, 255, 255, .8);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
     }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
-    .logo { display: inline-flex; width: 40px; height: 40px; transition: transform .2s ease; }
-    .logo:hover { transform: scale(1.1); }
-    .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
-    a { color: inherit; text-decoration: none; transition: opacity .2s; }
-    a:hover { opacity: .6; }
 
-    .post-header { padding: 80px 0 48px; }
-    .post-header h1 { font-size: 40px; font-weight: 700; margin: 0 0 16px; letter-spacing: -.02em; line-height: 1.2; }
-    .post-meta { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
-    .post-categories { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-    .category-tag { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; color: var(--muted); background: var(--secondary); padding: 4px 8px; border-radius: 4px; }
-    
-    .content { font-size: 18px; color: #1a202c; padding-bottom: 80px; }
-    .content h2, .content h3 { margin-top: 40px; color: var(--fg); }
-    .content img { max-width: 100%; border-radius: 12px; margin: 32px 0; }
-    .content p { margin-bottom: 24px; }
-    .content blockquote { border-left: 4px solid var(--fg); margin: 0; padding-left: 24px; font-style: italic; color: var(--muted); }
-    
-    footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--muted); font-size: 14px; text-align: center; }
-    .back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; font-weight: 500; font-size: 14px; }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+
+    .logo {
+      display: inline-flex;
+      width: 40px;
+      height: 40px;
+      transition: transform .2s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.1);
+    }
+
+    .logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: var(--bg);
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      gap: 24px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .nav-links a {
+      transition: opacity .2s
+    }
+
+    .nav-links a:hover {
+      opacity: .6
+    }
+
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--fg);
+      transition: .3s;
+    }
+
+    @media (min-width:768px) {
+      .nav-links {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        width: auto;
+        padding: 0;
+        border: none;
+        gap: 32px;
+        font-size: 14px;
+      }
+
+      .nav-toggle {
+        display: none;
+      }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    a:hover {
+      opacity: .6;
+    }
+
+    .post-header {
+      padding: 80px 0 48px;
+    }
+
+    .post-header h1 {
+      font-size: 40px;
+      font-weight: 700;
+      margin: 0 0 16px;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+    }
+
+    .post-meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .post-categories {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .category-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--secondary);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .content {
+      font-size: 18px;
+      color: #1a202c;
+      padding-bottom: 80px;
+    }
+
+    .content h2,
+    .content h3 {
+      margin-top: 40px;
+      color: var(--fg);
+    }
+
+    .content img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin: 32px 0;
+    }
+
+    .content p {
+      margin-bottom: 24px;
+    }
+
+    .content blockquote {
+      border-left: 4px solid var(--fg);
+      margin: 0;
+      padding-left: 24px;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      font-weight: 500;
+      font-size: 14px;
+    }
   </style>
 </head>
+
 <body>
   <header class="nav">
     <div class="container nav-inner">
       <a href="/" class="logo" aria-label="Home">
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4"/>
-          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="square"/>
-          <rect x="60" y="28" width="22" height="7" fill="currentColor"/>
-          <circle cx="71" cy="62" r="9" fill="currentColor"/>
+          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4" />
+          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12"
+            stroke-linecap="square" />
+          <rect x="60" y="28" width="22" height="7" fill="currentColor" />
+          <circle cx="71" cy="62" r="9" fill="currentColor" />
         </svg>
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" id="navLinks">
         <a href="index.html#about">About</a>
         <a href="index.html#work">Work</a>
         <a href="blog.html">Journal</a>
         <a href="contact.html">Contact</a>
       </nav>
+      <div class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </header>
 
@@ -97,7 +277,7 @@
       <div id="postCategories" class="post-categories"></div>
       <div id="postMeta" class="post-meta"></div>
     </div>
-    
+
     <div id="postContent" class="content">
       <!-- Markdown will be rendered here -->
     </div>
@@ -109,10 +289,24 @@
 
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
-    
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+
     const params = new URLSearchParams(window.location.search);
     const slug = "why-a-cheap-monoblock-chair-beats-every-fancy-office-and-gaming-seat";
-    
+
     if (slug) {
       fetch(`posts/${slug}.md`)
         .then(response => {
@@ -125,13 +319,13 @@
           if (parts.length >= 3) {
             const fm = parts[1];
             const content = parts.slice(2).join('---');
-            
+
             // More robust parsing
             const lines = fm.split('\n');
             let title = "";
             let date = "";
             let categories = [];
-            
+
             lines.forEach(line => {
               if (line.startsWith('title:')) {
                 let rawTitle = line.replace('title:', '').trim();
@@ -161,20 +355,20 @@
                 }
               }
             });
-            
+
             if (!title) title = "Untitled Post";
-            
+
             document.title = `${title} — Jhimross Olinares`;
             document.getElementById('postTitle').textContent = title;
             document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-            
+
             const catsList = document.getElementById('postCategories');
             if (categories.length > 0) {
               catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
             } else {
               catsList.innerHTML = '';
             }
-            
+
             if (typeof marked !== 'undefined') {
               document.getElementById('postContent').innerHTML = marked.parse(content);
             } else {
@@ -196,4 +390,5 @@
     }
   </script>
 </body>
+
 </html>
