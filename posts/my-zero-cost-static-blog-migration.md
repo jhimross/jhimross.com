@@ -281,4 +281,4 @@ For me, the answer is simple now:
 - Source of truth → GitHub  
 - Cost → $0 monthly hosting fees  
 
-And honestly, that’s enough.
+And honestly, that’s enough. Check my website here: https://jhimross.com
