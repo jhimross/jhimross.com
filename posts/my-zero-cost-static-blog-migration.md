@@ -7,7 +7,7 @@ categories: ['Migration', 'Tech', 'GitHub']
 
 I recently had to make an unexpected but interesting shift in my workflow: moving away from a traditional WordPress setup and rebuilding my entire blog as a static site powered by GitHub and Cloudflare Workers.
 
-<img width="1504" height="968" alt="image" src="https://github.com/user-attachments/assets/a635cbb2-e06c-41e0-bc31-f3c0a7b3c4d8" />
+<img width="1504" height="auto" alt="image" src="https://github.com/user-attachments/assets/a635cbb2-e06c-41e0-bc31-f3c0a7b3c4d8" />
 
 
 What started as a “my hosting expired” problem turned into a full rebuild that ended up being faster, simpler, and surprisingly closer to how I like building things.
@@ -30,7 +30,7 @@ I’ve always liked the idea of static sites—less maintenance, faster performa
 
 The first step was getting my content out of WordPress.
 
-<img width="1084" height="762" alt="image" src="https://github.com/user-attachments/assets/91b76d0e-6636-48c5-9b7e-d6929ed95c30" />
+<img width="1084" height="auto" alt="image" src="https://github.com/user-attachments/assets/91b76d0e-6636-48c5-9b7e-d6929ed95c30" />
 
 
 I exported my entire blog using the built-in WordPress XML export tool. This gave me a single `.xml` file containing:
@@ -47,7 +47,7 @@ At this point, I basically had all my content “locked” in a format that need
 
 Instead of manually parsing XML (which would’ve been painful), I used **Antigravity** to help automate the process.
 
-<img width="1512" height="845" alt="image" src="https://github.com/user-attachments/assets/f55eace2-34e1-4b07-8799-c9ea19695cbf" />
+<img width="1512" height="auto" alt="image" src="https://github.com/user-attachments/assets/f55eace2-34e1-4b07-8799-c9ea19695cbf" />
 
 
 I asked it to:
@@ -72,7 +72,7 @@ This was a key step in keeping the structure intact.
 
 I also asked **Antigravity** to generate HTML templates for each blog post so that every post already had:
 
-<img width="1549" height="864" alt="image" src="https://github.com/user-attachments/assets/f8ed9b67-7412-4c87-9142-3a645f01c35c" />
+<img width="1549" height="auto" alt="image" src="https://github.com/user-attachments/assets/f8ed9b67-7412-4c87-9142-3a645f01c35c" />
 
 
 - Correct slug-based routing  
@@ -89,7 +89,7 @@ This is what allowed me to preserve URL consistency and structure while still mo
 
 Once the content and templates were ready, I rebuilt the frontend using plain HTML.
 
-<img width="634" height="366" alt="image" src="https://github.com/user-attachments/assets/91aa6eba-d752-4c1c-959d-1d2be064bc94" />
+<img width="634" height="auto" alt="image" src="https://github.com/user-attachments/assets/91aa6eba-d752-4c1c-959d-1d2be064bc94" />
 
 
 I created:
@@ -107,7 +107,7 @@ Everything is template-driven instead of CMS-driven.
 
 Each blog post template dynamically reads from the `.md` file and extracts:
 
-<img width="547" height="202" alt="image" src="https://github.com/user-attachments/assets/0f062c55-53a2-4f5b-a93d-4d4f784db034" />
+<img width="547" height="auto" alt="image" src="https://github.com/user-attachments/assets/0f062c55-53a2-4f5b-a93d-4d4f784db034" />
 
 
 - Title  
@@ -127,7 +127,7 @@ It feels like WordPress—but without WordPress.
 
 All images from my old WordPress site were migrated into a simple structure:
 
-<img width="563" height="333" alt="image" src="https://github.com/user-attachments/assets/cb9de0e4-377d-47bf-8a1a-7ebe99566bee" />
+<img width="563" height="auto" alt="image" src="https://github.com/user-attachments/assets/cb9de0e4-377d-47bf-8a1a-7ebe99566bee" />
 
 
 /assets
@@ -142,7 +142,7 @@ Every Markdown file references local assets directly—no external media system,
 
 Instead of building my own backend just for forms, I used Web3Forms.
 
-<img width="1863" height="956" alt="image" src="https://github.com/user-attachments/assets/30fd6b07-29a0-4c20-a4cd-25fb900674f5" />
+<img width="1863" height="auto" alt="image" src="https://github.com/user-attachments/assets/30fd6b07-29a0-4c20-a4cd-25fb900674f5" />
 
 
 It gave me:
@@ -160,7 +160,7 @@ I embedded it into `contact.html`, and it worked instantly.
 
 The final architecture is simple but powerful:
 
-<img width="1906" height="964" alt="image" src="https://github.com/user-attachments/assets/6d660280-afa2-4c22-b9da-9b6980cbcf25" />
+<img width="1906" height="auto" alt="image" src="https://github.com/user-attachments/assets/6d660280-afa2-4c22-b9da-9b6980cbcf25" />
 
 
 1. Everything lives in a Git repository  
@@ -175,7 +175,7 @@ So now my workflow looks like this:
 
 Then Cloudflare automatically deploys it.
 
-<img width="1906" height="969" alt="image" src="https://github.com/user-attachments/assets/e1f29f0e-d84c-465b-83c9-3d64ee72524d" />
+<img width="1906" height="auto" alt="image" src="https://github.com/user-attachments/assets/e1f29f0e-d84c-465b-83c9-3d64ee72524d" />
 
 
 No dashboards. No plugins. No database migrations.
@@ -203,7 +203,7 @@ Search engines didn’t have to relearn the site. Everything remained under the 
 
 After moving everything to a static architecture and serving it through Cloudflare, performance improved significantly.
 
-<img width="978" height="548" alt="image" src="https://github.com/user-attachments/assets/36608705-0479-48e8-8afb-b04da0dc56e2" />
+<img width="978" height="auto" alt="image" src="https://github.com/user-attachments/assets/36608705-0479-48e8-8afb-b04da0dc56e2" />
 
 
 The site now consistently scores:
