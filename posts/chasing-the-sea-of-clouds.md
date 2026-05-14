@@ -88,4 +88,4 @@ Climbing Mount Pulag is more than a physical challenge—it’s a **mental and e
 
 To see this adventure come alive, **watch my vlog of Mount Pulag on my YouTube channel** for the full experience from start to summit.
 
-https://youtu.be/hsrlJo72COM 
+<div class="yt-embed"><iframe src="https://www.youtube.com/embed/hsrlJo72COM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> 

@@ -16,7 +16,7 @@ Though these songs come from different generations and worship traditions, both 
 _"Lord, I stand in the midst of a multitude  
 Of those from every tribe and tongue..."_
 
-https://www.youtube.com/watch?v=60k_gMGRnRk 
+<div class="yt-embed"><iframe src="https://www.youtube.com/embed/60k_gMGRnRk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> 
 
 This song paints a vivid picture of heaven, inspired by Revelation, where a great multitude worships before the throne. It’s a vision of **eternal praise** , declaring that the Lamb who was slain is now glorified. As we approach Easter, this reminds us that **the story of Jesus didn’t end at the cross—it continues in the throne room of heaven** , where Christ now reigns forever.
 
@@ -29,7 +29,7 @@ Jesus didn’t just die, **He rose again**. And now, He is exalted above every n
 _"See, on the hill of Calvary  
 My Savior bled for me..."_
 
-https://www.youtube.com/watch?v=j5lcadt8D2o 
+<div class="yt-embed"><iframe src="https://www.youtube.com/embed/j5lcadt8D2o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> 
 
 This modern worship anthem invites us to stand at the foot of the cross and see what our Savior endured for us. It’s a song of awe and gratitude, acknowledging the **depth of sacrifice** and the **miracle of grace**. As Easter reminds us of Christ’s death and resurrection, this song helps us personalize that truth: _“What He’s done, what He’s done / All the glory and the honor to the Son.”_
 

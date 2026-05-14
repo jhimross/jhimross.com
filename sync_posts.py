@@ -1,3 +1,17 @@
+def embed_youtube(content):
+    """Replace YouTube URLs in markdown with responsive iframe embed HTML.
+    Supports full YouTube URLs and short youtu.be links.
+    """
+    import re
+    # Pattern matches full and short YouTube URLs, captures video ID
+    pattern = re.compile(r"https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([A-Za-z0-9_-]{11})")
+    def repl(match):
+        video_id = match.group(1)
+        embed_html = f'''<div class="yt-embed"><iframe src="https://www.youtube.com/embed/{video_id}"\
+            title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'''
+        return embed_html
+    return pattern.sub(repl, content)
+
 import os
 import json
 import re

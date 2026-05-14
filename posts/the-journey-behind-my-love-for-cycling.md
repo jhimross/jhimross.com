@@ -31,7 +31,7 @@ One of the most memorable moments in my cycling journey was a solo ride through 
 
 I’ve had my fair share of flat tires, unexpected rainstorms, and sore muscles, but every challenge has only made me more resilient. The key, I’ve learned, is to keep moving forward. No matter how tough the ride, there’s always something rewarding waiting on the other side.
 
-https://www.youtube.com/watch?v=8R4yPYGmBw4 
+<div class="yt-embed"><iframe src="https://www.youtube.com/embed/8R4yPYGmBw4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> 
 
 ### **Faith and Cycling: Finding Clarity on the Road**
 

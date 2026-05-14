@@ -70,7 +70,7 @@ For those who love capturing stunning landscapes, bring a drone along for a uniq
 
 As usual, I made cycling part of my trip. Every time I travel, I love cycling around the city or countryside to immerse myself in the surroundings. 
 
-https://www.youtube.com/watch?v=FSPJ0rzFE_A 
+<div class="yt-embed"><iframe src="https://www.youtube.com/embed/FSPJ0rzFE_A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> 
 
 In Japan, cycling is a fantastic way to explore areas like **Kamakura** , where I pedaled along scenic routes, enjoying the sights and the fresh air. It’s a great way to discover hidden gems and feel the pulse of the place.
 
@@ -121,6 +121,6 @@ Japan was everything I hoped for and more. The perfect blend of the ancient and 
 
 You can also watch my Japan Travel Vlog below. Don't forget to like, share, and subscribe to my YouTube channel ;)
 
-https://www.youtube.com/watch?v=jHZ_A9uOxLw 
+<div class="yt-embed"><iframe src="https://www.youtube.com/embed/jHZ_A9uOxLw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> 
 
 I hope my tips and highlights inspire your own adventure. Whether you're planning a quick stop or an extended stay, I guarantee Japan will capture your heart – and I can’t wait to return for more discoveries! 

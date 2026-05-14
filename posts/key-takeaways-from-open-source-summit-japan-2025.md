@@ -15,7 +15,7 @@ Before I dive into the technical takeaways, I owe a massive debt of gratitude to
 
 And what an opportunity it was. The summit started with a surreal moment that set the tone for the entire week. It is increasingly rare to see [**Linus Torvalds**](https://en.wikipedia.org/wiki/Linus_Torvalds) in the flesh these days as he steps back from big public appearances. As fate would have it, I not only got into the main keynotes, but I managed to snag a seat in the very front row, sitting right directly behind the creator of Linux himself. Sharing that immediate space with such a living legend was an inspiring, "pinch-me" moment that I won't soon forget. Watch the full video of this keynote session with Linux.
 
-https://www.youtube.com/watch?v=yEzdHYjY_RU 
+<div class="yt-embed"><iframe src="https://www.youtube.com/embed/yEzdHYjY_RU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> 
 
 ## Technical Deep Dive & The "Hallway Track"
 
@@ -59,7 +59,7 @@ Since the Linux Foundation scholarship covered my travel, I made sure to soak in
 
 You don't have to take my word for it—you can experience the summit yourself. The Linux Foundation has uploaded the full playlist of sessions, so you can dive deep into the specific tracks that interest you.
 
-https://www.youtube.com/playlist?list=PLbzoR-pLrL6pRN6kobVnmu0rY2RLLczAj 
+<div class="yt-embed"><iframe src="https://www.youtube.com/embed/videoseries?list=PLbzoR-pLrL6pRN6kobVnmu0rY2RLLczAj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> 
 
 ### **Conclusion: A Global Perspective**
 
