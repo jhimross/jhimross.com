@@ -244,6 +244,39 @@
       border: 0;
       border-radius: 12px;
     }
+
+    .post-nav {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+      margin-top: 64px;
+      gap: 24px;
+    }
+
+    .nav-prev, .nav-next {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      width: 50%;
+    }
+
+    .nav-next {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .nav-label {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .nav-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--fg);
+    }
   </style>
 </head>
 
@@ -283,6 +316,17 @@
 
     <div id="postContent" class="content">
       <!-- Markdown will be rendered here -->
+    </div>
+
+    <div id="postNav" class="post-nav">
+      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+        <span class="nav-label">← Previous</span>
+        <span class="nav-title"></span>
+      </a>
+      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+        <span class="nav-label">Next →</span>
+        <span class="nav-title"></span>
+      </a>
     </div>
   </article>
 
@@ -378,6 +422,40 @@
               document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
               console.warn('Marked library not loaded');
             }
+
+            // Load posts.json for next/prev navigation
+            fetch('posts/posts.json')
+              .then(res => {
+                if (!res.ok) throw new Error('Could not load posts.json');
+                return res.json();
+              })
+              .then(posts => {
+                const currentIndex = posts.findIndex(p => p.slug === slug);
+                if (currentIndex !== -1) {
+                  // posts are sorted by date descending (newest first)
+                  // Next post chronologically is newer (index - 1)
+                  // Previous post chronologically is older (index + 1)
+                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
+                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+
+                  const prevLink = document.getElementById('prevPost');
+                  const nextLink = document.getElementById('nextPost');
+
+                  if (prevPost) {
+                    prevLink.href = `${prevPost.slug}.html`;
+                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
+                    prevLink.style.display = 'flex';
+                  }
+
+                  if (nextPost) {
+                    nextLink.href = `${nextPost.slug}.html`;
+                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
+                    nextLink.style.display = 'flex';
+                  }
+                }
+              })
+              .catch(err => console.error('Error loading navigation:', err));
+
           } else {
             throw new Error('Invalid post format');
           }
