@@ -49,7 +49,7 @@ The basic flow became:
 
 **CampTix → Sync attendees → Send QR codes → Attendee arrives → Scan QR → Check in**
 
-<img width="1916" height="912" alt="image" src="https://github.com/user-attachments/assets/9a56cb6a-3eba-4e6f-8059-5d6a7289a94c" />
+<img height="auto" alt="image" src="https://github.com/user-attachments/assets/9a56cb6a-3eba-4e6f-8059-5d6a7289a94c" />
 
 
 The scanner runs directly in the browser using a camera, with visual and audio feedback for successful, duplicate, or invalid scans.
@@ -78,7 +78,7 @@ And this is where **Jerico** came in.
 
 A couple of weeks before WordCamp Philippines, Jerico, Arvin John, and I were co-working at Jerico's office.
 
-<img width="1223" height="917" alt="image" src="https://github.com/user-attachments/assets/923bc2b2-d064-4133-a075-aa312fea6f2f" />
+<img height="auto" alt="image" src="https://github.com/user-attachments/assets/923bc2b2-d064-4133-a075-aa312fea6f2f" />
 
 
 We were doing a few things together, including working on a laptop and going through some preparations for WordCamp. At some point, I mentioned that I was building a QR check-in system and that I wanted to experiment with automatically printing attendee badges after someone checked in.
@@ -99,7 +99,7 @@ Instead of trying to make the WordPress site communicate directly with a printer
 
 **CampTix Check-In → HTTP request → Local print server → Thermal printer**
 
-<img width="2032" height="1110" alt="image" src="https://github.com/user-attachments/assets/4f5744a0-b310-45e5-87cb-f0d2b3a85b96" />
+<img height="auto" alt="image" src="https://github.com/user-attachments/assets/4f5744a0-b310-45e5-87cb-f0d2b3a85b96" />
 
 
 This turned out to be a much cleaner solution.
@@ -110,7 +110,7 @@ That became the final piece that turned the check-in system into an actual regis
 
 ## Testing a printer from my house
 
-<img width="1877" height="989" alt="image" src="https://github.com/user-attachments/assets/51647bcf-df6e-4b70-8d2e-5b0432f28bc2" />
+<img height="auto" alt="image" src="https://github.com/user-attachments/assets/51647bcf-df6e-4b70-8d2e-5b0432f28bc2" />
 
 
 One of my favorite parts of this project was that we didn't even need to be in the same place to test it.
