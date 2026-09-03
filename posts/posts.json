@@ -1,5 +1,16 @@
 [
   {
+    "title": "Building a QR Check-in System for WordCamp Philippines",
+    "date": "2026-09-03",
+    "slug": "building-a-qr-checkin-system-for-wordcamp-philippines",
+    "categories": [
+      "Community",
+      "WordPress",
+      "Tech"
+    ],
+    "file": "building-a-qr-checkin-system-for-wordcamp-philippines.md"
+  },
+  {
     "title": "My Zero-Cost Static Blog Migration (Just a fun experiment)",
     "date": "2026-05-13",
     "slug": "my-zero-cost-static-blog-migration",
