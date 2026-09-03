@@ -49,6 +49,9 @@ The basic flow became:
 
 **CampTix → Sync attendees → Send QR codes → Attendee arrives → Scan QR → Check in**
 
+<img width="1916" height="912" alt="image" src="https://github.com/user-attachments/assets/9a56cb6a-3eba-4e6f-8059-5d6a7289a94c" />
+
+
 The scanner runs directly in the browser using a camera, with visual and audio feedback for successful, duplicate, or invalid scans.
 
 At this point, the system was already working pretty well.
@@ -75,11 +78,16 @@ And this is where **Jerico** came in.
 
 A couple of weeks before WordCamp Philippines, Jerico, Arvin John, and I were co-working at Jerico's office.
 
+<img width="1223" height="917" alt="image" src="https://github.com/user-attachments/assets/923bc2b2-d064-4133-a075-aa312fea6f2f" />
+
+
 We were doing a few things together, including working on a laptop and going through some preparations for WordCamp. At some point, I mentioned that I was building a QR check-in system and that I wanted to experiment with automatically printing attendee badges after someone checked in.
 
 Jerico immediately got interested.
 
-As he later wrote in his own post, he had already built something similar for an inventory system and knew that the concept was possible.
+As he later wrote in his own blog post <a href="https://www.jericoaragon.com/homelab/qr-check-in-auto-printer-for-wordcamp-ph/">
+  "Jerico's blog post about the QR Check-in Auto-Printer"
+</a>, he had already built something similar for an inventory system and knew that the concept was possible.
 
 He quickly put together a proof of concept using a small thermal printer he had available.
 
@@ -91,6 +99,9 @@ Instead of trying to make the WordPress site communicate directly with a printer
 
 **CampTix Check-In → HTTP request → Local print server → Thermal printer**
 
+<img width="2032" height="1110" alt="image" src="https://github.com/user-attachments/assets/4f5744a0-b310-45e5-87cb-f0d2b3a85b96" />
+
+
 This turned out to be a much cleaner solution.
 
 Jerico also made the printer endpoint configurable in the plugin, so we could change the destination without having to modify the code during the event.
@@ -98,6 +109,9 @@ Jerico also made the printer endpoint configurable in the plugin, so we could ch
 That became the final piece that turned the check-in system into an actual registration workflow.
 
 ## Testing a printer from my house
+
+<img width="1877" height="989" alt="image" src="https://github.com/user-attachments/assets/51647bcf-df6e-4b70-8d2e-5b0432f28bc2" />
+
 
 One of my favorite parts of this project was that we didn't even need to be in the same place to test it.
 
@@ -131,6 +145,11 @@ When the tablet boots, it automatically logs in, starts the print server, opens 
 The organizers also prepared a second printer as a backup, because the last thing we wanted was for a broken printer to stop registration.
 
 ## What happens when an attendee arrives?
+
+<video controls width="100%">
+  <source src="https://www.jericoaragon.com/media/homelab/2026/09/qr.mp4#t=0.1" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 The final workflow looked like this:
 
