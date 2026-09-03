@@ -113,7 +113,16 @@ That became the final piece that turned the check-in system into an actual regis
 
 ## Testing a printer from my house
 
-<img height="auto" alt="image" src="https://github.com/user-attachments/assets/51647bcf-df6e-4b70-8d2e-5b0432f28bc2" />
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <iframe
+        src="https://www.youtube.com/embed/AzzK_gSNUi0"
+        title="QR Checkin and Badge"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+    </iframe>
+</div>
 
 
 One of my favorite parts of this project was that we didn't even need to be in the same place to test it.
@@ -149,10 +158,16 @@ The organizers also prepared a second printer as a backup, because the last thin
 
 ## What happens when an attendee arrives?
 
-<video controls width="100%">
-  <source src="https://www.jericoaragon.com/media/homelab/2026/09/qr.mp4#t=0.1" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <iframe
+        src="https://www.youtube.com/embed/2oH1wV8UWxI"
+        title="YouTube video"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+    </iframe>
+</div>
 
 The final workflow looked like this:
 
