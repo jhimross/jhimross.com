@@ -31,6 +31,9 @@ This gave me a local copy of the attendee information that we could use during t
 
 I started building the plugin around the basic check-in workflow.
 
+<img height="auto" alt="Screenshot 2026-09-03 at 11 41 34 PM" src="https://github.com/user-attachments/assets/2b884349-9a13-4997-9682-7c36aaf91141" />
+
+
 The plugin includes:
 
 * An attendee dashboard with live check-in statistics
