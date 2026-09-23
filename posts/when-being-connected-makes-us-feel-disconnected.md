@@ -5,6 +5,9 @@ slug: when-being-connected-makes-us-feel-disconnected
 categories: ['Mindset', 'Self Development', 'Habit']
 ---
 
+
+<img width="2390" height="1792" alt="Digital-Minimalist" src="https://github.com/user-attachments/assets/b42494d0-1946-4e68-9cd7-084160ebe086" />
+
 I never consciously decided to spend so much of my life online.
 
 It happened slowly.
