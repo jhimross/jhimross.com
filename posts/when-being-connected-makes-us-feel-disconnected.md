@@ -1,7 +1,7 @@
 ---
-title: "Reclaiming My Humanity: What Digital Minimalism Is Teaching Me"
+title: "When Being Connected Makes Us Feel Disconnected"
 date: 2026-09-24
-slug: reclaiming-my-humanity-what-digital-minimalism-is-teaching-me
+slug: when-being-connected-makes-us-feel-disconnected
 categories: ['Mindset', 'Self Development', 'Habit']
 ---
 
