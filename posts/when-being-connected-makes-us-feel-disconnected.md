@@ -6,7 +6,7 @@ categories: ['Mindset', 'Self Development', 'Habit']
 ---
 
 
-<img width="100%" height="auto" alt="Digital-Minimalist" src="https://github.com/user-attachments/assets/b42494d0-1946-4e68-9cd7-084160ebe086" />
+<img width="100%" height="auto" alt="Digital-Minimalist (1)" src="https://github.com/user-attachments/assets/2b85d654-98d1-4df2-ae84-327b49f410aa" />
 
 I never consciously decided to spend so much of my life online.
 
