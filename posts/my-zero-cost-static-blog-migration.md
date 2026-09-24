@@ -1,6 +1,6 @@
 ---
 title: "My Zero-Cost Static Blog Migration (Just a fun experiment)"
-date: 2026-05-13
+date: May 13, 2026
 slug: my-zero-cost-static-blog-migration
 categories: ['Migration', 'Tech', 'GitHub','Web Development']
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Building a QR Check-in System for WordCamp Philippines"
-date: 2026-09-03
+date: September 03, 2026
 slug: building-a-qr-checkin-system-for-wordcamp-philippines
 categories: ['Community', 'WordPress', 'Tech']
 ---
