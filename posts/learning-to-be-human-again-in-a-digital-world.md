@@ -1,7 +1,7 @@
 ---
 title: "Learning to Be Human Again in a Digital World"
 date: September 24, 2026
-slug: when-being-connected-makes-us-feel-disconnected
+slug: learning-to-be-human-again-in-a-digital-world
 categories: ['Mindset', 'Self Development', 'Habit']
 ---
 
