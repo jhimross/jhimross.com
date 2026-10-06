@@ -16,6 +16,15 @@ import os
 import json
 import re
 import ast
+import datetime
+
+def parse_date(date_str):
+    for fmt in ('%Y-%m-%d %H:%M:%S', '%Y-%m-%d', '%B %d, %Y'):
+        try:
+            return datetime.datetime.strptime(date_str.strip(), fmt)
+        except ValueError:
+            continue
+    return None
 
 def extract_first_image(content):
     # Match markdown image syntax: ![alt](url)
@@ -64,8 +73,7 @@ def sync_posts():
                             if title.startswith('"') and title.endswith('"'):
                                 title = title[1:-1].replace('\\"', '"')
                         elif line.startswith('date:'):
-                            date_match = re.search(r'(\d{4}-\d{2}-\d{2})', line)
-                            if date_match: date = date_match.group(1)
+                            date_obj = parse_date(line.replace('date:', '').strip())
                         elif line.startswith('slug:'):
                             slug = line.replace('slug:', '').strip()
                         elif line.startswith('categories:'):
@@ -75,10 +83,10 @@ def sync_posts():
                             except:
                                 categories = [c.strip() for c in cat_text.split(',')]
                     
-                    if title and date and slug:
+                    if title and date_obj and slug:
                         all_posts.append({
                             "title": title,
-                            "date": date,
+                            "date": date_obj.strftime('%B %d, %Y'),
                             "slug": slug,
                             "categories": categories,
                             "file": filename
@@ -121,10 +129,11 @@ def sync_posts():
                             f_out.write(post_html)
     
     # Sort posts by date descending
-    all_posts.sort(key=lambda x: (x['date'], x['slug']), reverse=True)
+    all_posts.sort(key=lambda x: (datetime.datetime.strptime(x['date'], '%B %d, %Y'), x['slug']), reverse=True)
     
     with open(posts_json_path, 'w', encoding='utf-8') as f:
         json.dump(all_posts, f, indent=2)
+        f.write('\n')
         
     print(f"Successfully synced {len(all_posts)} posts and generated static HTML files.")
 
