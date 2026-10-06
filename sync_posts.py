@@ -16,6 +16,7 @@ import os
 import json
 import re
 import ast
+import html
 import datetime
 
 def parse_date(date_str):
@@ -31,17 +32,24 @@ def extract_first_image(content):
     match = re.search(r'!\[.*?\]\((.*?)\)', content)
     if match:
         return match.group(1)
+    # Match HTML image tags: <img ... src="url">
+    match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content, re.IGNORECASE)
+    if match:
+        return match.group(1)
     return "https://jhimross.com/assets/about.jpg"
 
 def extract_description(content):
-    # Remove images and frontmatter
+    # Remove frontmatter
     content = re.sub(r'---.*?---', '', content, flags=re.DOTALL)
+    # Remove Markdown images and HTML tags
     content = re.sub(r'!\[.*?\]\((.*?)\)', '', content)
+    content = re.sub(r'<[^>]+>', '', content)
     content = re.sub(r'#.*?\n', '', content)
     # Get first 160 chars of text
     text = content.strip()
     text = re.sub(r'\s+', ' ', text)
-    return text[:160] + "..." if len(text) > 160 else text
+    preview = text[:160] + "..." if len(text) > 160 else text
+    return html.escape(preview, quote=True)
 
 def sync_posts():
     posts_dir = 'posts'
