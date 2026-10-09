@@ -57,28 +57,28 @@ button, input { font: inherit; color: inherit; }
 /* screen */
 #screen { position: relative; flex: 1; overflow: hidden; }
 .slide { position: absolute; inset: 0; padding: 26px 48px 20px; display: flex; flex-direction: column; gap: 14px; }
-.prompt { font-size: 17px; color: var(--dim); white-space: pre; min-height: 24px; }
+.prompt { font-size: 20px; color: var(--dim); white-space: pre; min-height: 24px; }
 .prompt .path { color: var(--wp); font-weight: 600; }
 .prompt .cmd { color: var(--fg); }
 .cursor { display: inline-block; width: .6em; height: 1.05em; background: var(--ok); vertical-align: -2px; margin-left: 2px; animation: blink 1.05s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 .title { font-family: var(--crt); font-size: 64px; line-height: .95; color: var(--fg); text-shadow: var(--glow); margin: 0; font-weight: 400; letter-spacing: .5px; }
-.sub { font-size: 20px; color: var(--dim); margin: 0; }
+.sub { font-size: 24px; color: var(--dim); margin: 0; }
 .out { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 16px; padding-top: 12px; }
 .out.printing { animation: print .45s steps(12) both; }
 @keyframes print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 
 /* text pieces */
-.lead { font-size: 22px; line-height: 1.45; margin: 0; max-width: 60ch; }
+.lead { font-size: 26px; line-height: 1.45; margin: 0; max-width: 60ch; }
 .big { font-family: var(--crt); font-size: 64px; line-height: 1; color: var(--ok); text-shadow: var(--glow); margin: 0; }
 .muted { color: var(--dim); }
 .ok { color: var(--ok); } .hi { color: var(--hi); } .wp { color: var(--wp); } .bad { color: var(--bad); }
-.say { border-left: 3px solid var(--ok); background: var(--bg2); padding: 12px 18px; font-size: 19px; font-weight: 600; margin: 0; }
+.say { border-left: 3px solid var(--ok); background: var(--bg2); padding: 12px 18px; font-size: 23px; font-weight: 600; margin: 0; }
 .say::before { content: "> "; color: var(--ok); }
-.small { font-size: 14px; color: var(--dim); }
-.foot { margin-top: auto; font-size: 13px; color: var(--dim); }
+.small { font-size: 18px; color: var(--dim); }
+.foot { margin-top: auto; font-size: 16px; color: var(--dim); }
 .foot::before { content: "# "; }
-pre.ascii { margin: 0; font-size: 18px; line-height: 1.3; color: var(--fg); }
+pre.ascii { margin: 0; font-size: 22px; line-height: 1.3; color: var(--fg); }
 pre.ascii b { color: var(--ok); font-weight: 600; }
 pre.ascii i { color: var(--hi); font-style: normal; }
 pre.ascii u { color: var(--wp); text-decoration: none; }
@@ -86,36 +86,36 @@ pre.ascii u { color: var(--wp); text-decoration: none; }
 /* chips, flows, panels */
 .chips { display: flex; flex-wrap: wrap; gap: 10px; }
 .grid { display: grid; gap: 12px; }
-.chip { display: inline-flex; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--line); background: var(--bg2); padding: 10px 14px; font-size: 16px; line-height: 1.25; }
+.chip { display: inline-flex; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--line); background: var(--bg2); padding: 10px 14px; font-size: 20px; line-height: 1.25; }
 .chip.on { border-color: var(--ok); color: var(--ok); background: color-mix(in srgb, var(--ok) 10%, var(--bg2)); }
 .chip.hi { background: var(--hi); color: #1a1100; border-color: var(--hi); font-weight: 600; }
 .chip.dim { color: var(--dim); }
 .chip.strike { color: var(--dim); text-decoration: line-through; text-decoration-color: var(--bad); }
 .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
-.flow .arr { color: var(--dim); font-size: 15px; }
+.flow .arr { color: var(--dim); font-size: 17px; }
 .flow.col { flex-direction: column; align-items: stretch; }
 .flow.col .arr { text-align: center; line-height: 1; }
 .panel { position: relative; border: 1px solid var(--line); padding: 20px 16px 14px; background: color-mix(in srgb, var(--bg2) 60%, transparent); }
-.panel[data-label]::before { content: "┤ " attr(data-label) " ├"; position: absolute; top: -11px; left: 12px; background: var(--bg); padding: 0 4px; font-size: 13px; color: var(--dim); }
+.panel[data-label]::before { content: "┤ " attr(data-label) " ├"; position: absolute; top: -11px; left: 12px; background: var(--bg); padding: 0 4px; font-size: 16px; color: var(--dim); }
 .panel.on { border-color: var(--ok); }
 .panel.on[data-label]::before { color: var(--ok); }
 .panel.hi { border-color: var(--hi); }
 .panel.hi[data-label]::before { color: var(--hi); }
-.panel h3 { margin: 0 0 8px; font-size: 18px; color: var(--fg); }
-.panel ul { margin: 0; padding: 0; list-style: none; font-size: 15px; line-height: 1.55; }
+.panel h3 { margin: 0 0 8px; font-size: 23px; color: var(--fg); }
+.panel ul { margin: 0; padding: 0; list-style: none; font-size: 19px; line-height: 1.5; }
 .panel li::before { content: "- "; color: var(--dim); }
 .row { display: flex; gap: 22px; min-height: 0; }
 .row > * { min-width: 0; }
 .chip.hi .tag { color: #1a1100; border-color: rgba(0,0,0,.3); }
-.tight .chip { padding: 5px 10px; font-size: 14px; }
+.tight .chip { padding: 5px 10px; font-size: 17px; }
 .tight .arr { font-size: 11px; }
-.tag { font-size: 12px; border: 1px solid var(--line); padding: 1px 6px; color: var(--ok); margin-left: auto; white-space: nowrap; }
-.log { font-size: 19px; line-height: 1.6; margin: 0; }
+.tag { font-size: 14px; border: 1px solid var(--line); padding: 1px 6px; color: var(--ok); margin-left: auto; white-space: nowrap; }
+.log { font-size: 23px; line-height: 1.6; margin: 0; }
 .log .t { color: var(--hi); display: inline-block; min-width: 9.5em; }
-.btn { background: var(--bg3); border: 1px solid var(--ok); color: var(--ok); padding: 8px 14px; cursor: pointer; font-size: 15px; }
+.btn { background: var(--bg3); border: 1px solid var(--ok); color: var(--ok); padding: 9px 16px; cursor: pointer; font-size: 19px; }
 .btn:hover { background: var(--ok); color: var(--bg); }
 .btn[disabled] { opacity: .5; cursor: default; }
-.term { background: #020503; border: 1px solid var(--line); padding: 12px 14px; font-size: 14px; line-height: 1.5; overflow: hidden; white-space: pre-wrap; }
+.term { background: #020503; border: 1px solid var(--line); padding: 12px 14px; font-size: 17px; line-height: 1.5; overflow: hidden; white-space: pre-wrap; }
 .term .in { color: var(--wp); } .term .res { color: var(--fg); } .term .c { color: var(--dim); }
 
 /* steps */
@@ -124,25 +124,25 @@ pre.ascii u { color: var(--wp); text-decoration: none; }
 
 /* dark interlude slides */
 .slide.interlude { justify-content: center; padding: 0 110px; background: radial-gradient(ellipse at 30% 40%, var(--bg2), var(--bg) 70%); }
-.slide.interlude .title { font-size: 80px; max-width: 24ch; }
+.slide.interlude .title { font-size: 84px; max-width: 24ch; }
 .slide.interlude .prompt { margin-bottom: 12px; }
 
 /* light app windows (WordPress UI illustrations) */
-.win { background: #fff; color: #1e1e1e; border: 1px solid #c3c4c7; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 12px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
-.win .bar { height: 22px; flex: none; display: flex; align-items: center; gap: 5px; padding: 0 8px; background: #f0f0f1; border-bottom: 1px solid #dcdcde; }
+.win { background: #fff; color: #1e1e1e; border: 1px solid #c3c4c7; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+.win .bar { height: 26px; flex: none; display: flex; align-items: center; gap: 5px; padding: 0 8px; background: #f0f0f1; border-bottom: 1px solid #dcdcde; }
 .win .bar i { width: 8px; height: 8px; border-radius: 50%; background: #c3c4c7; }
-.win .bar span { margin-left: auto; font-family: var(--mono); font-size: 9px; color: #757575; }
+.win .bar span { margin-left: auto; font-family: var(--mono); font-size: 11px; color: #757575; }
 .win .body { flex: 1; position: relative; display: flex; min-height: 0; }
-.wp-side { width: 92px; background: #2c3338; color: #c3c4c7; padding-top: 4px; flex: none; }
-.wp-side div { padding: 4px 8px; font-size: 11px; }
+.wp-side { width: 104px; background: #2c3338; color: #c3c4c7; padding-top: 4px; flex: none; }
+.wp-side div { padding: 4px 8px; font-size: 13px; }
 .wp-side .cur { background: #3858e9; color: #fff; }
-.wp-btn { background: #3858e9; color: #fff; border: 0; padding: 4px 9px; border-radius: 2px; font-size: 11px; cursor: pointer; }
+.wp-btn { background: #3858e9; color: #fff; border: 0; padding: 5px 10px; border-radius: 2px; font-size: 13px; cursor: pointer; }
 .wp-btn.ghost { background: #fff; color: #3858e9; border: 1px solid #3858e9; }
 .ln { height: 5px; background: #dcdcde; margin: 6px 0; }
 .ln.s { width: 60%; }
 .cap { text-align: center; margin-top: 8px; }
-.cap b { display: block; font-size: 17px; color: var(--fg); }
-.cap span { font-size: 13px; color: var(--dim); }
+.cap b { display: block; font-size: 22px; color: var(--fg); }
+.cap span { font-size: 17px; color: var(--dim); }
 .illus { position: absolute; top: 3px; right: 8px; font-family: var(--mono); font-size: 9px; color: #757575; }
 
 /* overlays */
@@ -160,7 +160,7 @@ pre.ascii u { color: var(--wp); text-decoration: none; }
 #status .pos { color: var(--ok); padding: 0 12px; }
 #timer.warn { color: var(--hi); } #timer.over { color: var(--bad); }
 #progress { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--ok); transition: width .3s; }
-#notes { position: absolute; right: 0; top: 34px; bottom: 30px; width: 400px; background: var(--bg2); border-left: 1px solid var(--line); padding: 18px; font-size: 15px; line-height: 1.55; overflow: auto; transform: translateX(100%); transition: transform .2s; z-index: 55; }
+#notes { position: absolute; right: 0; top: 34px; bottom: 30px; width: 440px; background: var(--bg2); border-left: 1px solid var(--line); padding: 18px; font-size: 17px; line-height: 1.55; overflow: auto; transform: translateX(100%); transition: transform .2s; z-index: 55; }
 #notes.open { transform: none; }
 #notes h4 { margin: 0 0 10px; color: var(--hi); font-weight: 600; font-size: 14px; }
 #index { position: absolute; inset: 34px 0 30px; background: var(--bg); z-index: 58; padding: 24px 48px; overflow: auto; display: none; }
@@ -174,6 +174,13 @@ pre.ascii u { color: var(--wp); text-decoration: none; }
 #toast { position: absolute; left: 50%; bottom: 44px; transform: translateX(-50%); background: var(--bg3); border: 1px solid var(--ok); padding: 6px 14px; font-size: 14px; z-index: 80; opacity: 0; transition: opacity .2s; pointer-events: none; }
 #toast.on { opacity: 1; }
 
+/* zoom an illustration to fill the screen */
+.win .zoomBtn { margin-left: 8px; background: #fff; border: 1px solid #c3c4c7; color: #3858e9; font: 600 12px var(--mono); padding: 1px 7px; cursor: pointer; }
+.win .zoomBtn:hover { background: #3858e9; color: #fff; }
+.zoomer { position: absolute; inset: 0; z-index: 45; background: var(--bg); display: grid; place-items: center; padding-bottom: 30px; }
+.zoomer .holder { transform-origin: center center; }
+.zoomer .hint { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; color: var(--dim); font-size: 16px; }
+.fitting .step { transform: none; transition: none; }
 @media (prefers-reduced-motion: reduce) {
   .out.printing { animation: none; }
   .step { transition: none; }
@@ -217,7 +224,7 @@ const say = (t, step) => `<p class="say${step ? " step" : ""}">${t}</p>`;
 const foot = (t) => `<p class="foot">${t}</p>`;
 const panel = (label, inner, cls = "") => `<div class="panel ${cls}" data-label="${label}">${inner}</div>`;
 const list = (items) => `<ul>${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
-const win = (inner, label = "illustration", style = "") => `<div class="win" style="${style}"><div class="bar"><i></i><i></i><i></i><span>${label}</span></div><div class="body">${inner}</div></div>`;
+const win = (inner, label = "illustration", style = "") => `<div class="win" style="${style}"><div class="bar"><i></i><i></i><i></i><span>${label}</span><button class="zoomBtn" title="Enlarge (z)" aria-label="Enlarge illustration">⤢ zoom</button></div><div class="body">${inner}</div></div>`;
 const cap = (b, s) => `<div class="cap"><b>${b}</b><span>${s}</span></div>`;
 const wpSide = (cur) => `<div class="wp-side">${["Dashboard", "Posts", "Media", "Pages", "Appearance", "Plugins", "Users", "Settings"].map((m) => `<div class="${m === cur ? "cur" : ""}">${m}</div>`).join("")}</div>`;
 const lines = (n, w = 100) => Array.from({ length: n }, (_, i) => `<div class="ln" style="width:${i === n - 1 ? w * 0.6 : w - (i % 2) * 8}%"></div>`).join("");
@@ -227,7 +234,7 @@ const SECTIONS = [["intro", 0], ["history", 2], ["blocks", 10], ["ai", 16], ["re
 
 /* ---------- slides ---------- */
 const SLIDES = [
-/* 1 */ { f: "00-boot.sh", cmd: "./so-whats-new.sh", hero: true, h: `
+/* 1 */ { maxZoom: 1, f: "00-boot.sh", cmd: "./so-whats-new.sh", hero: true, h: `
   <pre class="log step" id="boot" style="font-size:15px;color:var(--dim)"></pre>
   <h1 class="title" style="font-size:104px;margin-top:6px">So… What's New<br>in WordPress?</h1>
   <p class="sub" style="font-size:24px">From blogging platform to the agent-ready web</p>
@@ -237,7 +244,7 @@ const SLIDES = [
 
 /* 2 */ { f: "01-question.md", cmd: "read -p 'When you hear WordPress, what comes to mind? '", t: "When you hear “WordPress”, what comes to mind?", h: `
   <div class="row" style="align-items:center"><span class="hi" style="font-size:18px">audience&gt;</span>
-  <input id="aud" class="chip" style="flex:1;justify-content:flex-start;text-align:left;background:var(--bg2)" placeholder="type an answer from the room and press enter" aria-label="Audience answer">
+  <input id="aud" class="chip" style="flex:1;justify-content:flex-start;text-align:left;background:var(--bg2)" placeholder="type an answer, press enter" aria-label="Audience answer">
   <button class="btn" id="audSeed">show common answers</button></div>
   <div class="chips" id="audChips" style="min-height:120px;align-content:flex-start"></div>
   ${say("All of those are correct. But WordPress has changed dramatically over the last 20+ years.", true)}`,
@@ -260,10 +267,10 @@ const SLIDES = [
 
 /* 4 */ { f: "03-the-fork.md", cmd: "git log --reverse --oneline wordpress", t: "WordPress began as a fork of b2/cafelog", h: `
   <pre class="log">
-<span class="step"><span class="t">2001–2002</span> b2/cafelog: open-source blogging by Michel Valdrighi. Matt Mullenweg uses it.</span>
-<span class="step"><span class="t">2002</span> development stops. b2's users are left without updates.</span>
-<span class="step"><span class="t">Jan 24, 2003</span> Matt blogs that he may fork b2 and keep it going.</span>
-<span class="step"><span class="t">Jan 2003</span> Mike Little comments: he'd like to contribute. They team up.</span>
+<span class="step"><span class="t">2001–2002</span> b2/cafelog: open-source blogging. Matt uses it.</span>
+<span class="step"><span class="t">2002</span> Development stops. No more updates.</span>
+<span class="step"><span class="t">Jan 24, 2003</span> Matt blogs that he may fork b2.</span>
+<span class="step"><span class="t">Jan 2003</span> Mike Little offers to help. They team up.</span>
 <span class="step"><span class="t ok">May 27, 2003</span> <b class="ok">WordPress 0.7 ships.</b></span></pre>
   ${say("b2 was open source (GPL), so anyone was free to pick it up and continue it.", true)}` },
 
@@ -409,7 +416,7 @@ page</pre>`)}</div>
       List: () => rows.map((r) => `<div style="display:flex;gap:10px;padding:6px 0;border-top:1px solid #f0f0f1"><div style="width:28px;height:28px;background:#f0f0f1"></div><div><b style="color:#3858e9">${r[0]}</b><br><span style="color:#757575">${r[1]} · ${r[2]}, 2026</span></div></div>`).join(""),
     };
     const set = (k) => { dv.innerHTML = views[k](); vt.querySelectorAll("button").forEach((b) => { const on = b.textContent === k; b.style.background = on ? "#3858e9" : "#fff"; b.style.color = on ? "#fff" : "#1e1e1e"; }); };
-    Object.keys(views).forEach((k) => { const b = document.createElement("button"); b.textContent = k; b.style.cssText = "border:1px solid #c3c4c7;padding:3px 10px;cursor:pointer;font-size:11px"; b.onclick = () => set(k); vt.appendChild(b); });
+    Object.keys(views).forEach((k) => { const b = document.createElement("button"); b.textContent = k; b.style.cssText = "border:1px solid #c3c4c7;padding:3px 10px;cursor:pointer;font-size:13px"; b.onclick = () => set(k); vt.appendChild(b); });
     set("Table");
   } },
 
@@ -435,13 +442,13 @@ page</pre>`)}</div>
 
 /* 20 */ { f: "19-ai-timeline.md", cmd: "wp ai changelog --since=2025-07", t: "WordPress AI: 2025 to 2026", h: `
   <pre class="log">
-<span class="step"><span class="t">Jul 2025</span> AI Building Blocks plan published by the AI team</span>
-<span class="step"><span class="t">Nov 27, 2025</span> AI Experiments 0.1: first release, starting with title generation</span>
-<span class="step"><span class="t ok">Dec 2025</span> <b class="ok">WordPress 6.9</b>: the Abilities API lands in Core</span>
-<span class="step"><span class="t">Mar 2026</span> the plugin starts using Core's AI infrastructure; renamed “AI”</span>
+<span class="step"><span class="t">Jul 2025</span> AI Building Blocks plan published</span>
+<span class="step"><span class="t">Nov 27, 2025</span> AI Experiments 0.1 ships</span>
+<span class="step"><span class="t ok">Dec 2025</span> <b class="ok">WordPress 6.9</b>: Abilities API in Core</span>
+<span class="step"><span class="t">Mar 2026</span> Plugin uses Core AI; renamed “AI”</span>
 <span class="step"><span class="t">May 19, 2026</span> AI 1.0, with request logging</span>
-<span class="step"><span class="t ok">May 20, 2026</span> <b class="ok">WordPress 7.0</b>: AI Client + Settings → Connectors</span>
-<span class="step"><span class="t">Jun 30, 2026</span> AI 1.1: type-ahead text, key encryption</span></pre>
+<span class="step"><span class="t ok">May 20, 2026</span> <b class="ok">WordPress 7.0</b>: AI Client + Connectors</span>
+<span class="step"><span class="t">Jun 30, 2026</span> AI 1.1: type-ahead, key encryption</span></pre>
   ${say("Experiment in a plugin, then move the foundations into Core.", true)}
   ${foot("sources: make.wordpress.org/ai release posts")}` },
 
@@ -454,7 +461,7 @@ page</pre>`)}</div>
   enter(el) {
     const f = ["Title generation", "Excerpt generation", "Alt text generation", "Image generation", "Content classification", "Editorial notes", "Comment moderation", "Type-ahead text", "Request logging", "Connector approvals"];
     const g = el.querySelector("#feat");
-    f.forEach((t, i) => { const b = document.createElement("button"); b.className = "chip" + (i >= 8 ? " on" : ""); b.style.cssText = "justify-content:space-between;cursor:pointer;padding:7px 12px;font-size:15px"; const set = () => { b.innerHTML = `${t}<span style="margin-left:10px">${b.classList.contains("on") ? "[x]" : "[ ]"}</span>`; }; set(); b.onclick = () => { b.classList.toggle("on"); set(); }; g.appendChild(b); });
+    f.forEach((t, i) => { const b = document.createElement("button"); b.className = "chip" + (i >= 8 ? " on" : ""); b.style.cssText = "justify-content:space-between;cursor:pointer;padding:7px 12px;font-size:18px"; const set = () => { b.innerHTML = `${t}<span style="margin-left:10px">${b.classList.contains("on") ? "[x]" : "[ ]"}</span>`; }; set(); b.onclick = () => { b.classList.toggle("on"); set(); }; g.appendChild(b); });
   } },
 
 /* 22 */ { f: "21-connectors.md", cmd: "open wp-admin/options-connectors.php", t: "7.0 · Settings → Connectors", h: `
@@ -499,7 +506,7 @@ page</pre>`)}</div>
   </div>
   ${say("This distinction is central to where WordPress is going.", true)}` },
 
-/* 25 */ { f: "24-abilities.md", cmd: "wp ability list", t: "The Abilities API: what can WordPress do?", h: `
+/* 25 */ { maxZoom: 1, f: "24-abilities.md", cmd: "wp ability list", t: "The Abilities API: what can WordPress do?", h: `
   <p class="sub" style="margin-top:-6px">A standardized registry of capabilities from Core, plugins and themes. Click an ability.</p>
   <div class="row" style="flex:1">
     <div style="flex:1" id="abList"></div>
@@ -518,10 +525,10 @@ page</pre>`)}</div>
     const list = el.querySelector("#abList"), js = el.querySelector("#abJson");
     const show = (k, b) => { list.querySelectorAll("button").forEach((x) => x.classList.remove("on")); b.classList.add("on"); const a = AB[k];
       js.innerHTML = `<span class="c">// registered by ${a.by}</span>\n{\n  <span class="in">"name"</span>: "${k}",\n  <span class="in">"input_schema"</span>: ${a.in},\n  <span class="in">"output_schema"</span>: ${a.out},\n  <span class="in">"permission_callback"</span>: ${a.perm},\n  <span class="in">"meta"</span>: { "readonly": ${!k.includes("create")} }\n}`; };
-    Object.keys(AB).forEach((k, i) => { const b = document.createElement("button"); b.className = "chip"; b.style.cssText = "width:100%;justify-content:flex-start;margin-bottom:8px;cursor:pointer;font-size:15px"; b.textContent = k; b.onclick = () => show(k, b); list.appendChild(b); if (!i) show(k, b); });
+    Object.keys(AB).forEach((k, i) => { const b = document.createElement("button"); b.className = "chip"; b.style.cssText = "width:100%;justify-content:flex-start;margin-bottom:8px;cursor:pointer;font-size:18px"; b.textContent = k; b.onclick = () => show(k, b); list.appendChild(b); if (!i) show(k, b); });
   } },
 
-/* 26 */ { f: "25-mcp-adapter.md", cmd: "wp plugin install mcp-adapter --activate", t: "The WordPress MCP Adapter", h: `
+/* 26 */ { maxZoom: 1, f: "25-mcp-adapter.md", cmd: "wp plugin install mcp-adapter --activate", t: "The WordPress MCP Adapter", h: `
   <div class="row" style="flex:1">
     <div style="flex:1;display:flex;flex-direction:column;gap:12px">
       <p class="lead" style="margin:0"><b>The official bridge between the Abilities API and MCP.</b></p>
@@ -545,7 +552,7 @@ page</pre>`)}</div>
   </div>
   <div class="step"><p class="small" style="margin:6px 0 10px">example</p>${flow(["!AI agent: “I need to find posts.”", "MCP", "*Abilities API", "WordPress"])}</div>` },
 
-/* 28 */ { f: "27-audit-manual.md", cmd: "./audit --manual", t: "Content audit: the traditional way", h: `
+/* 28 */ { maxZoom: 1.15, f: "27-audit-manual.md", cmd: "./audit --manual", t: "Content audit: the traditional way", h: `
   <div class="row" style="flex:1">
     <div style="flex:1"><p class="big" style="font-size:110px"><span id="done">0</span><span class="muted" style="font-size:50px"> / 2,000</span></p>
       <p class="sub">posts checked by hand for</p>
@@ -573,8 +580,8 @@ page</pre>`)}</div>
   ${say("AI is useful here because it removes repetitive work, not because it writes a paragraph.", true)}`,
   enter(el) {
     const chat = el.querySelector("#chat"), rep = el.querySelector("#rep"), b = el.querySelector("#runAudit");
-    const msg = (who, t) => { const d = document.createElement("div"); d.style.cssText = who === "u" ? "align-self:flex-end;background:#3858e9;color:#fff;padding:6px 9px;max-width:85%" : who === "t" ? "font-family:var(--mono);font-size:10px;color:#757575" : "background:#fff;border:1px solid #dcdcde;padding:6px 9px;max-width:85%"; d.textContent = t; chat.appendChild(d); };
-    const row = (n, l, st, bg, fg) => { const d = document.createElement("div"); d.style.cssText = "display:flex;gap:8px;align-items:center;border:1px solid #dcdcde;padding:6px;margin-bottom:6px"; d.innerHTML = `<b style="font-size:18px;min-width:40px" class="cnt">0</b><div>${l}<br><span style="background:${bg};color:${fg};padding:1px 6px;border-radius:8px;font-size:10px" class="st">checking…</span></div>`; rep.appendChild(d); const c = d.querySelector(".cnt"); let i = 0; const iv = setInterval(() => { i = Math.min(n, i + Math.ceil(n / 12)); c.textContent = i; if (i >= n) clearInterval(iv); }, 60); return d; };
+    const msg = (who, t) => { const d = document.createElement("div"); d.style.cssText = who === "u" ? "align-self:flex-end;background:#3858e9;color:#fff;padding:6px 9px;max-width:85%" : who === "t" ? "font-family:var(--mono);font-size:12px;color:#757575" : "background:#fff;border:1px solid #dcdcde;padding:6px 9px;max-width:85%"; d.textContent = t; chat.appendChild(d); };
+    const row = (n, l, st, bg, fg) => { const d = document.createElement("div"); d.style.cssText = "display:flex;gap:8px;align-items:center;border:1px solid #dcdcde;padding:6px;margin-bottom:6px"; d.innerHTML = `<b style="font-size:18px;min-width:40px" class="cnt">0</b><div>${l}<br><span style="background:${bg};color:${fg};padding:1px 6px;border-radius:8px;font-size:12px" class="st">checking…</span></div>`; rep.appendChild(d); const c = d.querySelector(".cnt"); let i = 0; const iv = setInterval(() => { i = Math.min(n, i + Math.ceil(n / 12)); c.textContent = i; if (i >= n) clearInterval(iv); }, 60); return d; };
     b.onclick = () => { b.disabled = true; chat.querySelectorAll("div:not(:first-child)").forEach((x) => x.remove()); rep.innerHTML = "";
       const S = [() => msg("u", "Audit my posts for missing featured images, alt text and excerpts."), () => msg("t", "⚙ using WordPress abilities: list posts, read media"),
         () => { row(312, "Missing alt text", "", "#fcf3dc", "#8a6100"); row(88, "Missing excerpt", "", "#fcf3dc", "#8a6100"); row(143, "No featured image", "", "#fcf3dc", "#8a6100"); },
@@ -584,12 +591,12 @@ page</pre>`)}</div>
       S.forEach((f, i) => setTimeout(f, i * 1100)); };
   } },
 
-/* 30 */ { f: "29-permissions.md", cmd: "wp ability run --as=agent", t: "If AI can act, who gives it permission?", h: `
+/* 30 */ { maxZoom: 1.05, f: "29-permissions.md", cmd: "wp ability run --as=agent", t: "If AI can act, who gives it permission?", h: `
   <div class="row" style="flex:1">
     <div style="flex:1;display:flex;flex-direction:column;gap:12px">
       <p class="small" style="margin:0">ask the agent to…</p>
       <div class="grid" id="acts" style="grid-template-columns:1fr 1fr"></div>
-      <label style="display:flex;gap:10px;align-items:center;cursor:pointer;font-size:15px"><input type="checkbox" id="appr"> an administrator approved destructive actions</label>
+      <label style="display:flex;gap:10px;align-items:center;cursor:pointer;font-size:19px"><input type="checkbox" id="appr"> an administrator approved destructive actions</label>
     </div>
     <div style="flex:1;display:flex;flex-direction:column;gap:8px">
       <div class="flow col" id="pipe">${["DISCOVER", "AUTHORIZE", "VALIDATE", "EXECUTE", "AUDIT"].map((x) => `<span class="chip">${x}</span>`).join('<span class="arr">▼</span>')}</div>
@@ -657,7 +664,7 @@ page</pre>`)}</div>
   enter(el) {
     const pg = el.querySelector("#pg"), dev = el.querySelector("#dev");
     const draw = (m) => { pg.style.width = m === "Mobile" ? "45%" : m === "Tablet" ? "70%" : "100%"; pg.innerHTML = `${m === "Mobile" ? "" : `<div style="height:46px;background:#f0b849;display:grid;place-items:center;font-weight:700">Hero image</div>`}<b style="display:block;margin:6px 0">Welcome</b>${lines(3)}<span class="wp-btn">Join</span>`; dev.querySelectorAll("button").forEach((b) => { const on = b.textContent === m; b.style.background = on ? "#3858e9" : "#f0f0f1"; b.style.color = on ? "#fff" : "#757575"; }); };
-    ["Desktop", "Tablet", "Mobile"].forEach((m) => { const b = document.createElement("button"); b.textContent = m; b.style.cssText = "border:0;padding:3px 8px;cursor:pointer;font-size:11px"; b.onclick = () => draw(m); dev.appendChild(b); });
+    ["Desktop", "Tablet", "Mobile"].forEach((m) => { const b = document.createElement("button"); b.textContent = m; b.style.cssText = "border:0;padding:3px 8px;cursor:pointer;font-size:13px"; b.onclick = () => draw(m); dev.appendChild(b); });
     draw("Desktop");
     const ov = el.querySelector("#ov"); el.querySelector("#mOpen").onclick = () => ov.style.display = "block"; el.querySelector("#mClose").onclick = () => ov.style.display = "none";
   } },
@@ -676,12 +683,12 @@ page</pre>`)}</div>
   <div class="grid" style="grid-template-columns:repeat(3,1fr);flex:1">
     <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;display:flex;flex-direction:column"><div id="rDev" style="display:flex;gap:4px;padding:6px;border-bottom:1px solid #dcdcde"></div><div style="flex:1;background:#e0e0e0;display:grid;place-items:center;padding:8px"><div id="rPg" style="background:#fff;padding:10px;height:100%;transition:width .3s"></div></div></div>`, "responsive styles · switch", "flex:1")}${cap("Responsive styles", "the heading restyles per screen")}</div>
     <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;padding:10px;display:flex;flex-direction:column"><b>Edit image</b><div style="flex:1;display:grid;place-items:center;overflow:hidden"><div id="img" style="width:150px;height:96px;background:linear-gradient(#9ec5e8 55%,#2f5d45 55%);position:relative;transition:transform .35s;outline:2px dashed #fff;outline-offset:-10px"><span style="position:absolute;right:16px;top:10px;width:16px;height:16px;border-radius:50%;background:#f0b849"></span><span style="position:absolute;left:8px;bottom:6px;color:#fff;font-weight:700">A</span></div></div><div style="display:flex;gap:6px;justify-content:center"><button class="wp-btn ghost" data-a="fx">↔ Flip</button><button class="wp-btn ghost" data-a="fy">↕ Flip</button><button class="wp-btn ghost" data-a="r">⟳ Rotate</button><button class="wp-btn" data-a="x">Reset</button></div></div>`, "media editor · try it", "flex:1")}${cap("New media editor", "crop, flip, rotate, metadata")}</div>
-    <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;padding:10px;display:flex;gap:8px"><div style="flex:1"><b>Meetup recap</b>${lines(2)}<span style="background:#fce9a6;padding:0 2px">the first talk ran long</span>${lines(3)}</div><div style="flex:1.2;border:1px solid #dcdcde;padding:7px;display:flex;flex-direction:column;gap:6px" id="thread"><div><b>Maria</b> <span style="color:#757575;font-size:10px">on “the first talk”</span><br>Can we <b>shorten</b> this intro? <span style="color:#3858e9;font-weight:600">@Jun</span> can you check the speaker names?</div><input id="reply" placeholder="Reply… try @Maria" style="border:1px solid #dcdcde;padding:4px;font-size:11px;font-family:inherit;color:#1e1e1e" aria-label="Reply to note"></div></div>`, "notes · reply", "flex:1")}${cap("Notes with @mentions", "comment on text, loop people in")}</div>
+    <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;padding:10px;display:flex;gap:8px"><div style="flex:1"><b>Meetup recap</b>${lines(2)}<span style="background:#fce9a6;padding:0 2px">the first talk ran long</span>${lines(3)}</div><div style="flex:1.2;border:1px solid #dcdcde;padding:7px;display:flex;flex-direction:column;gap:6px" id="thread"><div><b>Maria</b> <span style="color:#757575;font-size:12px">on “the first talk”</span><br>Can we <b>shorten</b> this intro? <span style="color:#3858e9;font-weight:600">@Jun</span> can you check the speaker names?</div><input id="reply" placeholder="Reply… try @Maria" style="border:1px solid #dcdcde;padding:4px;font-size:13px;font-family:inherit;color:#1e1e1e" aria-label="Reply to note"></div></div>`, "notes · reply", "flex:1")}${cap("Notes with @mentions", "comment on text, loop people in")}</div>
   </div>`,
   enter(el) {
     const pg = el.querySelector("#rPg"), dv = el.querySelector("#rDev");
-    const draw = (m) => { pg.style.width = m === "Mobile" ? "48%" : m === "Tablet" ? "72%" : "100%"; const fs = m === "Mobile" ? 15 : m === "Tablet" ? 20 : 26; pg.innerHTML = `<div style="font-weight:800;font-size:${fs}px;line-height:1.1;${m === "Mobile" ? "text-align:center;color:#3858e9" : ""}">Welcome to the meetup</div>${lines(4)}<div style="color:#757575;font-size:10px">heading: ${fs}px${m === "Mobile" ? ", centered, blue" : ""}</div>`; dv.querySelectorAll("button").forEach((b) => { const on = b.textContent === m; b.style.background = on ? "#3858e9" : "#f0f0f1"; b.style.color = on ? "#fff" : "#757575"; }); };
-    ["Desktop", "Tablet", "Mobile"].forEach((m) => { const b = document.createElement("button"); b.textContent = m; b.style.cssText = "border:0;padding:3px 8px;cursor:pointer;font-size:11px"; b.onclick = () => draw(m); dv.appendChild(b); }); draw("Desktop");
+    const draw = (m) => { pg.style.width = m === "Mobile" ? "48%" : m === "Tablet" ? "72%" : "100%"; const fs = m === "Mobile" ? 15 : m === "Tablet" ? 20 : 26; pg.innerHTML = `<div style="font-weight:800;font-size:${fs}px;line-height:1.1;${m === "Mobile" ? "text-align:center;color:#3858e9" : ""}">Welcome to the meetup</div>${lines(4)}<div style="color:#757575;font-size:12px">heading: ${fs}px${m === "Mobile" ? ", centered, blue" : ""}</div>`; dv.querySelectorAll("button").forEach((b) => { const on = b.textContent === m; b.style.background = on ? "#3858e9" : "#f0f0f1"; b.style.color = on ? "#fff" : "#757575"; }); };
+    ["Desktop", "Tablet", "Mobile"].forEach((m) => { const b = document.createElement("button"); b.textContent = m; b.style.cssText = "border:0;padding:3px 8px;cursor:pointer;font-size:13px"; b.onclick = () => draw(m); dv.appendChild(b); }); draw("Desktop");
     const img = el.querySelector("#img"); let fx = 1, fy = 1, r = 0;
     el.querySelectorAll("[data-a]").forEach((b) => b.onclick = () => { const a = b.dataset.a; if (a === "fx") fx *= -1; if (a === "fy") fy *= -1; if (a === "r") r += 90; if (a === "x") { fx = fy = 1; r = 0; } img.style.transform = `rotate(${r}deg) scale(${fx},${fy})`; });
     const rep = el.querySelector("#reply"), th = el.querySelector("#thread");
@@ -747,7 +754,8 @@ page</pre>`)}</div>
 <span class="step"><span class="t">2018</span> Make content modular.</span>
 <span class="step"><span class="t">2022</span> Make the whole website editable.</span>
 <span class="step"><span class="t ok">2026</span> <b class="ok">Make WordPress AI-ready.</b></span>
-<span class="step"><span class="t">next</span> <b class="hi">Make the web collaborative, interoperable and increasingly agentic.</b></span></pre>` },
+<span class="step"><span class="t">next</span> <b class="hi">Make the web collaborative, interoperable
+     and increasingly agentic.</b></span></pre>` },
 
 /* 44 */ { f: "43-whats-new.md", cmd: "wp whats-new --summary", t: "So… what's new in WordPress?", h: `
   <div class="row" style="flex:1;align-items:center">
@@ -809,6 +817,7 @@ function tickClock() { const c = $("#clock"); if (c) c.textContent = new Date().
 setInterval(tickClock, 15000);
 
 function render(i, dir = 1) {
+  zoomState = null;
   if (curEl && curEl._cleanup) curEl._cleanup();
   clearInterval(typing);
   const S = SLIDES[i];
@@ -825,6 +834,7 @@ function render(i, dir = 1) {
     typing = setInterval(() => { k++; cmd.textContent = full.slice(0, k); if (k >= full.length) { clearInterval(typing); if (title) title.style.visibility = ""; out.style.visibility = ""; out.classList.add("printing"); } }, speed);
   }
   if (S.enter) S.enter(el);
+  autoFit(el, S);
   if (dir < 0) el.querySelectorAll(".step").forEach((s) => s.classList.add("shown"));
   $("#file").textContent = `slides/${S.f}`;
   $("#pos").textContent = `${i + 1}/${SLIDES.length}`;
@@ -835,6 +845,30 @@ function render(i, dir = 1) {
   store.set("wp-deck-slide", String(i));
   if (location.hash !== "#" + (i + 1)) history.replaceState(null, "", "#" + (i + 1));
 }
+
+/* make text as large as the slide allows (for the back of the room) */
+function overflowing(out) {
+  const ob = out.getBoundingClientRect(); const tol = 2;
+  for (const e of out.querySelectorAll("*")) {
+    const r = e.getBoundingClientRect();
+    if (!r.width && !r.height) continue;
+    if (r.bottom > ob.bottom + tol || r.right > ob.right + tol) return true;
+    if (e.scrollHeight > e.clientHeight + tol || e.scrollWidth > e.clientWidth + tol) { const o = getComputedStyle(e); if (o.overflow !== "visible" && e.tagName !== "INPUT") return true; }
+  }
+  return false;
+}
+function autoFit(el, S) {
+  const out = el.querySelector(".out"); if (!out) return;
+  const max = S.maxZoom ?? (el.querySelector(".win") ? 1 : 1.45);
+  out.style.zoom = 1;
+  if (max <= 1) return;
+  out.classList.add("fitting");
+  let best = 1;
+  for (let z = max; z > 1.001; z -= 0.05) { out.style.zoom = z.toFixed(2); if (!overflowing(out)) { best = z; break; } }
+  out.style.zoom = best.toFixed(2);
+  out.classList.remove("fitting");
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (curEl) autoFit(curEl, SLIDES[cur]); });
 
 function go(i, dir) { i = Math.max(0, Math.min(SLIDES.length - 1, i)); const d = dir ?? (i >= cur ? 1 : -1); cur = i; render(cur, d); }
 function next() {
@@ -847,6 +881,26 @@ function prev() {
   if (shown.length && cur !== 0) { shown[shown.length - 1].classList.remove("shown"); return; }
   if (cur > 0) go(cur - 1, -1);
 }
+
+/* zoom illustrations */
+let zoomState = null;
+function zoomWin(win) {
+  if (zoomState) { const { win: w, ph, css } = zoomState; ph.replaceWith(w); w.style.cssText = css; zoomState.ov.remove(); zoomState = null; if (!win || win === w) return; }
+  if (!win) return;
+  const w0 = win.offsetWidth, h0 = win.offsetHeight, css = win.style.cssText;
+  const ph = document.createElement("div"); ph.style.cssText = `width:${w0}px;height:${h0}px;flex:${win.style.flex || "none"}`;
+  win.replaceWith(ph);
+  const ov = document.createElement("div"); ov.className = "zoomer";
+  const holder = document.createElement("div"); holder.className = "holder"; holder.style.cssText = `width:${w0}px;height:${h0}px;display:flex`;
+  win.style.flex = "1"; holder.appendChild(win); ov.appendChild(holder);
+  ov.insertAdjacentHTML("beforeend", `<p class="hint">press z or esc to return · it still works when enlarged</p>`);
+  screen.appendChild(ov);
+  const s = Math.min((screen.clientWidth - 60) / w0, (screen.clientHeight - 100) / h0);
+  holder.style.transform = `scale(${s})`;
+  ov.addEventListener("click", (e) => { if (e.target === ov) zoomWin(null); });
+  zoomState = { win, ph, css, ov };
+}
+screen.addEventListener("click", (e) => { const b = e.target.closest(".zoomBtn"); if (b) { e.stopPropagation(); zoomWin(b.closest(".win")); } });
 
 /* index */
 $("#indexList").innerHTML = SLIDES.map((s, i) => `<button data-i="${i}"><span>${String(i + 1).padStart(2, "0")}</span>${s.f}</button>`).join("");
@@ -863,7 +917,7 @@ function setTimer(min) { tLeft = Math.round(min * 60); drawTimer(); }
 
 /* command line */
 const cmdBox = $("#cmd"), cmdIn = $("#cmdIn"), cmdOut = $("#cmdOut");
-const HELP = `keys      → space  next     ← back     o  slide list     n  notes
+const HELP = `keys      → space  next     ← back     o  slide list     n  notes     z  zoom illustration
           t  timer        b  blank   f  fullscreen    :  command line   ?  help
 commands  goto N · ls · notes · timer [min] · theme green|amber|blue|mono
           crt on|off · blank · top · end · whoami · wp --version · clear`;
@@ -907,7 +961,8 @@ addEventListener("keydown", (e) => {
   else if (k === "f") { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.().catch(() => toast("fullscreen isn't available here")); }
   else if (k === ":" || k === "/") { e.preventDefault(); openCmd(); }
   else if (k === "?") { openCmd(); run("help"); }
-  else if (k === "Escape") { toggleIndex(false); toggleNotes(false); $("#blank").classList.remove("on"); }
+  else if (k === "z") { const wins = curEl ? [...curEl.querySelectorAll(".win")] : []; if (!wins.length) return; if (zoomState) { const i = wins.indexOf(zoomState.win); zoomWin(null); if (i < wins.length - 1) zoomWin(wins[i + 1]); } else zoomWin(wins[0]); }
+  else if (k === "Escape") { if (zoomState) return zoomWin(null); toggleIndex(false); toggleNotes(false); $("#blank").classList.remove("on"); }
 });
 
 /* buttons and touch */
