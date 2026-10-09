@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-phosphor="github">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=VT323&display=swap" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/brands.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/fontawesome.min.js"></script>
 <style>
 :root {
   --page: #030604;
@@ -31,6 +33,16 @@
 :root[data-theme="dark"] { --page: #030604; --bg: #07110b; }
 :root[data-phosphor="amber"] { --bg: #110b03; --bg2: #1b1306; --bg3: #271b09; --line: #3d2b10; --fg: #ffe2b0; --dim: #b08a55; --ok: #ffb000; --hi: #ffd166; --wp: #ffcf7a; --glow: 0 0 6px rgba(255, 176, 0, .35); }
 :root[data-phosphor="blue"] { --bg: #050b16; --bg2: #0a1426; --bg3: #102040; --line: #1d3358; --fg: #d8e8ff; --dim: #7e95b8; --ok: #6fb3ff; --hi: #ffb23e; --wp: #9ecbff; --glow: 0 0 6px rgba(111, 179, 255, .35); }
+:root[data-phosphor="obsidian"] { --bg: #0e0c13; --bg2: #16131e; --bg3: #211c2d; --line: #352d49; --fg: #e8e3f5; --dim: #9b91b5; --ok: #b49cff; --hi: #ffb86c; --wp: #8be9fd; --glow: 0 0 7px rgba(180, 156, 255, .35); }
+:root[data-phosphor="obsidian"] #stage { box-shadow: 0 0 90px rgba(120, 90, 220, .18); }
+:root[data-phosphor="matrix"] { --bg: #010a03; --bg2: #031208; --bg3: #062312; --line: #0d3b1b; --fg: #c3ffc9; --dim: #3fa950; --ok: #00ff41; --hi: #d4ff3a; --wp: #6bff9e; --glow: 0 0 8px rgba(0, 255, 65, .5); }
+#rain { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: .2; display: none; }
+:root[data-phosphor="matrix"] #rain { display: block; }
+:root[data-phosphor="matrix"] .slide.interlude { background: radial-gradient(ellipse at 30% 40%, rgba(3,18,8,.75), rgba(1,10,3,.35) 70%); }
+.slide { z-index: 1; }
+:root[data-phosphor="github"] { --bg: #0d1117; --bg2: #161b22; --bg3: #21262d; --line: #30363d; --fg: #e6edf3; --dim: #7d8590; --ok: #3fb950; --hi: #d29922; --wp: #58a6ff; --glow: none; }
+:root[data-phosphor="dracula"] { --bg: #282a36; --bg2: #21222c; --bg3: #343746; --line: #44475a; --fg: #f8f8f2; --dim: #8a94c4; --ok: #bd93f9; --hi: #ff79c6; --wp: #8be9fd; --glow: 0 0 7px rgba(189, 147, 249, .3); }
+:root[data-phosphor="houston"] { --bg: #17191e; --bg2: #1e2128; --bg3: #262a33; --line: #343841; --fg: #eef0f9; --dim: #858b98; --ok: #4bf3c8; --hi: #ffd493; --wp: #54b9ff; --glow: 0 0 7px rgba(75, 243, 200, .3); }
 :root[data-phosphor="mono"] { --bg: #0b0b0b; --bg2: #151515; --bg3: #202020; --line: #333; --fg: #eaeaea; --dim: #8a8a8a; --ok: #ffffff; --hi: #ffffff; --wp: #cfcfcf; --glow: none; }
 *, *::before, *::after { box-sizing: border-box; }
 html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
@@ -126,6 +138,11 @@ pre.ascii u { color: var(--wp); text-decoration: none; }
 .slide.interlude { justify-content: center; padding: 0 110px; background: radial-gradient(ellipse at 30% 40%, var(--bg2), var(--bg) 70%); }
 .slide.interlude .title { font-size: 84px; max-width: 24ch; }
 .slide.interlude .prompt { margin-bottom: 12px; }
+.slide.interlude .out { flex: 0 1 auto; }
+.flow.nowrap { flex-wrap: nowrap; }
+.flow.col.start { align-items: flex-start; }
+.contact a { color: var(--ok); text-decoration: none; border-bottom: 2px solid color-mix(in srgb, var(--ok) 40%, transparent); }
+.contact a:hover { border-bottom-color: var(--ok); }
 
 /* light app windows (WordPress UI illustrations) */
 .win { background: #fff; color: #1e1e1e; border: 1px solid #c3c4c7; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
@@ -138,6 +155,8 @@ pre.ascii u { color: var(--wp); text-decoration: none; }
 .wp-side .cur { background: #3858e9; color: #fff; }
 .wp-btn { background: #3858e9; color: #fff; border: 0; padding: 5px 10px; border-radius: 2px; font-size: 13px; cursor: pointer; }
 .wp-btn.ghost { background: #fff; color: #3858e9; border: 1px solid #3858e9; }
+.win input { background: #fff; color: #1e1e1e; color-scheme: light; }
+.win input::placeholder { color: #757575; }
 .ln { height: 5px; background: #dcdcde; margin: 6px 0; }
 .ln.s { width: 60%; }
 .cap { text-align: center; margin-top: 8px; }
@@ -219,7 +238,7 @@ const esc = (s) => String(s);
 const chipCls = (x) => x.startsWith("*") ? ["on", x.slice(1)] : x.startsWith("!") ? ["hi", x.slice(1)] : x.startsWith("~") ? ["dim", x.slice(1)] : x.startsWith("-") ? ["strike", x.slice(1)] : ["", x];
 const chips = (arr, step) => `<div class="chips${step ? " step" : ""}">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join("")}</div>`;
 const grid = (arr, cols, step) => `<div class="grid${step ? " step" : ""}" style="grid-template-columns:repeat(${cols},1fr)">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join("")}</div>`;
-const flow = (arr, opt = {}) => `<div class="flow${opt.col ? " col" : ""}${opt.step ? " step" : ""}">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join(`<span class="arr">${opt.col ? "▼" : "──▶"}</span>`)}</div>`;
+const flow = (arr, opt = {}) => `<div class="flow${opt.col ? " col" : ""}${opt.start ? " start" : ""}${opt.nowrap ? " nowrap" : ""}${opt.step ? " step" : ""}">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join(`<span class="arr">${opt.col ? "▼" : "──▶"}</span>`)}</div>`;
 const say = (t, step) => `<p class="say${step ? " step" : ""}">${t}</p>`;
 const foot = (t) => `<p class="foot">${t}</p>`;
 const panel = (label, inner, cls = "") => `<div class="panel ${cls}" data-label="${label}">${inner}</div>`;
@@ -235,19 +254,27 @@ const SECTIONS = [["intro", 0], ["history", 2], ["blocks", 10], ["ai", 16], ["re
 /* ---------- slides ---------- */
 const SLIDES = [
 /* 1 */ { maxZoom: 1, f: "00-boot.sh", cmd: "./so-whats-new.sh", hero: true, h: `
-  <pre class="log step" id="boot" style="font-size:15px;color:var(--dim)"></pre>
-  <h1 class="title" style="font-size:104px;margin-top:6px">So… What's New<br>in WordPress?</h1>
-  <p class="sub" style="font-size:24px">From blogging platform to the agent-ready web</p>
-  ${flow(["2003", "2026", "!what's next?"])}
-  <p class="foot" style="margin-top:auto">press → or space to begin · press : for commands · ? for help</p>` ,
-  enter(el) { bootLog(el.querySelector("#boot")); } },
+  <div class="row" style="flex:1;gap:28px;align-items:flex-start;padding-top:36px">
+    <div style="flex:1.25;display:flex;flex-direction:column;gap:16px;min-width:0">
+      <h1 class="title" style="font-size:112px">So… What's New<br>in WordPress?</h1>
+      <p class="sub" style="font-size:30px;margin:0 0 22px">by <b style="color:var(--fg)">@jhimross</b></p>
+      ${flow(["2003", "2026", "!what's next?"])}
+    </div>
+    <div style="flex:1;min-width:0;display:flex;justify-content:center;padding-top:24px">
+      <div style="display:flex;align-items:flex-end;gap:4px">
+        <pre id="laptopCat" aria-hidden="true" style="margin:0;font:600 18px/1.2 var(--mono);color:var(--fg);text-shadow:var(--glow);font-variant-ligatures:none;white-space:pre"></pre>
+        <pre id="mug" aria-hidden="true" style="margin:0 0 0 -6px;font:600 18px/1.2 var(--mono);color:var(--hi);text-shadow:var(--glow);font-variant-ligatures:none;white-space:pre"></pre>
+      </div>
+    </div>
+  </div>` ,
+  enter(el) { laptopCat(el); } },
 
-/* 2 */ { f: "01-question.md", cmd: "read -p 'When you hear WordPress, what comes to mind? '", t: "When you hear “WordPress”, what comes to mind?", h: `
+/* 2 */ { maxZoom: 1.15, f: "01-question.md", cmd: "read -p 'When you hear WordPress, what comes to mind? '", t: "When you hear “WordPress”, what comes to mind?", h: `
   <div class="row" style="align-items:center"><span class="hi" style="font-size:18px">audience&gt;</span>
   <input id="aud" class="chip" style="flex:1;justify-content:flex-start;text-align:left;background:var(--bg2)" placeholder="type an answer, press enter" aria-label="Audience answer">
   <button class="btn" id="audSeed">show common answers</button></div>
-  <div class="chips" id="audChips" style="min-height:120px;align-content:flex-start"></div>
-  ${say("All of those are correct. But WordPress has changed dramatically over the last 20+ years.", true)}`,
+  <div class="chips" id="audChips" style="flex:1 1 auto;min-height:0;overflow:auto;align-content:flex-start"></div>
+  <p class="say step" style="flex:none">All of those are correct. But WordPress has changed dramatically over the last 20+ years.</p>`,
   enter(el) {
     const inp = el.querySelector("#aud"), box = el.querySelector("#audChips");
     const add = (t, c = "on") => { const s = document.createElement("span"); s.className = "chip " + c; s.textContent = t; box.appendChild(s); };
@@ -420,8 +447,8 @@ page</pre>`)}</div>
     set("Table");
   } },
 
-/* 17 */ { f: "16-then-ai.md", cmd: "echo $NEXT_ERA", interlude: true, h: `
-  <p class="title">What happens when WordPress becomes understandable not only to humans, but to AI systems?</p>` },
+/* 17 */ { maxZoom: 1, f: "16-then-ai.md", cmd: "echo $NEXT_ERA", interlude: true, h: `
+  <p class="title" style="font-size:72px;max-width:26ch">What happens when WordPress becomes understandable not only to humans, but to AI systems?</p>` },
 
 /* 18 */ { f: "17-two-layers.md", cmd: "tree wordpress-ai", t: "Two layers of AI", h: `
   <pre class="ascii" style="font-size:24px;align-self:center">
@@ -438,7 +465,7 @@ page</pre>`)}</div>
     <div style="flex:1">${panel("WordPress calls AI", `<div class="flow col">${[["AI plugin (features)", "plugin"], ["AI Client", "core 7.0"], ["Settings → Connectors", "core 7.0"], ["Anthropic · Google · OpenAI", "provider plugins"]].map(([a, b], i) => `<span class="chip ${i === 1 || i === 2 ? "on" : ""}" style="justify-content:flex-start">${a}<span class="tag">${b}</span></span>`).join('<span class="arr">▼</span>')}</div>`)}</div>
     <div style="flex:1">${panel("AI calls WordPress", `<div class="flow col">${[["AI agent / MCP client", "external"], ["MCP Adapter", "plugin"], ["Abilities API", "core 6.9"], ["Core · WooCommerce · your plugin", "abilities"]].map(([a, b], i) => `<span class="chip ${i === 0 ? "hi" : i === 2 ? "on" : ""}" style="justify-content:flex-start">${a}<span class="tag">${b}</span></span>`).join('<span class="arr">▼</span>')}</div>`, "on")}</div>
   </div>
-  ${say("Small, open building blocks. The same WordPress pattern as always.", true)}` },
+` },
 
 /* 20 */ { f: "19-ai-timeline.md", cmd: "wp ai changelog --since=2025-07", t: "WordPress AI: 2025 to 2026", h: `
   <pre class="log">
@@ -452,7 +479,7 @@ page</pre>`)}</div>
   ${say("Experiment in a plugin, then move the foundations into Core.", true)}
   ${foot("sources: make.wordpress.org/ai release posts")}` },
 
-/* 21 */ { f: "20-ai-plugin.md", cmd: "wp plugin get ai --fields=features", t: "The AI plugin: from experiments to 1.0", h: `
+/* 21 */ { maxZoom: 1, f: "20-ai-plugin.md", cmd: "wp plugin get ai --fields=features", t: "The AI plugin: from experiments to 1.0", h: `
   <div class="row" style="flex:1">
     <div style="flex:1.6">${panel("features · every one is opt-in · click to toggle", `<div class="grid" id="feat" style="grid-template-columns:1fr 1fr"></div>`)}</div>
     <div style="flex:1">${panel("versions", `<div class="flow col">${flow(["~0.1 · Nov 2025 · “AI Experiments”", "Mar 2026 · uses Core AI, renamed “AI”", "*1.0 · May 19, 2026 · stable", "1.1 · Jun 30, 2026"], { col: true }).replace(/^<div class="flow col">|<\/div>$/g, "")}</div>`)}</div>
@@ -461,7 +488,7 @@ page</pre>`)}</div>
   enter(el) {
     const f = ["Title generation", "Excerpt generation", "Alt text generation", "Image generation", "Content classification", "Editorial notes", "Comment moderation", "Type-ahead text", "Request logging", "Connector approvals"];
     const g = el.querySelector("#feat");
-    f.forEach((t, i) => { const b = document.createElement("button"); b.className = "chip" + (i >= 8 ? " on" : ""); b.style.cssText = "justify-content:space-between;cursor:pointer;padding:7px 12px;font-size:18px"; const set = () => { b.innerHTML = `${t}<span style="margin-left:10px">${b.classList.contains("on") ? "[x]" : "[ ]"}</span>`; }; set(); b.onclick = () => { b.classList.toggle("on"); set(); }; g.appendChild(b); });
+    f.forEach((t, i) => { const b = document.createElement("button"); b.className = "chip" + (i >= 8 ? " on" : ""); b.style.cssText = "justify-content:space-between;cursor:pointer;padding:7px 12px;font-size:17px;gap:8px"; const set = () => { b.innerHTML = `<span style="text-align:left;flex:1;min-width:0">${t}</span><span style="flex:none;margin-left:10px;white-space:nowrap">${b.classList.contains("on") ? "[x]" : "[ ]"}</span>`; }; set(); b.onclick = () => { b.classList.toggle("on"); set(); }; g.appendChild(b); });
   } },
 
 /* 22 */ { f: "21-connectors.md", cmd: "open wp-admin/options-connectors.php", t: "7.0 · Settings → Connectors", h: `
@@ -488,9 +515,9 @@ page</pre>`)}</div>
     <div class="step"><p class="small hi">reverse the direction</p>${flow(["!AI", "*WordPress"])}</div>
   </div>` },
 
-/* 24 */ { f: "23-ai-calls-wordpress.md", cmd: "agent --connect wordpress", t: "AI calls WordPress", h: `
+/* 24 */ { maxZoom: 1.15, f: "23-ai-calls-wordpress.md", cmd: "agent --connect wordpress", t: "AI calls WordPress", h: `
   <div class="row" style="flex:1;align-items:center">
-    <pre class="ascii" style="flex:1;font-size:22px">  <i>AI AGENT</i>
+    <pre class="ascii" style="flex:none;font-size:22px">  <i>AI AGENT</i>
      │
      ▼
   <b>WORDPRESS</b>
@@ -550,7 +577,7 @@ page</pre>`)}</div>
     ${panel("MCP", `<p class="lead" style="margin:0">How does an external AI talk to those capabilities?</p>`)}
     ${panel("AI agent", `<p class="lead" style="margin:0">What does the AI decide to do with them?</p>`, "hi")}
   </div>
-  <div class="step"><p class="small" style="margin:6px 0 10px">example</p>${flow(["!AI agent: “I need to find posts.”", "MCP", "*Abilities API", "WordPress"])}</div>` },
+  <div class="step"><p class="small" style="margin:6px 0 10px">example</p>${flow(["!AI agent: “I need to find posts.”", "MCP", "*Abilities API", "WordPress"], { nowrap: true })}</div>` },
 
 /* 28 */ { maxZoom: 1.15, f: "27-audit-manual.md", cmd: "./audit --manual", t: "Content audit: the traditional way", h: `
   <div class="row" style="flex:1">
@@ -599,8 +626,8 @@ page</pre>`)}</div>
       <label style="display:flex;gap:10px;align-items:center;cursor:pointer;font-size:19px"><input type="checkbox" id="appr"> an administrator approved destructive actions</label>
     </div>
     <div style="flex:1;display:flex;flex-direction:column;gap:8px">
-      <div class="flow col" id="pipe">${["DISCOVER", "AUTHORIZE", "VALIDATE", "EXECUTE", "AUDIT"].map((x) => `<span class="chip">${x}</span>`).join('<span class="arr">▼</span>')}</div>
-      <pre class="term" id="audit" style="margin:0;min-height:70px;font-size:13px"><span class="c"># audit log</span></pre>
+      <div class="flow col tight" id="pipe">${["DISCOVER", "AUTHORIZE", "VALIDATE", "EXECUTE", "AUDIT"].map((x) => `<span class="chip">${x}</span>`).join('<span class="arr">▼</span>')}</div>
+      <pre class="term" id="audit" style="margin:0;min-height:60px;font-size:15px"><span class="c"># audit log</span></pre>
     </div>
   </div>
   ${say("The more capable the agent, the more the permission model matters.", true)}`,
@@ -623,7 +650,7 @@ page</pre>`)}</div>
 /* 32 */ { f: "31-always-done-this.md", cmd: "git log --oneline --graph foundations", t: "WordPress has always done this", h: `
   ${flow(["Publishing", "Plugins", "Themes", "Custom post types", "REST API"])}
   ${flow(["Blocks", "Patterns", "Interactivity", "*Abilities", "!AI / Agents"], { step: true })}
-  <div class="step"><p class="small" style="margin:8px 0">consumers of the platform</p>${flow(["~before: humans + developers", "*now: humans + developers + software + AI agents"])}</div>
+  <div class="step"><p class="small" style="margin:8px 0">consumers of the platform</p>${flow(["~before: humans + developers", "*now: humans + developers + software + AI agents"], { col: true, start: true })}</div>
   ${say("The philosophy hasn't changed. The consumer of the platform has.", true)}` },
 
 /* 33 */ { f: "32-wp-7-0.md", cmd: "wp core version --extra   # 7.0", t: "WordPress 7.0 “Armstrong”", h: `
@@ -638,7 +665,7 @@ page</pre>`)}</div>
 
 /* 34 */ { f: "33-7-0-dashboard.md", cmd: "wp demo 7.0 --dashboard", t: "7.0 in action: a refreshed dashboard", h: `
   <div class="grid" style="grid-template-columns:repeat(3,1fr);flex:1">
-    <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;background:#8c8f94;padding:14px"><div style="background:#fff;height:100%;display:flex;flex-direction:column"><input id="cpIn" placeholder="Search commands" style="border:0;border-bottom:1px solid #dcdcde;padding:8px;font-size:12px;color:#1e1e1e;font-family:inherit" aria-label="Command palette search"><div id="cpList" style="padding:4px"></div></div></div>`, "command palette · type", "flex:1")}${cap("Command Palette", "type to filter · it works")}</div>
+    <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;background:#8c8f94;padding:14px"><div style="background:#fff;height:100%;display:flex;flex-direction:column"><input id="cpIn" placeholder="Search commands" style="border:0;border-bottom:1px solid #dcdcde;padding:8px;font-size:14px;background:#fff;color:#1e1e1e;caret-color:#3858e9;font-family:inherit" aria-label="Command palette search"><div id="cpList" style="padding:4px"></div></div></div>`, "command palette · type", "flex:1")}${cap("Command Palette", "type to filter · it works")}</div>
     <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;padding:10px"><b>Revisions</b><div style="border:1px solid #dcdcde;padding:8px;margin:8px 0;height:150px" id="revDoc"></div><input type="range" min="0" max="3" value="3" id="rev" style="width:100%" aria-label="Revision"><div id="revLbl" style="color:#757575;text-align:center"></div></div>`, "visual revisions · drag", "flex:1")}${cap("Visual revisions", "drag the slider to scrub")}</div>
     <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;padding:10px" id="fonts"><div style="display:flex;justify-content:space-between"><b>Fonts</b><span class="wp-btn">Upload fonts</span></div></div>`, "font library · toggle", "flex:1")}${cap("Font management", "one page, every theme type")}</div>
   </div>`,
@@ -683,7 +710,7 @@ page</pre>`)}</div>
   <div class="grid" style="grid-template-columns:repeat(3,1fr);flex:1">
     <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;display:flex;flex-direction:column"><div id="rDev" style="display:flex;gap:4px;padding:6px;border-bottom:1px solid #dcdcde"></div><div style="flex:1;background:#e0e0e0;display:grid;place-items:center;padding:8px"><div id="rPg" style="background:#fff;padding:10px;height:100%;transition:width .3s"></div></div></div>`, "responsive styles · switch", "flex:1")}${cap("Responsive styles", "the heading restyles per screen")}</div>
     <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;padding:10px;display:flex;flex-direction:column"><b>Edit image</b><div style="flex:1;display:grid;place-items:center;overflow:hidden"><div id="img" style="width:150px;height:96px;background:linear-gradient(#9ec5e8 55%,#2f5d45 55%);position:relative;transition:transform .35s;outline:2px dashed #fff;outline-offset:-10px"><span style="position:absolute;right:16px;top:10px;width:16px;height:16px;border-radius:50%;background:#f0b849"></span><span style="position:absolute;left:8px;bottom:6px;color:#fff;font-weight:700">A</span></div></div><div style="display:flex;gap:6px;justify-content:center"><button class="wp-btn ghost" data-a="fx">↔ Flip</button><button class="wp-btn ghost" data-a="fy">↕ Flip</button><button class="wp-btn ghost" data-a="r">⟳ Rotate</button><button class="wp-btn" data-a="x">Reset</button></div></div>`, "media editor · try it", "flex:1")}${cap("New media editor", "crop, flip, rotate, metadata")}</div>
-    <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;padding:10px;display:flex;gap:8px"><div style="flex:1"><b>Meetup recap</b>${lines(2)}<span style="background:#fce9a6;padding:0 2px">the first talk ran long</span>${lines(3)}</div><div style="flex:1.2;border:1px solid #dcdcde;padding:7px;display:flex;flex-direction:column;gap:6px" id="thread"><div><b>Maria</b> <span style="color:#757575;font-size:12px">on “the first talk”</span><br>Can we <b>shorten</b> this intro? <span style="color:#3858e9;font-weight:600">@Jun</span> can you check the speaker names?</div><input id="reply" placeholder="Reply… try @Maria" style="border:1px solid #dcdcde;padding:4px;font-size:13px;font-family:inherit;color:#1e1e1e" aria-label="Reply to note"></div></div>`, "notes · reply", "flex:1")}${cap("Notes with @mentions", "comment on text, loop people in")}</div>
+    <div style="display:flex;flex-direction:column">${win(`<div style="flex:1;padding:10px;display:flex;gap:8px"><div style="flex:1"><b>Meetup recap</b>${lines(2)}<span style="background:#fce9a6;padding:0 2px">the first talk ran long</span>${lines(3)}</div><div style="flex:1.2;border:1px solid #dcdcde;padding:7px;display:flex;flex-direction:column;gap:6px" id="thread"><div><b>Maria</b> <span style="color:#757575;font-size:12px">on “the first talk”</span><br>Can we <b>shorten</b> this intro? <span style="color:#3858e9;font-weight:600">@Jun</span> can you check the speaker names?</div><input id="reply" placeholder="Reply… try @Maria" style="border:1px solid #c3c4c7;padding:5px;font-size:13px;font-family:inherit;background:#fff;color:#1e1e1e;caret-color:#3858e9" aria-label="Reply to note"></div></div>`, "notes · reply", "flex:1")}${cap("Notes with @mentions", "comment on text, loop people in")}</div>
   </div>`,
   enter(el) {
     const pg = el.querySelector("#rPg"), dv = el.querySelector("#rDev");
@@ -724,9 +751,9 @@ page</pre>`)}</div>
   </div>
   ${foot("source: WordPress.org roadmap, 2026 goals")}` },
 
-/* 40 */ { f: "39-next-7-2.md", cmd: "wp core check-update", t: "Next up: WordPress 7.2", h: `
+/* 40 */ { maxZoom: 1.1, f: "39-next-7-2.md", cmd: "wp core check-update", t: "Next up: WordPress 7.2", h: `
   <div class="row" style="flex:1;align-items:center">
-    <div style="flex:1"><p class="big" style="font-size:150px">7.2</p><p class="lead">planned for <b>December 10, 2026</b></p>
+    <div style="flex:1"><p class="big" style="font-size:130px;margin-top:8px">7.2</p><p class="lead">planned for <b>December 10, 2026</b></p>
       <p class="big" style="font-size:44px;color:var(--hi)" id="cd"></p><p class="small">projected dates are for rough planning only</p></div>
     <div style="flex:1">${flow(["Features in development", "!Feature freeze, about a month before release", "Focus on quality and performance", "*Release"], { col: true })}</div>
   </div>
@@ -745,7 +772,7 @@ page</pre>`)}</div>
     ${panel("designers", list(["Design systems & patterns", "Responsive design", "Typography & styles", "Accessibility"]))}
     ${panel("agencies", list(["Reusable systems", "Client workflows", "Collaborative editing", "Agent-ready services"]))}
   </div>
-  <div class="step"><p class="small" style="margin:6px 0 10px">the developer question changes</p>${flow(["~“How do I build this feature?”", "*“How do I expose this capability so other systems can use it?”"])}</div>` },
+  <div class="step"><p class="small" style="margin:6px 0 10px">the developer question changes</p>${flow(["~“How do I build this feature?”", "*“How do I expose this capability so other systems can use it?”"], { col: true, start: true })}</div>` },
 
 /* 43 */ { f: "42-each-era.md", cmd: "wp history --summary", t: "Each era made something new possible", h: `
   <pre class="log" style="font-size:22px;line-height:1.75">
@@ -754,8 +781,8 @@ page</pre>`)}</div>
 <span class="step"><span class="t">2018</span> Make content modular.</span>
 <span class="step"><span class="t">2022</span> Make the whole website editable.</span>
 <span class="step"><span class="t ok">2026</span> <b class="ok">Make WordPress AI-ready.</b></span>
-<span class="step"><span class="t">next</span> <b class="hi">Make the web collaborative, interoperable
-     and increasingly agentic.</b></span></pre>` },
+<span class="step"><span class="t">next</span> <b class="hi">Make the web collaborative, interoperable</b>
+<span class="t"></span> <b class="hi">and increasingly agentic.</b></span></pre>` },
 
 /* 44 */ { f: "43-whats-new.md", cmd: "wp whats-new --summary", t: "So… what's new in WordPress?", h: `
   <div class="row" style="flex:1;align-items:center">
@@ -771,14 +798,34 @@ page</pre>`)}</div>
    plugins   services    agents</pre>
   </div>` },
 
-/* 45 */ { f: "44-exit.md", cmd: "exit", interlude: true, h: `
+/* 45 */ { maxZoom: 1, f: "44-exit.md", cmd: "exit", interlude: true, h: `
   <p class="sub" style="font-size:30px;max-width:40ch">The next evolution of WordPress isn't just making websites easier for humans to build.</p>
-  <p class="title step" style="font-size:84px;max-width:20ch;margin-top:10px">It's making the web easier for humans and machines to work with together.</p>
-  <p class="step hi" style="font-size:24px;margin-top:24px">Thank you · Questions?<span class="cursor"></span></p>` },
+  <p class="title step" style="font-size:70px;max-width:22ch;margin-top:10px">It's making the web easier for humans and machines to work with together.</p>
+  <p class="step hi" style="font-size:26px;margin-top:18px">Thank you · Questions?<span class="cursor"></span></p>` },
+
+/* 46 */ { maxZoom: 1, f: "45-connect.md", cmd: "cat contact.txt", t: "Let's connect", h: `
+  <div class="row contact" style="flex:1;align-items:center;gap:48px">
+    <div style="flex:1;display:flex;flex-direction:column;gap:22px">
+      <div><p class="small" style="margin:0 0 4px">website</p><p class="big" style="font-size:56px"><a href="https://jhimross.com" target="_blank" rel="noopener">jhimross.com</a></p></div>
+      <div><p class="small" style="margin:0 0 4px">email</p><p class="big" style="font-size:48px"><a href="mailto:hi@jhimross.com">hi@jhimross.com</a></p></div>
+      <div><style>.socials{display:flex;gap:12px;margin-top:16px}.socials .key{width:72px;height:72px;display:grid;place-items:center;border:2px solid var(--line);background:var(--bg2);box-shadow:0 3px 0 var(--line);color:var(--fg);text-decoration:none;font-size:32px}.socials .key svg{width:1em;height:1em}.socials .key .alt{font-size:24px;font-weight:800;color:var(--ok)}.socials .key svg ~ .alt{display:none}.socials a.key:hover{border-color:var(--ok);color:var(--ok);transform:translateY(2px);box-shadow:0 1px 0 var(--ok)}</style><p class="big" style="font-size:56px;color:var(--hi)">@jhimross</p><div class="socials"><a class="key" href="https://github.com/jhimross" target="_blank" rel="noopener" aria-label="GitHub @jhimross" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="alt" aria-hidden="true">gh</span></a><a class="key" href="https://profiles.wordpress.org/jhimross/" target="_blank" rel="noopener" aria-label="WordPress @jhimross" title="WordPress"><i class="fa-brands fa-wordpress-simple" aria-hidden="true"></i><span class="alt" aria-hidden="true">wp</span></a><a class="key" href="https://x.com/jhimross" target="_blank" rel="noopener" aria-label="X (Twitter) @jhimross" title="X (Twitter)"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i><span class="alt" aria-hidden="true">x</span></a><a class="key" href="https://www.youtube.com/@jhimross" target="_blank" rel="noopener" aria-label="YouTube @jhimross" title="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i><span class="alt" aria-hidden="true">yt</span></a><a class="key" href="https://www.facebook.com/jhimross" target="_blank" rel="noopener" aria-label="Facebook @jhimross" title="Facebook"><i class="fa-brands fa-facebook" aria-hidden="true"></i><span class="alt" aria-hidden="true">fb</span></a><span class="key" role="img" aria-label="Strava @jhimross" title="Strava"><i class="fa-brands fa-strava" aria-hidden="true"></i><span class="alt" aria-hidden="true">st</span></span></div></div>
+    </div>
+    <figure style="margin:0;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative">
+      <div style="position:relative;display:flex;flex-direction:column;align-items:center">
+        <pre id="catHead" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;margin-bottom:-20px;position:relative;z-index:2"></pre>
+        <pre id="catHeart" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;position:absolute;right:34px;top:-8px;color:var(--hi);z-index:3"></pre>
+        <div id="qrBox" role="img" aria-label="QR code linking to jhimross.com/about" title="click to switch between white and dark QR" data-bits="000000000000000000000000000000000,000000000000000000000000000000000,001111111010110001111000111111100,001000001000000110110010100000100,001011101011111011111110101110100,001011101000100010011000101110100,001011101000110111001000101110100,001000001011001001011010100000100,001111111010101010101010111111100,000000000001001011101110000000000,001010001101100110000010010010100,000010100001001110001101110001100,001110101001100001010101101110100,001010100110101100001010111100000,000011001010110101100010110000100,000111110100101000101110110001100,001101011111001110110100001000100,000011000001001011100111101000000,001010111100001110011010110000100,000001100001000110010111110011100,001110001010011001000101111100100,000001010100111100010101101000000,001101001111001101110111111101000,000000000011111000100010001110100,001111111011100110111010101000100,001000001001010011101110001000100,001011101000001110011111111101000,001011101001000010011011001111000,001011101010010111000000001001100,001000001001010010010010001100000,001111111011110111110110010100100,000000000000000000000000000000000,000000000000000000000000000000000" style="padding:12px;cursor:pointer;position:relative;z-index:1"></div>
+        <pre id="catTail" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;position:absolute;left:-34px;bottom:6px"></pre>
+        <pre id="catSleep" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;position:absolute;left:-170px;bottom:-4px;color:var(--dim)"></pre>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:14px"><figcaption class="lead ok" style="margin:0;text-align:center;font-weight:600">Scan QR code</figcaption><pre id="kitten" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;font-size:14px"></pre></div>
+    </figure>
+  </div>`,
+  enter(el) { fitAsciiQR(el); asciiCat(el); } },
 ];
 
 /* speaker notes (index-aligned with SLIDES) */
-const NOTES = ["Welcome. Tonight's through-line: WordPress started by helping people publish, evolved to help people manage content, then helped people build and design websites, and now it is building the infrastructure for humans, software and AI to work with the web together.", "Ask the audience: \"When you hear WordPress, what comes to mind?\"\nLikely answers: blogging, websites, plugins, themes, WooCommerce, Gutenberg, page builders, clients, freelancing.\nThen say: \"All of those are correct. But WordPress has changed dramatically over the last 20+ years.\"", "Walk the timeline quickly; we'll revisit each era. The bottom row is the bigger story: each era adds a new verb to what WordPress does.", "Tell the story: Matt Mullenweg was using b2/cafelog, an open-source blogging tool by Michel Valdrighi. When Valdrighi stopped developing it, Matt wrote a blog post on January 24, 2003 ('The Blogging Software Dilemma') saying he might fork b2. Mike Little, a developer in the UK, left a comment offering to help. The two teamed up, and WordPress 0.7 shipped on May 27, 2003. Because b2 was released under the GPL, anyone was free to pick it up and continue it.", "Pause on this. One blog comment from a stranger started the project that now powers a large share of the web. That's the open-source spirit we'll keep coming back to tonight, and it's also what a meetup is for: people who don't know each other yet, building something together.", "WordPress started primarily as a publishing platform. The problem it solved: how can ordinary people publish on the web?", "This becomes one of the most important themes of the whole talk. Every later era follows the same pattern: an open foundation, and the ecosystem builds on top.", "WordPress increasingly became a platform developers could customize. Themes handle design, plugins handle functionality. Core doesn't have to do everything.", "Hosting, agencies, freelancers, commerce, security, SEO. Then the community layer: meetups like this one, WordCamps, contributors, documentation, training and businesses.", "Before, everything was a post or a page. After, WordPress could model products, events, courses, properties and more.", "2018 · WordPress 5.0 brought Gutenberg, the block editor. This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. Left: the Classic Editor, a single text area where layout meant shortcodes and HTML. Right: the block editor, where the same post is made of separate blocks. Point at the selected image block: it has its own toolbar and its own settings in the sidebar.", "The important change wasn't simply 'WordPress got a new editor.' The deeper change was that content became structured. This becomes the foundation for everything that follows.", "This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. The header is selected and editable like any block. In the Styles panel, the yellow swatch is chosen, and the hero area uses that color. One global style change updates the whole site. WordPress 5.9 (2022) introduced the Site Editor: the block editor became a site-building system.", "The block editor was only the start. Gutenberg is a long-term reimagining of how content is created and managed. Phase 1 introduced the block editor in 5.0. Phase 2, site editing, culminated in WordPress 6.3 with the Site Editor. Phase 3, collaboration, is underway now. Phase 4 brings multilingual support into Core.", "The Interactivity API lets blocks become reactive, supporting more application-like experiences: interactive navigation, dynamic blocks, client-side state, reactive interfaces.", "This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. This is the Pages screen built with DataViews: search, a status filter, and a Table / Grid / List switch. Developers get this interface from WordPress instead of building it from scratch. WordPress is providing building blocks for applications, not just websites.", "Ask: what happens when WordPress becomes understandable not only to humans, but to AI systems? This is where the architecture evolves again. But there's an important distinction coming up.", "These are fundamentally different workflows. Layer one: WordPress calls AI. Layer two: AI calls WordPress.", "WordPress didn't add one big AI feature. The AI team built small, open building blocks, the same pattern as plugins and blocks. Left column: how WordPress calls AI. The AI plugin asks the AI Client, which uses whatever provider the admin connected under Settings > Connectors. Right column: how AI calls WordPress. An external AI client talks MCP to the MCP Adapter, which exposes abilities registered through the Abilities API. Tags show where each piece lives: in Core or as a plugin.", "Walk the timeline. The building blocks were planned in July 2025. The AI Experiments plugin shipped its first release on November 27, 2025. WordPress 6.9 put the Abilities API in Core in December 2025. In March 2026 the plugin started relying on Core's AI infrastructure and was renamed simply 'AI'. AI 1.0 shipped on May 19, 2026, one day before WordPress 7.0, which added the AI Client and the Settings > Connectors screen. AI 1.1 followed on June 30, 2026.", "The AI plugin is the WordPress AI team's canonical plugin and the reference implementation for AI features in WordPress. It started as AI Experiments in November 2025, was renamed 'AI', and reached 1.0 on May 19, 2026, alongside WordPress 7.0. Every feature is opt-in from the plugin's settings. Two features matter for site owners: request logging shows AI activity on the site, and connector approvals control which code can use each provider. To install: Plugins > Add New, search for 'AI' by WordPress.org.", "This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. Settings > Connectors in WordPress 7.0: cards for Anthropic, Google and OpenAI. One provider is installed and connected; the others show an Install button. The key is entered once, and every plugin using the AI Client shares the connection. Before 7.0, each AI plugin stored its own keys; now there is one place, and each provider ships as its own plugin.", "Transition slide. Traditional AI: WordPress asks AI, gets an answer. But what if we reverse the direction?", "An external AI system can connect to WordPress and use its capabilities: read, create, update, analyze, automate. In-editor AI: WordPress calls AI. Agentic AI: AI calls WordPress. This distinction is central to where WordPress is going.", "One of the most important technical slides. The Abilities API is a standardized registry for capabilities exposed by WordPress Core, plugins and themes. Each ability can describe its inputs, outputs, permissions, execution behavior and other metadata. The plugin columns are illustrative examples.", "The MCP Adapter is the official WordPress integration for MCP, built by the AI team and available in the plugin directory as 'MCP Adapter'. It takes the abilities registered on a site and exposes them as MCP tools, resources and prompts, so an AI client can discover and call them. Clients use three adapter tools: discover abilities, get ability info, and execute an ability. Each ability's permission checks still apply. WooCommerce bundles the same adapter to expose its product and order abilities, a good example of the ecosystem building on one shared bridge.", "Abilities API: what can WordPress do? MCP: how can an external AI system communicate with those capabilities? The AI agent: what does it decide to do with them? Walk the example flow at the bottom.", "Imagine a site with 2,000 posts. You want to find posts without featured images, images without alt text, posts without excerpts, duplicate categories and missing metadata. Traditionally that's open, filter, inspect, edit, save, repeat: hundreds or thousands of times.", "This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. Walk through the conversation: the user asks for an audit, the agent calls WordPress abilities through MCP, reports what it found, the user approves some fixes and keeps one task for themselves, and the agent applies them. The numbers are made up for the example. If you demo this live, keep this slide as the backup. Key point: AI is useful here not because it writes a paragraph, but because it removes repetitive work.", "If an AI can read, draft, update, publish, delete or change settings, permissions matter. The architecture needs discover, authorize, validate, execute and audit steps. The Abilities API supports permission callbacks and metadata describing how an ability behaves. The more capable the agent, the more the permission model matters. Also mention cost: AI requests use credits, tokens and time, which is why the AI plugin adds request logging and connector approvals.", "Today's AI features have limitations: inconsistent suggestions, provider limits, API costs, rate limits, incorrect results, image-generation limits, early-stage interfaces. But the current direction emphasizes infrastructure (connectors, AI clients, abilities, agent connectivity) rather than individual AI buttons.", "WordPress has repeatedly created open foundations and let the ecosystem build on them. The philosophy hasn't changed. The consumer of the platform is changing: from humans and developers to humans, developers, software and AI agents.", "Named for jazz musician Louis Armstrong. The release post calls 7.0 the start of a new era that lays the foundation for AI across WordPress. Walk the four groups quickly: AI (the AI Client in Core, the Connectors screen with three presets, and a new client-side Abilities package for JavaScript), the refreshed dashboard (new color scheme, Command Palette in the admin bar, a font management page, visual revisions), new blocks and design tools, and the developer toolbox. Then say: these are the visible features, but the bigger story is the infrastructure underneath. Source: wordpress.org/news/2026/05/armstrong", "These are illustrations, not screenshots. Command Palette: press Cmd+K or Ctrl+K, or click the new shortcut in the admin bar, and type to jump to any tool. Visual revisions: scrub through versions with markers, see what changed, and restore with one click. Fonts: a dedicated page to install, upload and manage fonts, for block, hybrid and classic themes.", "These are illustrations, not screenshots. Breadcrumbs block for clear site navigation, and the Icons block for visual details. Responsive controls let you hide a block on a device without affecting other screen sizes; here the hero image is hidden on phones. Menu overlays are now built with blocks and patterns, with your own columns, typography and close button.", "Named for jazz pianist Mary Lou Williams, celebrating reinvention and collaboration. Highlights: responsive styles in Global Styles and block settings without custom CSS; the admin bar now in every editor; a new media editor for cropping, flipping, rotating and metadata; Notes with rich text, @mentions and comments on specific text, which ties back to Phase 3 collaboration; image processing in the browser with AVIF, HEIC and HDR support; new Playlist and Tabs blocks. For developers: the SVG Icon API is public, the Abilities API gains a filterable execution lifecycle, validation and shared discovery, and a new admin Design System. Source: wordpress.org/news/2026/08/mary-lou", "These are illustrations, not screenshots. Responsive styles: change how a block looks at each screen size, from Global Styles or block settings, without custom CSS. The new media editor brings freeform and aspect-ratio cropping, flipping, rotation and metadata into one place; the Crop button still opens it. Notes now support rich text and @mentions, can attach to a specific piece of text, and can hold several conversations per block. This is Phase 3 collaboration shipping.", "These are illustrations, not screenshots. Playlist block: several audio tracks in one player, with an optional waveform. Tabs block: related content in tabbed panels instead of one long page. Interactive styles: give buttons their own hover, focus and active styles, for one button or all of them.", "These are the project's own goals for 2026. Point out the third one: revamping meetups is an official project goal, which makes this room part of the roadmap. Meetups are meant to be hands-on hubs where newcomers learn together and move into contributor roles.", "Projected dates are for rough planning only. New features freeze a month before release, and the focus shifts entirely to quality and performance. Follow progress in the issue tracker, and invite people to Make WordPress to get involved.", "Ask: after everything we've seen, is WordPress still a CMS? Yes. But it's becoming much more than a CMS.", "Pick out one line per group, and spend a moment on developers: the question changes from 'How do I build this feature?' to 'How do I expose this capability so other systems can use it?'", "2003: make publishing accessible. 2010: make content manageable. 2018: make content modular. 2022: make the whole website editable. 2026: make WordPress AI-ready. Next: make the web collaborative, interoperable and increasingly agentic.", "Not just a new block, a new editor feature, or another AI button. A new layer of infrastructure: humans, AI and software all reach the WordPress platform through abilities and APIs, which connect to plugins, services and agents.", "Finish with: \"The next evolution of WordPress isn't just making websites easier for humans to build. It's making the web easier for humans and machines to work with together.\" Thank the audience and open for questions."];
+const NOTES = ["Welcome. Tonight's through-line: WordPress started by helping people publish, evolved to help people manage content, then helped people build and design websites, and now it is building the infrastructure for humans, software and AI to work with the web together.", "Ask the audience: \"When you hear WordPress, what comes to mind?\"\nLikely answers: blogging, websites, plugins, themes, WooCommerce, Gutenberg, page builders, clients, freelancing.\nThen say: \"All of those are correct. But WordPress has changed dramatically over the last 20+ years.\"", "Walk the timeline quickly; we'll revisit each era. The bottom row is the bigger story: each era adds a new verb to what WordPress does.", "Tell the story: Matt Mullenweg was using b2/cafelog, an open-source blogging tool by Michel Valdrighi. When Valdrighi stopped developing it, Matt wrote a blog post on January 24, 2003 ('The Blogging Software Dilemma') saying he might fork b2. Mike Little, a developer in the UK, left a comment offering to help. The two teamed up, and WordPress 0.7 shipped on May 27, 2003. Because b2 was released under the GPL, anyone was free to pick it up and continue it.", "Pause on this. One blog comment from a stranger started the project that now powers a large share of the web. That's the open-source spirit we'll keep coming back to tonight, and it's also what a meetup is for: people who don't know each other yet, building something together.", "WordPress started primarily as a publishing platform. The problem it solved: how can ordinary people publish on the web?", "This becomes one of the most important themes of the whole talk. Every later era follows the same pattern: an open foundation, and the ecosystem builds on top.", "WordPress increasingly became a platform developers could customize. Themes handle design, plugins handle functionality. Core doesn't have to do everything.", "Hosting, agencies, freelancers, commerce, security, SEO. Then the community layer: meetups like this one, WordCamps, contributors, documentation, training and businesses.", "Before, everything was a post or a page. After, WordPress could model products, events, courses, properties and more.", "2018 · WordPress 5.0 brought Gutenberg, the block editor. This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. Left: the Classic Editor, a single text area where layout meant shortcodes and HTML. Right: the block editor, where the same post is made of separate blocks. Point at the selected image block: it has its own toolbar and its own settings in the sidebar.", "The important change wasn't simply 'WordPress got a new editor.' The deeper change was that content became structured. This becomes the foundation for everything that follows.", "This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. The header is selected and editable like any block. In the Styles panel, the yellow swatch is chosen, and the hero area uses that color. One global style change updates the whole site. WordPress 5.9 (2022) introduced the Site Editor: the block editor became a site-building system.", "The block editor was only the start. Gutenberg is a long-term reimagining of how content is created and managed. Phase 1 introduced the block editor in 5.0. Phase 2, site editing, culminated in WordPress 6.3 with the Site Editor. Phase 3, collaboration, is underway now. Phase 4 brings multilingual support into Core.", "The Interactivity API lets blocks become reactive, supporting more application-like experiences: interactive navigation, dynamic blocks, client-side state, reactive interfaces.", "This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. This is the Pages screen built with DataViews: search, a status filter, and a Table / Grid / List switch. Developers get this interface from WordPress instead of building it from scratch. WordPress is providing building blocks for applications, not just websites.", "Ask: what happens when WordPress becomes understandable not only to humans, but to AI systems? This is where the architecture evolves again. But there's an important distinction coming up.", "These are fundamentally different workflows. Layer one: WordPress calls AI. Layer two: AI calls WordPress.", "WordPress didn't add one big AI feature. The AI team built small, open building blocks, the same pattern as plugins and blocks. Left column: how WordPress calls AI. The AI plugin asks the AI Client, which uses whatever provider the admin connected under Settings > Connectors. Right column: how AI calls WordPress. An external AI client talks MCP to the MCP Adapter, which exposes abilities registered through the Abilities API. Tags show where each piece lives: in Core or as a plugin.", "Walk the timeline. The building blocks were planned in July 2025. The AI Experiments plugin shipped its first release on November 27, 2025. WordPress 6.9 put the Abilities API in Core in December 2025. In March 2026 the plugin started relying on Core's AI infrastructure and was renamed simply 'AI'. AI 1.0 shipped on May 19, 2026, one day before WordPress 7.0, which added the AI Client and the Settings > Connectors screen. AI 1.1 followed on June 30, 2026.", "The AI plugin is the WordPress AI team's canonical plugin and the reference implementation for AI features in WordPress. It started as AI Experiments in November 2025, was renamed 'AI', and reached 1.0 on May 19, 2026, alongside WordPress 7.0. Every feature is opt-in from the plugin's settings. Two features matter for site owners: request logging shows AI activity on the site, and connector approvals control which code can use each provider. To install: Plugins > Add New, search for 'AI' by WordPress.org.", "This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. Settings > Connectors in WordPress 7.0: cards for Anthropic, Google and OpenAI. One provider is installed and connected; the others show an Install button. The key is entered once, and every plugin using the AI Client shares the connection. Before 7.0, each AI plugin stored its own keys; now there is one place, and each provider ships as its own plugin.", "Transition slide. Traditional AI: WordPress asks AI, gets an answer. But what if we reverse the direction?", "An external AI system can connect to WordPress and use its capabilities: read, create, update, analyze, automate. In-editor AI: WordPress calls AI. Agentic AI: AI calls WordPress. This distinction is central to where WordPress is going.", "One of the most important technical slides. The Abilities API is a standardized registry for capabilities exposed by WordPress Core, plugins and themes. Each ability can describe its inputs, outputs, permissions, execution behavior and other metadata. The plugin columns are illustrative examples.", "The MCP Adapter is the official WordPress integration for MCP, built by the AI team and available in the plugin directory as 'MCP Adapter'. It takes the abilities registered on a site and exposes them as MCP tools, resources and prompts, so an AI client can discover and call them. Clients use three adapter tools: discover abilities, get ability info, and execute an ability. Each ability's permission checks still apply. WooCommerce bundles the same adapter to expose its product and order abilities, a good example of the ecosystem building on one shared bridge.", "Abilities API: what can WordPress do? MCP: how can an external AI system communicate with those capabilities? The AI agent: what does it decide to do with them? Walk the example flow at the bottom.", "Imagine a site with 2,000 posts. You want to find posts without featured images, images without alt text, posts without excerpts, duplicate categories and missing metadata. Traditionally that's open, filter, inspect, edit, save, repeat: hundreds or thousands of times.", "This is an illustration of the screen, not a real screenshot. If you have time, replace it with a real capture. Walk through the conversation: the user asks for an audit, the agent calls WordPress abilities through MCP, reports what it found, the user approves some fixes and keeps one task for themselves, and the agent applies them. The numbers are made up for the example. If you demo this live, keep this slide as the backup. Key point: AI is useful here not because it writes a paragraph, but because it removes repetitive work.", "If an AI can read, draft, update, publish, delete or change settings, permissions matter. The architecture needs discover, authorize, validate, execute and audit steps. The Abilities API supports permission callbacks and metadata describing how an ability behaves. The more capable the agent, the more the permission model matters. Also mention cost: AI requests use credits, tokens and time, which is why the AI plugin adds request logging and connector approvals.", "Today's AI features have limitations: inconsistent suggestions, provider limits, API costs, rate limits, incorrect results, image-generation limits, early-stage interfaces. But the current direction emphasizes infrastructure (connectors, AI clients, abilities, agent connectivity) rather than individual AI buttons.", "WordPress has repeatedly created open foundations and let the ecosystem build on them. The philosophy hasn't changed. The consumer of the platform is changing: from humans and developers to humans, developers, software and AI agents.", "Named for jazz musician Louis Armstrong. The release post calls 7.0 the start of a new era that lays the foundation for AI across WordPress. Walk the four groups quickly: AI (the AI Client in Core, the Connectors screen with three presets, and a new client-side Abilities package for JavaScript), the refreshed dashboard (new color scheme, Command Palette in the admin bar, a font management page, visual revisions), new blocks and design tools, and the developer toolbox. Then say: these are the visible features, but the bigger story is the infrastructure underneath. Source: wordpress.org/news/2026/05/armstrong", "These are illustrations, not screenshots. Command Palette: press Cmd+K or Ctrl+K, or click the new shortcut in the admin bar, and type to jump to any tool. Visual revisions: scrub through versions with markers, see what changed, and restore with one click. Fonts: a dedicated page to install, upload and manage fonts, for block, hybrid and classic themes.", "These are illustrations, not screenshots. Breadcrumbs block for clear site navigation, and the Icons block for visual details. Responsive controls let you hide a block on a device without affecting other screen sizes; here the hero image is hidden on phones. Menu overlays are now built with blocks and patterns, with your own columns, typography and close button.", "Named for jazz pianist Mary Lou Williams, celebrating reinvention and collaboration. Highlights: responsive styles in Global Styles and block settings without custom CSS; the admin bar now in every editor; a new media editor for cropping, flipping, rotating and metadata; Notes with rich text, @mentions and comments on specific text, which ties back to Phase 3 collaboration; image processing in the browser with AVIF, HEIC and HDR support; new Playlist and Tabs blocks. For developers: the SVG Icon API is public, the Abilities API gains a filterable execution lifecycle, validation and shared discovery, and a new admin Design System. Source: wordpress.org/news/2026/08/mary-lou", "These are illustrations, not screenshots. Responsive styles: change how a block looks at each screen size, from Global Styles or block settings, without custom CSS. The new media editor brings freeform and aspect-ratio cropping, flipping, rotation and metadata into one place; the Crop button still opens it. Notes now support rich text and @mentions, can attach to a specific piece of text, and can hold several conversations per block. This is Phase 3 collaboration shipping.", "These are illustrations, not screenshots. Playlist block: several audio tracks in one player, with an optional waveform. Tabs block: related content in tabbed panels instead of one long page. Interactive styles: give buttons their own hover, focus and active styles, for one button or all of them.", "These are the project's own goals for 2026. Point out the third one: revamping meetups is an official project goal, which makes this room part of the roadmap. Meetups are meant to be hands-on hubs where newcomers learn together and move into contributor roles.", "Projected dates are for rough planning only. New features freeze a month before release, and the focus shifts entirely to quality and performance. Follow progress in the issue tracker, and invite people to Make WordPress to get involved.", "Ask: after everything we've seen, is WordPress still a CMS? Yes. But it's becoming much more than a CMS.", "Pick out one line per group, and spend a moment on developers: the question changes from 'How do I build this feature?' to 'How do I expose this capability so other systems can use it?'", "2003: make publishing accessible. 2010: make content manageable. 2018: make content modular. 2022: make the whole website editable. 2026: make WordPress AI-ready. Next: make the web collaborative, interoperable and increasingly agentic.", "Not just a new block, a new editor feature, or another AI button. A new layer of infrastructure: humans, AI and software all reach the WordPress platform through abilities and APIs, which connect to plugins, services and agents.", "Finish with: \"The next evolution of WordPress isn't just making websites easier for humans to build. It's making the web easier for humans and machines to work with together.\" Thank the audience and open for questions.", "Leave this slide up during Q&A. Mention that you're @jhimross on every social platform. The QR code opens the About page on jhimross.com. If someone's phone can't read the white QR code, click it once to switch to the classic dark-on-light version (it remembers your choice)."];
 
 /* ---------- engine ---------- */
 const $ = (s) => document.querySelector(s);
@@ -825,7 +872,7 @@ function render(i, dir = 1) {
   el.className = "slide" + (S.interlude ? " interlude" : "");
   el.setAttribute("aria-label", `Slide ${i + 1} of ${SLIDES.length}`);
   el.innerHTML = `<p class="prompt"><span class="path">~/wordpress</span> $ <span class="cmd"></span><span class="cursor"></span></p>${S.t ? `<h2 class="title">${S.t}</h2>` : ""}<div class="out">${S.h}</div>`;
-  screen.innerHTML = ""; screen.appendChild(el); curEl = el;
+  const rc = document.getElementById("rain"); screen.innerHTML = ""; if (rc) screen.appendChild(rc); screen.appendChild(el); curEl = el;
   const cmd = el.querySelector(".cmd"), out = el.querySelector(".out"), title = el.querySelector(".title");
   if (reduce) { cmd.textContent = S.cmd; }
   else {
@@ -853,7 +900,7 @@ function overflowing(out) {
     const r = e.getBoundingClientRect();
     if (!r.width && !r.height) continue;
     if (r.bottom > ob.bottom + tol || r.right > ob.right + tol) return true;
-    if (e.scrollHeight > e.clientHeight + tol || e.scrollWidth > e.clientWidth + tol) { const o = getComputedStyle(e); if (o.overflow !== "visible" && e.tagName !== "INPUT") return true; }
+    if (e.tagName !== "INPUT" && e.clientHeight && (e.scrollHeight > e.clientHeight + tol || e.scrollWidth > e.clientWidth + tol)) { if (!e.closest(".win") && !e.matches("#audChips")) return true; }
   }
   return false;
 }
@@ -869,6 +916,149 @@ function autoFit(el, S) {
   out.classList.remove("fitting");
 }
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (curEl) autoFit(curEl, SLIDES[cur]); });
+
+/* ascii QR: a grid of text cells. In "white" mode the modules are white █ blocks on a transparent
+   background (an inverted code); click it to switch to the classic dark-on-light version. Each cell is an
+   exact square with its own background, so it scans no matter which font loads. */
+function fitAsciiQR(el) {
+  const box = el.querySelector("#qrBox"); if (!box) return;
+  const rows = box.dataset.bits.split(","), n = rows.length, cell = 8;
+  const draw = () => {
+    const inv = (store.get("wp-deck-qr") || "white") === "white";
+    const ink = inv ? "#ffffff" : "#04140a", paper = inv ? "transparent" : "#e9fbe9", dot = inv ? "rgba(255,255,255,.18)" : "#c4e2c7";
+    box.style.background = paper;
+    box.innerHTML = `<div aria-hidden="true" style="display:grid;grid-template-columns:repeat(${n},${cell}px);grid-auto-rows:${cell}px;font:600 ${cell}px/${cell}px var(--mono);text-align:center">${rows.map((r) => [...r].map((b) => b === "1" ? `<span style="background:${ink};color:${ink};overflow:hidden;box-shadow:0 0 0 .6px ${ink}">█</span>` : `<span style="color:${dot};overflow:hidden">·</span>`).join("")).join("")}</div>`;
+  };
+  draw();
+  box.onclick = () => { store.set("wp-deck-qr", (store.get("wp-deck-qr") || "white") === "white" ? "dark" : "white"); draw(); };
+}
+
+/* ascii cats: a chubby cat holding the QR code (blinks, winks, purrs, sends hearts, swishes its tail),
+   a kitten next to the caption, and a sleepy cat dreaming beside the code */
+function asciiCat(el) {
+  const head = el.querySelector("#catHead"), tail = el.querySelector("#catTail"), heart = el.querySelector("#catHeart"),
+    kit = el.querySelector("#kitten"), zz = el.querySelector("#catSleep");
+  if (!head) return;
+  const face = (eyes, mouth, ears = "/\\_____/\\", cheeks = "'") => [
+    `         ${ears}         `,
+    `        /  ${eyes}  \\        `,
+    `       ( =${cheeks}  ${mouth}  ${cheeks}= )       `,
+    `        \\         /        `,
+    `   .-----'       '-----.   `,
+    ` ("")                 ("") `].join("\n");
+  const F = {
+    open: face("o   o", "ω"), blink: face("-   -", "ω"), happy: face("^   ^", "ω"),
+    wink: face("o   ^", "ω"), purr: face("^   ^", "w"), twitch: face("o   o", "ω", "/'_____/\\"), love: face("*   *", "ω"),
+  };
+  const seq = ["open", "open", "open", "blink", "open", "open", "happy", "purr", "happy", "open", "twitch", "twitch", "open", "wink", "open", "open", "love", "love", "open", "blink"];
+  const T = [["(", " )", "(", " )", "(_ "], [" )", "(", " )", "(", " (_"], ["(", " (", "  )", " (", "(_ "]].map((t) => t.join("\n"));
+  const H = ["", "", " <3", "  <3", "   <3", "", "", "", "", "", "", "", "", "", "", "", " <3", "<3 <3", " <3", ""];
+  const K = [[" /\\_/\\ ", "( o.o )", " > ^ < "], [" /\\_/\\ ", "( o.o )", " > ^ < "], [" /\\_/\\ ", "( -.- )", " > ^ < "], [" /\\_/\\ ", "(o.o  )", " > ^ < "], [" /\\_/\\ ", "(  o.o)", " > ^ < "], [" /\\_/\\ ", "( ^.^ )", "  > <  "]].map((k) => k.join("\n"));
+  const Z = [["      z  ", "         ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"], ["     z   ", "      Z  ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"], ["    z    ", "     z   ", "  |\\_/| Z", "  (-.-)__", "  (__,,)_)"], ["         ", "         ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"]].map((z) => z.join("\n"));
+  let k = 0;
+  const step = () => {
+    head.textContent = F[seq[k % seq.length]];
+    tail.textContent = T[k % T.length];
+    heart.textContent = H[k % H.length];
+    kit.textContent = K[Math.floor(k / 2) % K.length];
+    zz.textContent = Z[Math.floor(k / 2) % Z.length];
+    k++;
+  };
+  step();
+  if (reduce) return;
+  const iv = setInterval(step, 420);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+/* title slide: a page assembling itself, block by block */
+function heroBlocks(el) {
+  const art = el.querySelector("#heroArt"), log = el.querySelector("#heroLog"); if (!art) return;
+  const W = 30;
+  const pad = (t) => "| " + t.padEnd(W - 4) + " |";
+  const top = "+" + "-".repeat(W - 2) + "+", bot = "+" + "-".repeat(W - 2) + "+";
+  const BLOCKS = [
+    { name: "core/site-title", lines: ["== Meetup Site ==========="] },
+    { name: "core/heading", lines: ["", "# What's new in WordPress?"] },
+    { name: "core/paragraph", lines: ["~~~~~~~~~~~~~~~~~~~~~~~~~~", "~~~~~~~~~~~~~~~~~~~~~"] },
+    { name: "core/image", lines: ["", "+--------+ ~~~~~~~~~~~~~~~", "|  /\\/\\  | ~~~~~~~~~~~~~~~", "+--------+ ~~~~~~~~~~"] },
+    { name: "core/buttons", lines: ["", "[ Join the meetup ]"] },
+  ];
+  const ROWS = BLOCKS.reduce((n, b) => n + b.lines.length, 0);
+  let stage = 0, drop = 0, iv;
+  const draw = () => {
+    const shown = BLOCKS.slice(0, stage).flatMap((b) => b.lines);
+    const falling = stage < BLOCKS.length ? BLOCKS[stage] : null;
+    const body = [...shown];
+    if (falling) {
+      const free = ROWS - shown.length, y = Math.min(drop, free - falling.lines.length);
+      for (let i = 0; i < y; i++) body.push("");
+      falling.lines.forEach((l) => body.push(l));
+    }
+    while (body.length < ROWS) body.push("");
+    art.textContent = [top, ...body.slice(0, ROWS).map(pad), bot].join("\n");
+  };
+  const tick = () => {
+    if (stage >= BLOCKS.length) { stage = 0; drop = 0; log.textContent = "$ wp post create --blocks   ok: page published"; draw(); return; }
+    const free = ROWS - BLOCKS.slice(0, stage).flatMap((b) => b.lines).length - BLOCKS[stage].lines.length;
+    if (drop >= free) { log.textContent = `$ wp block insert ${BLOCKS[stage].name}`; stage++; drop = 0; }
+    else drop++;
+    draw();
+  };
+  draw();
+  if (reduce) { stage = BLOCKS.length; draw(); return; }
+  iv = setInterval(tick, 180);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+/* title slide: a cat typing on a laptop (blinks, twitches an ear, swishes its tail, types commands) */
+function laptopCat(el) {
+  const pre = el.querySelector("#laptopCat"); if (!pre) return;
+  const mug = el.querySelector("#mug");
+  const STEAM = [["  (  (  ", "   )  ) ", "  (  (  "], ["   )  ) ", "  (  (  ", "   )  ) "], ["  ( )   ", "   ) (  ", "  ( )   "], ["        ", "  (  (  ", "   )  ) "]];
+  const drawMug = (t) => {
+    if (!mug) return;
+    const st = STEAM[Math.floor(t / 3) % STEAM.length].map((l) => `<span style="color:var(--dim)">${l}</span>`);
+    mug.innerHTML = [...st, " .______.  ", " |~~~~~~|] ", " |      |] ", " |  <3  |  ", " `------'  "].join("\n");
+  };
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const SCRIPT = [["$ wp --info", "WordPress 7.1"], ["$ wp ability list", "core/get-site-info"], ["$ wp plugin list", "ai  mcp-adapter"], ["$ meow --help", "purr purr ok"], ["$ wp core update", "7.2 soon..."]];
+  const W = 20;
+  let buf = [], typed = "", si = 0, ci = 0, wait = 0, tick = 0;
+  const frame = () => {
+    drawMug(tick);
+    const blink = tick % 14 === 0, twitch = tick % 23 < 2, happy = tick % 37 < 3;
+    const eyes = blink ? "-.-" : happy ? "^.^" : "o.o";
+    const ears = twitch ? "/'_/\\" : "/\\_/\\";
+    const tail = ["  )", " (", "  )"][Math.floor(tick / 3) % 3];
+    const typing = ci > 0 && ci <= SCRIPT[si % SCRIPT.length][0].length && wait === 0;
+    const pawL = typing && tick % 2 ? "(,)" : '(")', pawR = typing && !(tick % 2) ? "(,)" : '(")';
+    const lines = [...buf.slice(-2), typed + (tick % 4 < 2 ? "_" : " ")];
+    while (lines.length < 3) lines.unshift("");
+    const scr = lines.map((l) => esc(l.slice(-W).padEnd(W)));
+    pre.innerHTML = [
+      `               ${ears}`,
+      `             =( ${eyes} )=`,
+      `     .${"-".repeat(W + 2)}.`,
+      `     | <span style="color:var(--ok)">${scr[0]}</span> |`,
+      `     | <span style="color:var(--ok)">${scr[1]}</span> |`,
+      `     | <span style="color:var(--ok)">${scr[2]}</span> |${tail}`,
+      `     '${"-".repeat(W + 2)}' (`,
+      `    __${pawL}${"_".repeat(W - 2)}${pawR}_)`,
+      `   /${"_".repeat(W + 8)}\\`].join("\n");
+  };
+  const step = () => {
+    tick++;
+    const [cmd, out] = SCRIPT[si % SCRIPT.length];
+    if (wait > 0) { wait--; }
+    else if (ci < cmd.length) { ci++; typed = cmd.slice(0, ci); }
+    else { buf.push(typed, out); typed = ""; ci = 0; si++; wait = 6; }
+    frame();
+  };
+  frame();
+  if (reduce) { buf = ["$ wp --info", "WordPress 7.1"]; frame(); return; }
+  const iv = setInterval(step, 150);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
 
 function go(i, dir) { i = Math.max(0, Math.min(SLIDES.length - 1, i)); const d = dir ?? (i >= cur ? 1 : -1); cur = i; render(cur, d); }
 function next() {
@@ -902,6 +1092,25 @@ function zoomWin(win) {
 }
 screen.addEventListener("click", (e) => { const b = e.target.closest(".zoomBtn"); if (b) { e.stopPropagation(); zoomWin(b.closest(".win")); } });
 
+/* themes + matrix code rain */
+function setTheme(t) { document.documentElement.dataset.phosphor = t === "green" ? "" : t; store.set("wp-deck-phosphor", t); rain(t === "matrix"); const nt = document.getElementById("nfTheme"); if (nt) nt.textContent = t; }
+let rainIv = null;
+function rain(on) {
+  let cv = document.getElementById("rain");
+  if (!on || reduce) { clearInterval(rainIv); rainIv = null; return; }
+  if (!cv) { cv = document.createElement("canvas"); cv.id = "rain"; cv.setAttribute("aria-hidden", "true"); screen.prepend(cv); }
+  if (rainIv) return;
+  const ctx = cv.getContext("2d"), fs = 18, chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789<>/{}=WP$#";
+  const size = () => { cv.width = screen.clientWidth; cv.height = screen.clientHeight; };
+  size(); let drops = Array.from({ length: Math.ceil(cv.width / fs) }, () => Math.random() * -40);
+  rainIv = setInterval(() => {
+    if (!cv.isConnected) screen.prepend(cv);
+    ctx.fillStyle = "rgba(1, 10, 3, .14)"; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = "#00ff41"; ctx.font = `${fs}px monospace`;
+    drops.forEach((y, i) => { ctx.fillText(chars[(Math.random() * chars.length) | 0], i * fs, y * fs); drops[i] = y * fs > cv.height && Math.random() > 0.975 ? 0 : y + 1; });
+  }, 70);
+}
+
 /* index */
 $("#indexList").innerHTML = SLIDES.map((s, i) => `<button data-i="${i}"><span>${String(i + 1).padStart(2, "0")}</span>${s.f}</button>`).join("");
 $("#indexList").querySelectorAll("button").forEach((b) => b.onclick = () => { toggleIndex(false); go(+b.dataset.i); });
@@ -917,9 +1126,9 @@ function setTimer(min) { tLeft = Math.round(min * 60); drawTimer(); }
 
 /* command line */
 const cmdBox = $("#cmd"), cmdIn = $("#cmdIn"), cmdOut = $("#cmdOut");
-const HELP = `keys      → space  next     ← back     o  slide list     n  notes     z  zoom illustration
+const HELP = `keys      → space  next     ← back     o  slide list     n  notes     z  zoom illustration     c  cycle themes
           t  timer        b  blank   f  fullscreen    :  command line   ?  help
-commands  goto N · ls · notes · timer [min] · theme green|amber|blue|mono
+commands  goto N · ls · notes · timer [min] · theme green|amber|blue|obsidian|matrix|github|dracula|houston|mono
           crt on|off · blank · top · end · whoami · wp --version · clear`;
 function openCmd(prefill = "") { cmdBox.classList.add("open"); cmdIn.value = prefill; cmdIn.focus(); $("#mode").textContent = "COMMAND"; }
 function closeCmd() { cmdBox.classList.remove("open"); cmdOut.textContent = ""; cmdIn.blur(); $("#mode").textContent = "NORMAL"; }
@@ -934,7 +1143,7 @@ function run(line) {
     case "ls": closeCmd(); return toggleIndex(true);
     case "notes": closeCmd(); return toggleNotes();
     case "timer": if (a[0]) { setTimer(+a[0]); say(`timer set to ${a[0]} minutes`); } else { toggleTimer(); closeCmd(); } return;
-    case "theme": if (["green", "amber", "blue", "mono"].includes(a[0])) { document.documentElement.dataset.phosphor = a[0] === "green" ? "" : a[0]; store.set("wp-deck-phosphor", a[0]); return say(`phosphor: ${a[0]}`); } return say("usage: theme green|amber|blue|mono");
+    case "theme": if (["green", "amber", "blue", "obsidian", "matrix", "github", "dracula", "houston", "mono"].includes(a[0])) { setTheme(a[0]); return say(`theme: ${a[0]}`); } return say("usage: theme green|amber|blue|obsidian|matrix|github|dracula|houston|mono");
     case "crt": document.documentElement.dataset.crt = a[0] === "off" ? "off" : "on"; store.set("wp-deck-crt", a[0] === "off" ? "off" : "on"); return say(`crt effect ${a[0] === "off" ? "off" : "on"}`);
     case "blank": closeCmd(); return toggleBlank();
     case "top": go(0); return closeCmd();
@@ -957,6 +1166,7 @@ addEventListener("keydown", (e) => {
   if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(k)) { e.preventDefault(); if (!$("#index").classList.contains("open")) next(); }
   else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(k)) { e.preventDefault(); prev(); }
   else if (k === "Home") go(0); else if (k === "End") go(SLIDES.length - 1);
+  else if (k === "c") { const T = ["green", "amber", "blue", "obsidian", "matrix", "github", "dracula", "houston", "mono"]; const now = document.documentElement.dataset.phosphor || "green"; const nx = T[(T.indexOf(now) + 1) % T.length]; setTheme(nx); toast(`theme: ${nx}`); }
   else if (k === "o") toggleIndex(); else if (k === "n") toggleNotes(); else if (k === "t") toggleTimer(); else if (k === "b" || k === ".") toggleBlank();
   else if (k === "f") { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.().catch(() => toast("fullscreen isn't available here")); }
   else if (k === ":" || k === "/") { e.preventDefault(); openCmd(); }
@@ -974,7 +1184,7 @@ stage.addEventListener("touchend", (e) => { if (tx == null) return; const dx = e
 
 /* start */
 (function init() {
-  const ph = store.get("wp-deck-phosphor"); if (ph && ph !== "green") document.documentElement.dataset.phosphor = ph;
+  setTheme(store.get("wp-deck-phosphor") || "github");
   const crt = store.get("wp-deck-crt"); if (crt) document.documentElement.dataset.crt = crt;
   const h = parseInt(location.hash.slice(1), 10);
   fit(); drawTimer();
