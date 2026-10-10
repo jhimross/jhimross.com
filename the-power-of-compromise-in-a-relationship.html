@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>The Power of Compromise in a Relationship — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="Relationships thrive when two people are willing to meet halfway. Compromise isn&#x27;t about giving up what you believe in; it&#x27;s about finding common ground where b..." />
   <meta property="twitter:image" content="https://jhimross.com/assets/about.jpg" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,39 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>The Power of Compromise in a Relationship</h1>
+      <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Relationship</span></div>
+      <div class="post-meta">Published on March 16, 2025</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>Relationships thrive when two people are willing to meet halfway. Compromise isn't about giving up what you believe in; it's about finding common ground where both individuals feel valued, heard, and respected. In my relationship with Julia, compromise has played a crucial role in nurturing our bond and helping us grow together.</p>
+<h4><strong>Why Compromise Matters</strong></h4>
+<p>Compromise is vital because no two people are the same. Julia and I have different backgrounds, preferences, and ways of thinking. While these differences can be enriching, they can also create tension if we aren't mindful. Through compromise, we've learned to balance our needs, ensuring that neither of us feels neglected or unheard.</p>
+<p>For example, I love adventures, being outdoors, and cycling, while Julia prefers staying indoors and enjoying introverted activities. One meaningful way we've found balance is by playing badminton together with her relatives. This has become a great way to blend my love for sports with her preference for familiar social settings, creating a fun and engaging experience we both enjoy.</p>
+<p>Additionally, I cherish spending quality time together often, while Julia doesn't always feel the need to meet every week. Initially, this created friction. But instead of forcing one approach, we agreed to alternate — sometimes spending time in our usual spots like malls, running errands, or visiting the same fast-food restaurants, and other times simply enjoying quiet evenings at home. While we rarely explore new places, these familiar moments still give us the chance to connect and share meaningful time together.</p>
+<h4><strong>How I Cope and Grow</strong></h4>
+<p>Compromise isn't always easy, but here are some key strategies that have helped me:</p>
+<ol>
+<li><strong>Turning to God for Guidance —</strong> Prayer has been a crucial part of navigating our differences. When compromise feels difficult, I ask God for wisdom, patience, and a loving heart. Trusting His guidance helps me approach situations with grace and understanding.</li>
+<li><strong>Active Listening</strong> — I make an effort to truly hear Julia's thoughts, body language and feelings without jumping to conclusions. This helps me understand what matters most to her, making compromise easier.</li>
+<li><strong>Patience and Understanding —</strong> There are moments when things don't go my way, but I've learned that love means valuing her happiness as much as my own. Remembering 1 Corinthians 13:4-5 — "Love is patient, love is kind... it is not self-seeking..." — helps me practice patience and kindness in those moments.</li>
+<li><strong>Open Communication —</strong> I regularly check in with Julia and discuss our feelings, frustrations, and what we can improve. Honest conversations keep small issues from turning into major problems. This honesty builds trust and shows respect for each other's time.</li>
+<li><strong>Embracing Grace and Understanding —</strong> When compromise feels challenging, I remind myself that our relationship is far more valuable than dwelling on unmet expectations, moments of disappointment, or the need to always have things go my way. By extending grace and understanding, we can let go of frustration and focus on what truly matters — nurturing a loving and lasting relationship. We strive to love each other as Christ loves us — with patience, forgiveness, and a heart that seeks what's best even when things aren’t perfect.</li>
+</ol>
+<h4>Compromise Strengthens Love</h4>
+<p>Compromise has taught me that love isn't about always agreeing — it's about learning to navigate differences with respect and care. By meeting Julia halfway, I've discovered deeper trust, stronger communication, and a lasting connection. Most importantly, I've learned to rely on God's love as the foundation for our relationship, allowing His peace to guide us through every challenge.</p>
+<p>In the end, compromise isn't a sacrifice — it's an opportunity to love selflessly, just as Christ loves us. His love is patient, kind, and full of grace, even when we fall short. By embracing this example, I've learned that true love means putting aside pride, offering forgiveness, and choosing to prioritize our relationship above my own desires. When I strive to love Julia in this way, our bond deepens, and our relationship becomes a reflection of Christ’s unwavering love — one that is built on trust, compassion, and the commitment to always seek the best for one another. — it's an investment in something far greater: a meaningful and enduring relationship with someone you deeply cherish.</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="the-power-of-showing-up-before-the-time.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">The Power of Showing Up Before the Time</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="a-cozy-movie-night-my-thoughts-on-the-movie-flow.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">A Cozy Movie Night: My Thoughts on the Movie &quot;Flow&quot;</span>
       </a>
     </div>
   </article>
@@ -391,131 +419,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "the-power-of-compromise-in-a-relationship";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

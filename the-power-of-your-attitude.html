@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>The Power of Your Attitude — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="&gt; _&quot;Attitude, not aptitude, determines your altitude.&quot;_ – John Maxwell Our attitude shapes so much more of our lives than we might initially think. Here’s how c..." />
   <meta property="twitter:image" content="https://jhimross.com/assets/about.jpg" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,44 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>The Power of Your Attitude</h1>
+      <div class="post-categories"><span class="category-tag">Mindset</span><span class="category-tag">Self Development</span></div>
+      <div class="post-meta">Published on April 02, 2024</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<blockquote>
+<p><em>"Attitude, not aptitude, determines your altitude."</em> – John Maxwell</p>
+</blockquote>
+<p>Our attitude shapes so much more of our lives than we might initially think. Here’s how cultivating a positive, proactive attitude can deeply impact both your personal and professional life.</p>
+<h3>1. Your Attitude Reveals Who You Are</h3>
+<p>Your attitude stems from the core of who you are—it’s a reflection of your inner self. As Proverbs 23:7 reminds us, "As a man thinketh in his heart, so is he." Attitude often expresses itself through our actions or reactions, speaking much louder than the words we say. People around us constantly interpret our true selves through our attitudes, especially during challenging situations. When life presents difficulties, our attitude often shows our true colors, revealing who we really are.</p>
+<h3>2. Your Attitude Determines the Success and Failure of Every Relationship</h3>
+<p>Every relationship in our life is influenced by our attitude. A positive attitude can foster closeness, understanding, and growth, while a negative one can create friction and distance. A bad attitude can be especially destructive, eventually spilling out in harmful words and actions that can damage trust and goodwill. When someone harbors a poor attitude, it’s only a matter of time before it impacts those around them. Thus, cultivating a positive outlook is essential for building and maintaining healthy relationships.</p>
+<h3>3. Your Attitude is Always Your Choice</h3>
+<p>While we can’t control what happens to us each day, we do have the power to choose our response. We may not be able to dictate every circumstance, but we can control our attitude toward it. Understanding this power is key to personal growth, resilience, and fulfillment. Every day, we have the chance to choose a constructive attitude—one that will serve us, rather than hinder us.</p>
+<h3>Steps to Help You Cultivate a Positive Attitude:</h3>
+<ol>
+<li><strong>Speak Positive Words:</strong> Begin each day by affirming the good, focusing on what you are grateful for.</li>
+<li><strong>Seek the Good in All Situations:</strong> No matter what life throws your way, look for the silver lining—you’ll find it.</li>
+<li><strong>Take Charge of Your Thoughts:</strong><ul>
+<li><strong>Fix</strong> your mind on positive, constructive ideas.</li>
+<li><strong>Filter</strong> out negativity that doesn’t serve you.</li>
+<li><strong>Feed</strong> your mind with uplifting content and messages that inspire growth.</li>
+</ul>
+</li>
+</ol>
+<p>Embracing a positive attitude not only transforms your outlook on life but can also uplift those around you. Remember, your attitude is a choice—one that holds the power to elevate your life to new heights.</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="brewing-wordpress-passion.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Brewing WordPress Passion</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="leadership-of-a-lion.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Leadership of a Lion</span>
       </a>
     </div>
   </article>
@@ -391,131 +424,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "the-power-of-your-attitude";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

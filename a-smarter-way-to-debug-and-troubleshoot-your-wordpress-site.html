@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>A Smarter Way to Debug and Troubleshoot Your WordPress Site — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="If you’ve ever managed a WordPress site or troubleshooted a WordPress site as part of your job, you know the feeling. A new plugin update, a theme customization..." />
   <meta property="twitter:image" content="https://jhimross.wordpress.com/wp-content/uploads/2025/11/98f38-image.png" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,69 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>A Smarter Way to Debug and Troubleshoot Your WordPress Site</h1>
+      <div class="post-categories"><span class="category-tag">Web Development</span><span class="category-tag">WordPress</span></div>
+      <div class="post-meta">Published on July 08, 2025</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>If you’ve ever managed a WordPress site or troubleshooted a WordPress site as part of your job, you know the feeling. A new plugin update, a theme customization, or a simple change suddenly brings your site to a grinding halt. The dreaded white screen of death appears, or worse, a subtle but critical feature stops working, leaving you to figure out what went wrong. This is where the real headache begins the tedious process of deactivating plugins one by one, switching to a default theme, and hoping to find the culprit without breaking your live site.</p>
+<p>As a developer and WordPress support engineer, I’ve spent countless hours in this exact situation. The traditional debugging process is not only time-consuming but also risky. Deactivating plugins or changing themes on a live site can disrupt the user experience and lead to lost revenue or traffic. I knew there had to be a better way, a safer, more efficient method to diagnose issues without affecting visitors. That’s why I decided to create the <strong>Debugger &amp; Troubleshooter</strong> plugin, and today, I’m thrilled to announce that it’s available for free on the WordPress.org repository.</p>
+<h3>Why I Built This Plugin</h3>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/98f38-image.png" />Screenshot of Debugger &amp; Troubleshooter Plugin page.</p>
+<p>The inspiration for <strong>Debugger &amp; Troubleshooter</strong> came from my own experiences and frustrations. I needed a tool that could provide a comprehensive overview of a site’s environment and allow me to simulate changes in an isolated session. I envisioned a plugin that would let me:</p>
+<ul>
+<li><strong>See all the critical site information in one place.</strong> No more digging through different menus or running separate diagnostics.</li>
+<li><strong>Safely test plugin and theme conflicts.</strong> I wanted to be able to deactivate plugins and switch themes only for my browser session, leaving the live site untouched for everyone else.</li>
+<li><strong>Quickly copy and share site data.</strong> When seeking help from support forums or colleagues, having a complete snapshot of the site’s configuration is invaluable.</li>
+<li><strong>Easily manage WordPress’s built-in debugging tools.</strong> I needed a way to quickly enable and disable <code>WP_DEBUG</code> without having to edit the <code>wp-config.php</code> file.</li>
+</ul>
+<p>After weeks of development and refinement, Debugger &amp; Troubleshooter is now a reality, and it’s packed with features designed to make your life easier.</p>
+<p><strong>Check and download the plugin here:</strong> <a href="https://wordpress.org/plugins/debugger-troubleshooter/">Debugger &amp; Troubleshooter plugin</a></p>
+<h3>What Does It Do?</h3>
+<p>Debugger &amp; Troubleshooter is more than just a diagnostic tool; it’s a complete debugging suite that empowers you to resolve issues with confidence. Here’s a look at its key features:</p>
+<h4>1. A Comprehensive Site Information Dashboard</h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/e66ea-screenshot-1.png?w=1024&amp;h=520" />The main Debug &amp; Troubleshooter dashboard showing Site Information.</p>
+<p>The first thing you’ll notice is the <strong>Site Information</strong> dashboard, which gives you a The first thing you’ll notice is the <strong>Site Information</strong> dashboard, which gives you a complete overview of your WordPress environment. All the essential data is organized into collapsible cards, so you can quickly find what you need without being overwhelmed. The dashboard includes:</p>
+<ul>
+<li><strong>WordPress Information</strong> - A detailed list of all your installed themes and plugins, complete with their active or inactive status.</li>
+<li><strong>PHP and Database Information</strong> - Key server settings that are crucial for debugging.</li>
+<li><strong>WordPress Constants</strong> - A list of important WordPress configuration constants and their values.</li>
+</ul>
+<p>And to make sharing this information a breeze, there’s a <strong>“Copy to Clipboard”</strong> button that gathers all the data in a pre-formatted text block, ready to be pasted into a support ticket or forum post.</p>
+<h4>2. The Power of Troubleshooting Mode</h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/ea2e0-screenshot-2.png?w=1024&amp;h=516" />The Troubleshooting Mode section with theme and plugin selection.</p>
+<p>This is where Debugger &amp; Troubleshooter truly shines. With a single click, you can enter <strong>Troubleshooting Mode</strong> , which creates a safe, isolated session for you to work in. While this mode is active, you can:</p>
+<ul>
+<li><strong>Simulate Plugin Deactivation</strong> - Selectively “deactivate” any plugin on your site. The changes will only apply to your browser session, so you can identify conflicts without affecting your visitors.</li>
+<li><strong>Simulate Theme Switching</strong> - Instantly preview how your site looks and functions with any installed theme. This is perfect for testing theme compatibility or preparing for a redesign.</li>
+</ul>
+<p>When you’re done, simply exit Troubleshooting Mode, and your site will revert to its live state. No cookies to clear, no settings to undo just a seamless and stress-free debugging experience.</p>
+<h4>3. Effortless WP Debug Management</h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/ffd7e-screenshot-4.png?w=1024&amp;h=521" /></p>
+<p>For developers and advanced users, the native WordPress debug tools are essential. However, enabling them traditionally requires editing your <code>wp-config.php</code> file, which can be cumbersome and risky. We've simplified this process entirely. The <strong>WP Debug</strong> feature allows you to:</p>
+<ul>
+<li><strong>Toggle WP_DEBUG with a Click</strong> - Enable or disable the core WordPress debugging mode directly from the plugin's interface. When active, you'll see PHP notices and warnings on your site, helping you identify code-level issues.</li>
+<li><strong>Control Debug Log and Display</strong> - You can choose to have errors saved to a <code>debug.log</code> file in your <code>wp-content</code> directory (<code>WP_DEBUG_LOG</code>) and control whether these errors are displayed on the screen (<code>WP_DEBUG_DISPLAY</code>). This gives you the flexibility to debug in the background without disrupting the user interface.</li>
+</ul>
+<p>This feature puts powerful debugging capabilities at your fingertips, saving you time and eliminating the need to access your server's file system for quick checks.</p>
+<h3>Get It for Free on WordPress.org</h3>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/3542d-image-1.png" /></p>
+<p>I built this plugin to solve a problem that I know many of you face, and I’m excited to share it with the WordPress community. Debugger &amp; Troubleshooter is, and always will be, free. I believe that powerful, intuitive tools should be accessible to everyone, whether you’re a seasoned developer or a first-time site owner.</p>
+<p>Ready to take the guesswork out of debugging? You can download Debugger &amp; Troubleshooter from the official WordPress.org plugin repository today.</p>
+<p>📥 <a href="https://wordpress.org/plugins/debugger-troubleshooter/"><strong>Download Debugger &amp; Troubleshooter from WordPress.org</strong></a></p>
+<p>I hope this plugin saves you time, reduces your stress, and empowers you to build even better WordPress sites. I’m always open to feedback and suggestions, so please don’t hesitate to reach out and share your thoughts.</p>
+<p>Happy debugging!</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="more-than-just-chicken-its-our-mizpah.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">More Than Just Chicken, It&#x27;s Our &quot;Mizpah&quot;</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="are-you-on-the-path-of-most-resistance-why-fixing-your-weaknesses-is-holding-you-back.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Are You on the Path of Most Resistance? Why Fixing Your Weaknesses Is Holding You Back?</span>
       </a>
     </div>
   </article>
@@ -391,131 +449,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "a-smarter-way-to-debug-and-troubleshoot-your-wordpress-site";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>The Power of Showing Up Before the Time — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="Punctuality has always been an important value to me, but I&#x27;ve taken it a step further by making it a habit to arrive early — often well before the expected tim..." />
   <meta property="twitter:image" content="http://jhimross.com/wp-content/uploads/2025/03/P_20181106_112136_vHDR_On-768x1024.jpg" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,43 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>The Power of Showing Up Before the Time</h1>
+      <div class="post-categories"><span class="category-tag">Habit</span><span class="category-tag">Mindset</span></div>
+      <div class="post-meta">Published on March 03, 2025</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>Punctuality has always been an important value to me, but I've taken it a step further by making it a habit to arrive early — often well before the expected time. Whether it's a church gathering, a badminton game, or a casual meetup with friends, I intentionally show up ahead of schedule. Here's why this habit has become such an essential part of my life.</p>
+<p><img loading="lazy" decoding="async" alt="" src="http://jhimross.com/wp-content/uploads/2025/03/P_20181106_112136_vHDR_On-768x1024.jpg" /></p>
+<h3>1. <strong>Time to Prepare and Be Present</strong></h3>
+<p>Coming early allows me to gather my thoughts, calm my mind, and prepare for what’s ahead. Whether I'm about to lead a Bible study or participate in a group activity, arriving early gives me time to double-check my materials, reflect on my role, and pray for guidance. This quiet moment of preparation helps me be fully present when things begin.</p>
+<h3>2. <strong>Respect for Others’ Time</strong></h3>
+<p>Arriving early is a sign of respect — not just for the schedule but for the people involved. By showing up early, I demonstrate that I value their time and the effort they've put into organizing the event. Whether it’s a one-on-one meeting or a larger gathering, this small act communicates commitment and consideration.</p>
+<h3>3. <strong>Building Stronger Connections</strong></h3>
+<p>Some of the best conversations I've had have happened before the "official" start of an event. When you’re early, you often get to interact with others in a more relaxed environment. This has led to meaningful connections — whether chatting with friends before a meal or bonding with others before a group session.</p>
+<h3>4. <strong>Opportunities to Serve</strong></h3>
+<p>Arriving early opens unexpected opportunities to help. Whether it’s setting up chairs at church, assisting with event logistics, or lending a hand before a meeting starts, being there ahead of time allows me to step in where needed. These moments of service have deepened my relationships and created lasting memories.</p>
+<h3>5. <strong>Creating a Peaceful Rhythm</strong></h3>
+<p>It's okay for me to wait rather than have others waiting for me. Whether it's a date with Julia, a meeting with friends, or any gathering, I’d rather be the one calmly waiting than have someone feeling anxious because I'm running late. Rushing creates stress, while arriving early invites peace. I've found that starting my day without the pressure of running late brings calmness and focus. It allows me to sip my Batangas coffee without haste and reflect on my goals for the day — a practice that centers me.</p>
+<h3>6. <strong>A Boost in Confidence</strong></h3>
+<p>Arriving early gives me a sense of control and confidence. Knowing that I have time to prepare, connect, or help out reassures me that I’m giving my best effort in any situation.</p>
+<h3>7. <strong>Coming Early to Meet God</strong></h3>
+<p>When I come early for a church gathering or Bible study, I see it as arriving first before God. It’s a time to sit quietly, reflect, and invite His presence to move during the gathering. There's a sense of excitement — like I’m showing up to meet someone important, eager to experience His presence before everything starts. This mindset has deepened my spiritual walk and strengthened my connection with Him.</p>
+<h3>8. <strong>Why Are We More Afraid to Be Late for Work Than for God?</strong></h3>
+<p>When applying for a job or heading to work, we often make a conscious effort to arrive early, fearing the consequences of being late. Yet when it comes to gatherings that honor God — like worship services, prayer meetings, or Bible studies — some don't feel the same urgency. This has always challenged me. If I can put so much effort into showing up early for my employer, how much more should I prioritize being early when coming before God?</p>
+<h3>Final Thoughts</h3>
+<p>Being early isn’t just about time management; it’s about mindset. It’s about showing up fully — prepared, respectful, and ready to serve. Whether arriving at church, a family gathering, or meeting friends, coming early has shaped my experiences and strengthened my connections.</p>
+<p>I encourage you to try it — arrive early, embrace the calm, and see how it transforms your day.</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="what-i-learned-co-leading-the-contributor-day-team-for-wordcamp-asia-2025.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">What I Learned Co-Leading the Contributor Day Team for WordCamp Asia 2025</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="the-power-of-compromise-in-a-relationship.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">The Power of Compromise in a Relationship</span>
       </a>
     </div>
   </article>
@@ -391,131 +423,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "the-power-of-showing-up-before-the-time";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

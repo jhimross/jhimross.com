@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>Building a QR Check-in System for WordCamp Philippines — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="One of the things I enjoy about organizing WordCamp is finding ways to make the event better—not just for attendees, but also for the volunteers working behind ..." />
   <meta property="twitter:image" content="https://github.com/user-attachments/assets/2b884349-9a13-4997-9682-7c36aaf91141" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,197 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>Building a QR Check-in System for WordCamp Philippines</h1>
+      <div class="post-categories"><span class="category-tag">Community</span><span class="category-tag">WordPress</span><span class="category-tag">Tech</span></div>
+      <div class="post-meta">Published on September 03, 2026</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>One of the things I enjoy about organizing WordCamp is finding ways to make the event better—not just for attendees, but also for the volunteers working behind the scenes.</p>
+<p>For WordCamp Philippines 2026, I wanted to improve one of the most important parts of the event experience: <strong>registration and check-in</strong>.</p>
+<p>Instead of manually searching for attendees, checking their names against a list, and then preparing their badges, I wanted something much simpler:</p>
+<p><strong>Scan a QR code → check in the attendee → print their badge.</strong></p>
+<p>That idea eventually became <strong>CampTix Check-In</strong>, a self-hosted WordPress plugin I built specifically for WordCamp Philippines.</p>
+<h2>The problem with the usual check-in process</h2>
+<p>WordCamp uses CampTix to manage ticket registrations and attendee information. It works well for managing registrations, but I wanted a dedicated interface for the actual event-day check-in process.</p>
+<p>The goal was to have something that volunteers could use without needing to navigate the WordPress admin interface or deal with a complicated workflow.</p>
+<p>I also wanted the system to be independent from WordCamp.org itself.</p>
+<p>Because WordCamp.org doesn't allow third-party plugins to be installed, I created a separate WordPress site dedicated to check-in. The system could then pull attendee information from the WordCamp site through the REST API or import it from a CampTix CSV export.</p>
+<p>This gave me a local copy of the attendee information that we could use during the event.</p>
+<h2>Building CampTix Check-In</h2>
+<p>I started building the plugin around the basic check-in workflow.</p>
+<p><img loading="lazy" decoding="async" height="auto" alt="Screenshot 2026-09-03 at 11 41 34 PM" src="https://github.com/user-attachments/assets/2b884349-9a13-4997-9682-7c36aaf91141" /></p>
+<p>The plugin includes:</p>
+<ul>
+<li>An attendee dashboard with live check-in statistics</li>
+<li>Attendee search and filtering</li>
+<li>CSV and REST API synchronization with CampTix</li>
+<li>QR code generation and email delivery</li>
+<li>Camera-based QR code scanning</li>
+<li>Check-in status and timestamps</li>
+<li>Manual attendee management</li>
+<li>Printable name badges</li>
+<li>A configurable printer endpoint</li>
+</ul>
+<p>The QR codes are also signed using HMAC-SHA256. This means the system can verify that a QR code was actually generated by the system and hasn't been modified or forged.</p>
+<p>The basic flow became:</p>
+<p><strong>CampTix → Sync attendees → Send QR codes → Attendee arrives → Scan QR → Check in</strong></p>
+<p><img loading="lazy" decoding="async" height="auto" alt="image" src="https://github.com/user-attachments/assets/9a56cb6a-3eba-4e6f-8059-5d6a7289a94c" /></p>
+<p>The scanner runs directly in the browser using a camera, with visual and audio feedback for successful, duplicate, or invalid scans.</p>
+<p>At this point, the system was already working pretty well.</p>
+<p>But there was one missing piece.</p>
+<h2>I wanted the badge to print automatically</h2>
+<p>The scanner could check someone in.</p>
+<p>The system could display their badge.</p>
+<p>But I didn't want volunteers to have to click through another screen and manually print every badge.</p>
+<p>The ideal experience was:</p>
+<blockquote>
+<p><strong>Scan the QR code, and the badge automatically prints.</strong></p>
+</blockquote>
+<p>This was the part I wasn't sure how to solve.</p>
+<p>And this is where <strong>Jerico</strong> came in.</p>
+<h2>Enter Jerico and the missing piece</h2>
+<p>A couple of weeks before WordCamp Philippines, Jerico, Arvin John, and I were co-working at Jerico's office.</p>
+<p><img loading="lazy" decoding="async" height="auto" alt="image" src="https://github.com/user-attachments/assets/923bc2b2-d064-4133-a075-aa312fea6f2f" /></p>
+<p>We were doing a few things together, including working on a laptop and going through some preparations for WordCamp. At some point, I mentioned that I was building a QR check-in system and that I wanted to experiment with automatically printing attendee badges after someone checked in.</p>
+<p>Jerico immediately got interested.</p>
+<p>As he later wrote in his own blog post <a href="https://www.jericoaragon.com/homelab/qr-check-in-auto-printer-for-wordcamp-ph/">
+  "Jerico's blog post about the QR Check-in Auto-Printer"
+</a>, he had already built something similar for an inventory system and knew that the concept was possible.</p>
+<p>He quickly put together a proof of concept using a small thermal printer he had available.</p>
+<p>The idea was surprisingly simple.</p>
+<p>My check-in system would send the attendee's badge information to an HTTP endpoint. Jerico's side would receive that request and take care of printing the badge.</p>
+<p>Instead of trying to make the WordPress site communicate directly with a printer, we separated the two systems.</p>
+<p><strong>CampTix Check-In → HTTP request → Local print server → Thermal printer</strong></p>
+<p><img loading="lazy" decoding="async" height="auto" alt="image" src="https://github.com/user-attachments/assets/4f5744a0-b310-45e5-87cb-f0d2b3a85b96" /></p>
+<p>This turned out to be a much cleaner solution.</p>
+<p>Jerico also made the printer endpoint configurable in the plugin, so we could change the destination without having to modify the code during the event.</p>
+<p>That became the final piece that turned the check-in system into an actual registration workflow.</p>
+<h2>Testing a printer from my house</h2>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <iframe loading="lazy"
+        src="https://www.youtube.com/embed/AzzK_gSNUi0"
+        title="QR Checkin and Badge"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+    </iframe>
+</div>
+
+<p>One of my favorite parts of this project was that we didn't even need to be in the same place to test it.</p>
+<p>Jerico exposed his printer through an HTTP endpoint.</p>
+<p>I could trigger a print request from my own location, and a physical sticker would come out of the thermal printer sitting in his office.</p>
+<p>It was one of those moments where a simple idea suddenly became very real.</p>
+<p>I could scan an attendee, send the badge information over the internet, and watch an actual badge being printed somewhere else.</p>
+<p>That's when I knew we could make this work at WordCamp.</p>
+<h2>The hardware</h2>
+<p>For the event, we used a small thermal label printer setup.</p>
+<p>The idea was intentionally simple and inexpensive. Jerico used a tablet running Ubuntu as the printer server, connected directly to the thermal printer through USB.</p>
+<p>The printer server ran:</p>
+<ul>
+<li>Ubuntu</li>
+<li>CUPS</li>
+<li>A small web server</li>
+<li>Firefox in kiosk mode</li>
+</ul>
+<p>The setup was designed to be as close to <strong>plug and play</strong> as possible.</p>
+<p>When the tablet boots, it automatically logs in, starts the print server, opens Firefox in kiosk mode, and waits for print requests.</p>
+<p>The organizers also prepared a second printer as a backup, because the last thing we wanted was for a broken printer to stop registration.</p>
+<h2>What happens when an attendee arrives?</h2>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <iframe loading="lazy"
+        src="https://www.youtube.com/embed/2oH1wV8UWxI"
+        title="YouTube video"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+    </iframe>
+</div>
+
+<p>The final workflow looked like this:</p>
+<p><strong>1. Attendee receives their QR code</strong></p>
+<p>The system generates a unique, signed QR code and sends it to the attendee via email.</p>
+<p><strong>2. Attendee arrives at registration</strong></p>
+<p>They show the QR code on their phone or a printed copy.</p>
+<p><strong>3. Volunteer scans the QR code</strong></p>
+<p>The volunteer opens the QR Scanner on a tablet or phone.</p>
+<p><strong>4. The system verifies the QR code</strong></p>
+<p>The QR payload is decoded and the HMAC signature is checked.</p>
+<p><strong>5. The attendee is checked in</strong></p>
+<p>The system records the check-in timestamp.</p>
+<p><strong>6. Badge information is sent to the printer</strong></p>
+<p>The check-in system sends the attendee's badge information to the configured printer URL.</p>
+<p><strong>7. The badge prints</strong></p>
+<p>A few seconds later, the attendee has a physical name badge.</p>
+<p>So the entire experience becomes:</p>
+<blockquote>
+<p><strong>Scan → Check in → Print → Hand over the badge</strong></p>
+</blockquote>
+<p>The badge itself contains information such as the attendee's name, company, WordPress.org username, social handle, and website, depending on the configured fields.</p>
+<h2>Seeing it work with 400+ attendees</h2>
+<p>The real test, of course, wasn't the proof of concept.</p>
+<p>It was the actual event.</p>
+<p>And it worked.</p>
+<p>During WordCamp Philippines, we were able to use the QR check-in and automatic printing workflow for <strong>400+ attendees</strong>.</p>
+<p>There was something really satisfying about standing at registration and seeing the process happen repeatedly:</p>
+<p><strong>Scan. Beep. Check in. Print.</strong></p>
+<p>And then seeing the printed badges being worn around the venue.</p>
+<p>What started as an idea on a co-working day had become a working registration system used by hundreds of people.</p>
+<h2>Why I built it instead of using an existing solution</h2>
+<p>There are already plenty of event registration and check-in systems out there.</p>
+<p>But one of the reasons I enjoy WordCamp is that it gives us an opportunity to experiment and build things ourselves.</p>
+<p>I wanted a system that was:</p>
+<ul>
+<li>Self-hosted</li>
+<li>Built with WordPress</li>
+<li>Compatible with CampTix</li>
+<li>Simple enough for volunteers to use</li>
+<li>Flexible enough to work with different hardware</li>
+<li>Not dependent on installing plugins on WordCamp.org</li>
+<li>Easy to modify for future WordCamps</li>
+</ul>
+<p>CampTix Check-In became exactly that.</p>
+<p>The plugin stores attendee information locally and can synchronize from the official CampTix data using either CSV import or the WordCamp REST API.</p>
+<p>It also has a fallback: if the configured printer endpoint is unavailable, the badge can still fall back to the normal browser printing workflow.</p>
+<h2>What's next?</h2>
+<p>Of course, there are still things I would like to improve.</p>
+<p>For <strong>version 2</strong>, I would love to make the system even more self-contained.</p>
+<p>One possibility is turning the printer server itself into the complete registration station.</p>
+<p>The tablet already has a camera, so theoretically it could:</p>
+<p><strong>Scan QR → Check in locally → Print badge</strong></p>
+<p>without depending on the internet during registration.</p>
+<p>Attendee data could be synchronized to the device before the event, and check-in data could be synchronized back to CampTix afterward.</p>
+<p>That would also make it possible to run multiple independent registration stations.</p>
+<p>It's something I'd love to experiment with at a future WordCamp.</p>
+<h2>More than just a plugin</h2>
+<p>Looking back, CampTix Check-In wasn't really just a plugin project.</p>
+<p>It was a collaboration.</p>
+<p>I built the check-in system, but the automatic printing part wouldn't have happened without Jerico.</p>
+<p>What I originally thought was the missing piece of the project—<strong>printing</strong>—turned out to be something that Jerico was already experimenting with.</p>
+<p>He didn't just help me fix a problem. He helped turn the idea into something we could actually use in production.</p>
+<p>And that's one of the things I love about the WordPress community.</p>
+<p>You can mention an idea while working together, someone says, <em>"Yeah, we can probably do that,"</em> and suddenly you're building a weird little system involving WordPress, QR codes, REST APIs, tablets, HTTP requests, thermal printers, and a lot of experimentation.</p>
+<p>Then, a few weeks later, it's printing badges for hundreds of people.</p>
+<p>That's WordCamp.</p>
+<h2>Try it yourself</h2>
+<p>CampTix Check-In was built for WordCamp Philippines 2026, but I've made the project available as a WordPress plugin so it can potentially be adapted for other WordCamps and events.</p>
+<p>The project is licensed under GPLv2 or later, consistent with WordPress plugin licensing.</p>
+<p>The source code and documentation are available on GitHub:</p>
+<p><strong>CampTix Check-In:</strong> https://github.com/jhimross/camptix-checkin</p>
+<p>And a huge thanks to <strong>Jerico Aragon</strong> for helping me solve the final—and probably most fun—piece of the puzzle: automatic badge printing.</p>
+<p>Now I'm already thinking about version 2. </p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="my-zero-cost-static-blog-migration.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">My Zero-Cost Static Blog Migration (Just a fun experiment)</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="learning-to-be-human-again-in-a-digital-world.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Learning to Be Human Again in a Digital World</span>
       </a>
     </div>
   </article>
@@ -391,131 +577,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "building-a-qr-checkin-system-for-wordcamp-philippines";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

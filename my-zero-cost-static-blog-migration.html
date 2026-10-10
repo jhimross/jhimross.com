@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>My Zero-Cost Static Blog Migration (Just a fun experiment) — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="I recently had to make an unexpected but interesting shift in my workflow: moving away from a traditional WordPress setup and rebuilding my entire blog as a sta..." />
   <meta property="twitter:image" content="https://github.com/user-attachments/assets/a635cbb2-e06c-41e0-bc31-f3c0a7b3c4d8" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,197 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>My Zero-Cost Static Blog Migration (Just a fun experiment)</h1>
+      <div class="post-categories"><span class="category-tag">Migration</span><span class="category-tag">Tech</span><span class="category-tag">GitHub</span><span class="category-tag">Web Development</span></div>
+      <div class="post-meta">Published on May 13, 2026</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>I recently had to make an unexpected but interesting shift in my workflow: moving away from a traditional WordPress setup and rebuilding my entire blog as a static site powered by GitHub and Cloudflare Workers.</p>
+<p><img loading="lazy" decoding="async" width="1504" height="auto" alt="image" src="https://github.com/user-attachments/assets/a635cbb2-e06c-41e0-bc31-f3c0a7b3c4d8" /></p>
+<p>What started as a “my hosting expired” problem turned into a full rebuild that ended up being faster, simpler, and surprisingly closer to how I like building things.</p>
+<p>One of the biggest wins in the process: I’m no longer paying any monthly hosting fees. The entire site now runs without recurring infrastructure costs.</p>
+<p>Here’s how the migration happened, step by step.</p>
+<h2>When my hosting expired, I had a decision to make</h2>
+<p>My hosting provider expired unexpectedly. Instead of renewing and going back to the usual WordPress setup, I took it as a signal to rethink the stack.</p>
+<p>I’ve always liked the idea of static sites—less maintenance, faster performance, and no database to worry about. So I decided:</p>
+<blockquote>
+<p>Time to move everything to a static site hosted on GitHub + Cloudflare Workers.</p>
+</blockquote>
+<h2>Exporting everything from WordPress</h2>
+<p>The first step was getting my content out of WordPress.</p>
+<p><img loading="lazy" decoding="async" width="1084" height="auto" alt="image" src="https://github.com/user-attachments/assets/91b76d0e-6636-48c5-9b7e-d6929ed95c30" /></p>
+<p>I exported my entire blog using the built-in WordPress XML export tool. This gave me a single <code>.xml</code> file containing:</p>
+<ul>
+<li>Blog posts  </li>
+<li>Pages  </li>
+<li>Categories and tags  </li>
+<li>Metadata (dates, titles, slugs, permalinks, etc.)</li>
+</ul>
+<p>At this point, I basically had all my content “locked” in a format that needed transformation.</p>
+<h2>Converting XML to Markdown with AI help</h2>
+<p>Instead of manually parsing XML (which would’ve been painful), I used <strong>Antigravity</strong> to help automate the process.</p>
+<p><img loading="lazy" decoding="async" width="1512" height="auto" alt="image" src="https://github.com/user-attachments/assets/f55eace2-34e1-4b07-8799-c9ea19695cbf" /></p>
+<p>I asked it to:</p>
+<ul>
+<li>Recreate my existing website design structure  </li>
+<li>Parse the WordPress XML export  </li>
+<li>Convert blog posts into clean <code>.md</code> (Markdown) files  </li>
+<li>Preserve metadata like:</li>
+<li>Title  </li>
+<li>Featured image  </li>
+<li>Taxonomy (tags/categories)  </li>
+<li>Slugs and permalink structure  </li>
+<li>Content structure  </li>
+</ul>
+<p>This step was crucial. It turned WordPress content into something Git-friendly and portable.</p>
+<p>Now each blog post lives as a simple Markdown file.</p>
+<h2>Generating full HTML templates per blog post</h2>
+<p>This was a key step in keeping the structure intact.</p>
+<p>I also asked <strong>Antigravity</strong> to generate HTML templates for each blog post so that every post already had:</p>
+<p><img loading="lazy" decoding="async" width="1549" height="auto" alt="image" src="https://github.com/user-attachments/assets/f8ed9b67-7412-4c87-9142-3a645f01c35c" /></p>
+<ul>
+<li>Correct slug-based routing  </li>
+<li>Permalink structure matching the original WordPress URLs  </li>
+<li>Metadata injection (title, description, featured image, tags)  </li>
+<li>A consistent post layout template  </li>
+</ul>
+<p>Instead of relying on a CMS, each post follows a structured template that behaves like a rendered WordPress page—just without WordPress.</p>
+<p>This is what allowed me to preserve URL consistency and structure while still moving to a static architecture.</p>
+<h2>Rebuilding the site structure from scratch</h2>
+<p>Once the content and templates were ready, I rebuilt the frontend using plain HTML.</p>
+<p><img loading="lazy" decoding="async" width="634" height="auto" alt="image" src="https://github.com/user-attachments/assets/91aa6eba-d752-4c1c-959d-1d2be064bc94" /></p>
+<p>I created:</p>
+<ul>
+<li><code>index.html</code> → blog listing page  </li>
+<li><code>post.html</code> → individual blog post layout  </li>
+<li><code>blog.html</code> → blog archive structure  </li>
+<li><code>contact.html</code> → contact page  </li>
+</ul>
+<p>Everything is template-driven instead of CMS-driven.</p>
+<h2>Turning Markdown into a “pseudo-CMS”</h2>
+<p>Each blog post template dynamically reads from the <code>.md</code> file and extracts:</p>
+<p><img loading="lazy" decoding="async" width="547" height="auto" alt="image" src="https://github.com/user-attachments/assets/0f062c55-53a2-4f5b-a93d-4d4f784db034" /></p>
+<ul>
+<li>Title  </li>
+<li>Featured image  </li>
+<li>Taxonomy (tags/categories)  </li>
+<li>Content  </li>
+</ul>
+<p>Then it injects that data into the HTML template.</p>
+<p>Even though it’s static, the system behaves like a dynamic CMS.</p>
+<p>It feels like WordPress—but without WordPress.</p>
+<h2>Organizing assets properly</h2>
+<p>All images from my old WordPress site were migrated into a simple structure:</p>
+<p><img loading="lazy" decoding="async" width="563" height="auto" alt="image" src="https://github.com/user-attachments/assets/cb9de0e4-377d-47bf-8a1a-7ebe99566bee" /></p>
+<p>/assets
+/images
+/posts</p>
+<p>Every Markdown file references local assets directly—no external media system, no dependency overhead.</p>
+<h2>Adding a contact form (without backend pain)</h2>
+<p>Instead of building my own backend just for forms, I used Web3Forms.</p>
+<p><img loading="lazy" decoding="async" width="1863" height="auto" alt="image" src="https://github.com/user-attachments/assets/30fd6b07-29a0-4c20-a4cd-25fb900674f5" /></p>
+<p>It gave me:</p>
+<ul>
+<li>Free form handling  </li>
+<li>Spam protection  </li>
+<li>Email delivery  </li>
+<li>No server required  </li>
+</ul>
+<p>I embedded it into <code>contact.html</code>, and it worked instantly.</p>
+<h2>Deployment with GitHub + Cloudflare Workers</h2>
+<p>The final architecture is simple but powerful:</p>
+<p><img loading="lazy" decoding="async" width="1906" height="auto" alt="image" src="https://github.com/user-attachments/assets/6d660280-afa2-4c22-b9da-9b6980cbcf25" /></p>
+<ol>
+<li>Everything lives in a Git repository  </li>
+<li>Every change is a commit  </li>
+<li>Cloudflare Workers serves the site at the edge  </li>
+</ol>
+<p>So now my workflow looks like this:</p>
+<ul>
+<li>Want to update a post? Edit a <code>.md</code> file  </li>
+<li>Want to add a page? Duplicate a template  </li>
+<li>Want to publish? Push to GitHub  </li>
+</ul>
+<p>Then Cloudflare automatically deploys it.</p>
+<p><img loading="lazy" decoding="async" width="1906" height="auto" alt="image" src="https://github.com/user-attachments/assets/e1f29f0e-d84c-465b-83c9-3d64ee72524d" /></p>
+<p>No dashboards. No plugins. No database migrations.</p>
+<p>Just Git.</p>
+<h2>SEO stayed intact during migration</h2>
+<p>One of my biggest concerns was SEO. I didn’t want to lose years of search engine indexing.</p>
+<p>To make sure nothing broke:</p>
+<ul>
+<li>Existing WordPress slugs were preserved exactly  </li>
+<li>URL structure stayed identical  </li>
+<li>Permalinks were replicated through the new template system  </li>
+<li>No redirects were needed because paths remained the same</li>
+</ul>
+<p>Search engines didn’t have to relearn the site. Everything remained under the same URLs they already indexed.</p>
+<h2>Performance: perfect Lighthouse scores</h2>
+<p>After moving everything to a static architecture and serving it through Cloudflare, performance improved significantly.</p>
+<p><img loading="lazy" decoding="async" width="978" height="auto" alt="image" src="https://github.com/user-attachments/assets/36608705-0479-48e8-8afb-b04da0dc56e2" /></p>
+<p>The site now consistently scores:</p>
+<ul>
+<li>100 Performance  </li>
+<li>100 Accessibility  </li>
+<li>100 Best Practices  </li>
+<li>100 SEO  </li>
+</ul>
+<p>on Google PageSpeed Insights.</p>
+<p>No heavy optimization tricks—just a lightweight site served at the edge.</p>
+<h2>No more monthly hosting bills</h2>
+<p>The biggest practical change in all of this is financial:</p>
+<p>There are no longer any monthly hosting fees.</p>
+<p>No shared hosting renewal.<br />
+No database costs.<br />
+No CMS subscriptions.  </p>
+<p>Just a GitHub repo and Cloudflare Workers running everything.</p>
+<p>It’s a one-time setup that now runs continuously with zero recurring infrastructure cost.</p>
+<h2>Not abandoning WordPress—just experimenting</h2>
+<p>I also want to be clear: this isn’t me abandoning WordPress.</p>
+<p>It was simply a fun experiment during a gap when I didn’t have hosting available. Instead of seeing it as a limitation, I treated it as an opportunity to explore a different architecture.</p>
+<p>And honestly—it was worth it.</p>
+<p>It gave me a better understanding of static site workflows, a cleaner deployment process, and a deeper appreciation of how much can be done without a traditional CMS.</p>
+<h2>How it feels now</h2>
+<p>What surprised me most is how “dynamic” the site still feels, even though it’s static.</p>
+<p>It behaves like a CMS because:</p>
+<ul>
+<li>Content is structured (Markdown + metadata)  </li>
+<li>Templates are reusable  </li>
+<li>Pages are generated consistently  </li>
+<li>Deployment is automated  </li>
+</ul>
+<p>But it’s also:</p>
+<ul>
+<li>Faster  </li>
+<li>More secure  </li>
+<li>Easier to version control  </li>
+<li>Easier to recover or rebuild  </li>
+<li>And now, completely free to host monthly  </li>
+</ul>
+<h2>Final thoughts</h2>
+<p>This migration wasn’t originally planned—it started as a hosting issue. But it ended up being one of the most freeing changes I’ve made to my workflow.</p>
+<p>Moving away from WordPress doesn’t mean losing functionality. It just means rethinking <em>where complexity should live</em>.</p>
+<p>For me, the answer is simple now:</p>
+<ul>
+<li>Content → Markdown  </li>
+<li>Templates → HTML per post  </li>
+<li>Routing → Slug-based structure  </li>
+<li>Hosting → Edge (Cloudflare Workers)  </li>
+<li>Source of truth → GitHub  </li>
+<li>Cost → $0 monthly hosting fees  </li>
+</ul>
+<p>And honestly, that’s enough. Check my website here: https://jhimross.com</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="loving-someone-who-is-always-busy.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Loving Someone Who Is Always Busy</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="building-a-qr-checkin-system-for-wordcamp-philippines.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Building a QR Check-in System for WordCamp Philippines</span>
       </a>
     </div>
   </article>
@@ -391,131 +577,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "my-zero-cost-static-blog-migration";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

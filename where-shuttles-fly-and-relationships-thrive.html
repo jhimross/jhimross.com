@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>Where Shuttles Fly and Relationships Thrive — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="Every weekend, my life takes on a rhythm of movement, laughter, and shared energy as I step onto the badminton court. It&#x27;s not just about the game—it’s about th..." />
   <meta property="twitter:image" content="https://jhimross.wordpress.com/wp-content/uploads/2025/11/f52e5-454430373_10232821136535838_1650432233898978392_n.jpg?w=1024&h=768" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,37 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>Where Shuttles Fly and Relationships Thrive</h1>
+      <div class="post-categories"><span class="category-tag">Relationship</span><span class="category-tag">Sports</span><span class="category-tag">Wellness</span></div>
+      <div class="post-meta">Published on October 28, 2024</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>Every weekend, my life takes on a rhythm of movement, laughter, and shared energy as I step onto the badminton court. It's not just about the game—it’s about the moments spent with people who matter to me.</p>
+<h3>A Weekend Ritual</h3>
+<p>Saturday or Sunday afternoons are reserved for this special gathering. The court becomes a melting pot of friends, churchmates, and my girlfriend’s family. It’s a tradition now—a way to unwind, stay fit, and share quality time.</p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/f52e5-454430373_10232821136535838_1650432233898978392_n.jpg?w=1024&amp;h=768" /></p>
+<h3>The Game</h3>
+<p>Badminton is more than just a sport; it’s a test of agility, focus, and teamwork. The quick exchanges, smashing rallies, and occasional playful banter make every match exciting. Some of us play with intensity, aiming for every corner of the court, while others join for fun, bringing light-heartedness to the game.</p>
+<p><img loading="lazy" decoding="async" alt="" src="http://jhimross.com/wp-content/uploads/2024/10/Screen-Recording-2024-11-21-at-12.32.35.62-PM-1024x564.gif" /></p>
+<h3>Strengthening Bonds</h3>
+<p>What I love most is how this shared activity strengthens relationships. My friends and I cheer each other on, my churchmates bring a sense of fellowship, and playing alongside my girlfriend’s family creates a bond like no other. We’re not just playing; we’re building memories that will last a lifetime.</p>
+<h3>Post-Match Moments</h3>
+<p>After the games, we often sit down to catch our breath and share stories. Sometimes, we grab food or coffee nearby, extending the joy of togetherness. These post-game moments are as special as the games themselves—a time to connect and reflect.</p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/d7192-462859172_10235160815948292_1516496675236788433_n.jpg?w=1024&amp;h=768" /> <img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/55d9d-452109417_10234160224774138_5545039695057705635_n-edited.jpg" /></p>
+<h3>Why It Matters</h3>
+<p>Badminton every weekend isn’t just a hobby for me. It’s a chance to stay active, nurture relationships, and create a space where everyone feels part of something bigger. It reminds me that life’s simplest joys often come from shared experiences.</p>
+<p>Whether I’m smashing shuttles or sharing laughs, these weekends are a highlight of my week—a testament to the power of community, family, and the little traditions that make life rich.</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="why-i-love-black-coffee-and-the-ritual-of-brewing-it.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Why I Love Black Coffee and the Ritual of Brewing It</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="why-i-cycle-in-every-country-i-travel.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Why I Cycle in Every Country I Travel</span>
       </a>
     </div>
   </article>
@@ -391,131 +417,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "where-shuttles-fly-and-relationships-thrive";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

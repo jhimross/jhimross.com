@@ -4,34 +4,44 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
-  <title>A Cozy Movie Night: My Thoughts on the Movie "Flow" — Jhimross Olinares</title>
+  <title>A Cozy Movie Night: My Thoughts on the Movie &quot;Flow&quot; — Jhimross Olinares</title>
   <meta name="description" content="Last night, Julia and I had a simple yet special movie night. I set up the projector in a room, and we enjoyed our favorite Jollibee feast Chickenjoy, Burger St..." />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://jhimross.com/a-cozy-movie-night-my-thoughts-on-the-movie-flow.html" />
-  <meta property="og:title" content="A Cozy Movie Night: My Thoughts on the Movie "Flow" — Jhimross Olinares" />
+  <meta property="og:title" content="A Cozy Movie Night: My Thoughts on the Movie &quot;Flow&quot; — Jhimross Olinares" />
   <meta property="og:description" content="Last night, Julia and I had a simple yet special movie night. I set up the projector in a room, and we enjoyed our favorite Jollibee feast Chickenjoy, Burger St..." />
   <meta property="og:image" content="https://jhimross.wordpress.com/wp-content/uploads/2025/11/e490f-flow.gif" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:url" content="https://jhimross.com/a-cozy-movie-night-my-thoughts-on-the-movie-flow.html" />
-  <meta property="twitter:title" content="A Cozy Movie Night: My Thoughts on the Movie "Flow" — Jhimross Olinares" />
+  <meta property="twitter:title" content="A Cozy Movie Night: My Thoughts on the Movie &quot;Flow&quot; — Jhimross Olinares" />
   <meta property="twitter:description" content="Last night, Julia and I had a simple yet special movie night. I set up the projector in a room, and we enjoyed our favorite Jollibee feast Chickenjoy, Burger St..." />
   <meta property="twitter:image" content="https://jhimross.wordpress.com/wp-content/uploads/2025/11/e490f-flow.gif" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,45 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>A Cozy Movie Night: My Thoughts on the Movie &quot;Flow&quot;</h1>
+      <div class="post-categories"><span class="category-tag">Hobby</span><span class="category-tag">Movie</span><span class="category-tag">Relationship</span></div>
+      <div class="post-meta">Published on March 31, 2025</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>Last night, Julia and I had a simple yet special movie night. I set up the projector in a room, and we enjoyed our favorite Jollibee feast Chickenjoy, Burger Steak, and iced coffee while watching the 2024 animated film <strong>Flow</strong>.</p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/e490f-flow.gif" /></p>
+<p>It was one of those quiet, intimate moments that I truly cherish. But Flow wasn’t just another animated movie; it turned out to be a thought-provoking and visually stunning experience that left me reflecting on life, change, and survival.</p>
+<h3><strong>A Visual and Emotional Feast</strong></h3>
+<p>From the moment Flow started, I was amazed by its animation. The art style felt fresh and immersive, with fluid movement and breathtaking scenery. It reminded me of the peaceful yet unpredictable rhythm of nature. The movie had a certain charm, blending simplicity with deep storytelling.</p>
+<p>One of my first observations was how <em>Flow</em> didn’t rely heavily on dialogue. Instead, it let the visuals and music do most of the storytelling. This approach made me feel more connected to the emotions of the characters, as if I were experiencing their journey firsthand. It’s amazing how animation, when done right, can speak volumes without saying much.</p>
+<h3>Observations: Animals Acting Real and a World Left Behind</h3>
+<p>What got me was how authentic the animals felt. They’re not cartoonish or human-like they’re just themselves. The cat starts off solitary, eyeing the others warily, and watching it warm up hit hard. There’s this quiet moment where it shares food with the dog, and you feel the trust build. Cats don’t rush in, but when they connect, it’s real.</p>
+<p>The setting’s haunting a flooded, post-human world with abandoned houses and sunken statues. It’s eerie but beautiful, and it made us wonder: Is this about nature reclaiming what’s hers? Climate change? The movie doesn’t say, which I love—it lets you sit with it. For us cat fans, though, the focus stayed on that feline leading the charge through the chaos.</p>
+<p><strong>The Characters and Their Journey</strong></p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/9b72d-flow-characters.jpg?w=1024&amp;h=576" /></p>
+<p>The movie follows a lone animal protagonist, The <strong>Cat</strong>. A black Cat navigating a world that is constantly changing due to the rising waters. This cat is no ordinary feline—it is resilient, resourceful, and independent, yet also deeply attuned to the flow of nature. Throughout the film, the cat encounters obstacles, strange environments, and moments of solitude, all of which test its ability to adapt and survive. The character's expressions and movements convey a deep sense of curiosity and determination, making it easy to root for its journey.</p>
+<p>But the cat is not alone. Along the way, it meets other animals, each with their own unique personality and way of adapting to their surroundings:</p>
+<ul>
+<li><strong>Capybara</strong> – The calm and collected companion. Capybaras are known for their laid-back nature, and this one in <em>Flow</em> symbolizes peace and acceptance. It teaches us that sometimes, the best way to handle challenges is to stay calm and go with the flow. No matter how unpredictable life becomes, having a peaceful mindset allows us to navigate difficulties with grace and patience.</li>
+<li><strong>Lemur</strong> – Playful and curious, the lemur is drawn to shiny objects and loves collecting things—earthly treasures that bring temporary joy. However, when Capybara needed help, the lemur didn't hesitate to step up, showing that even those who seem materialistic can have a deep sense of loyalty and compassion. This reminds us that while material wealth and possessions can be enjoyable, true fulfillment comes from meaningful relationships and the willingness to help others when it truly matters.</li>
+<li><strong>Dog</strong> – Loyal and protective, the dog serves as a companion and guide. It represents trust and the importance of having someone to rely on, even when the world around us feels unstable. The dog's unwavering support shows that in times of uncertainty, having a strong support system—whether friends, family, or faith can make all the difference.</li>
+<li><strong>Secretary Bird</strong> – Majestic and strategic, this bird is a symbol of wisdom and survival. It observes from above, carefully choosing when to act. It teaches us that sometimes, taking a step back and assessing the situation can help us make better decisions. Rather than acting impulsively, wisdom comes from understanding the bigger picture and knowing when to move forward and when to wait.</li>
+</ul>
+<h3><strong>The Flow of Life and Change</strong></h3>
+<p>At its core, Flow is about adapting to change. The story follows a protagonist who must navigate an ever-changing world, learning to survive in an unpredictable environment. This theme hit home for me. Life often throws unexpected changes our way, and just like the characters in the movie, we have to learn how to go with the flow.</p>
+<p>Flow was more than just a movie night for me it was a reminder to appreciate the journey, whether in life, relationships, or personal growth. The combination of stunning animation, a meaningful story, and good food made it a night to remember.</p>
+<p>As I packed up the projector and finished the last sip of iced coffee, I realized that sometimes, the best moments in life are the simplest ones. And just like <em>Flow</em> taught me, it’s all about moving forward, trusting in God’s plan, and letting Him guide us through the currents of life.</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="the-power-of-compromise-in-a-relationship.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">The Power of Compromise in a Relationship</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="when-love-moves-at-different-speeds.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">When Love Moves at Different Speeds</span>
       </a>
     </div>
   </article>
@@ -391,131 +425,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "a-cozy-movie-night-my-thoughts-on-the-movie-flow";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

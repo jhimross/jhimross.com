@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>Honoring the Lamb Through the Cross in Song — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="As Easter draws near, our hearts naturally turn toward the cross, the empty tomb, and the glorious hope we have in Jesus. It&#x27;s a season not only of remembrance,..." />
   <meta property="twitter:image" content="https://jhimross.com/assets/about.jpg" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,54 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>Honoring the Lamb Through the Cross in Song</h1>
+      <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Worship</span></div>
+      <div class="post-meta">Published on April 07, 2025</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>As Easter draws near, our hearts naturally turn toward the cross, the empty tomb, and the glorious hope we have in Jesus. It's a season not only of remembrance, but of <strong>worship</strong> —a time to pause and reflect on the greatest act of love the world has ever known. In this sacred season, two worship songs echo loudly in my heart: <strong>"Hallelujah to the Lamb"</strong> by Don Moen and <strong>"What He's Done"</strong> by Passion.</p>
+<p>Though these songs come from different generations and worship traditions, both beautifully point us to the same truth: <strong>Jesus Christ, the Lamb of God, is worthy of all praise because of what He has done and who He is.</strong></p>
+<hr />
+<h3><strong>Hallelujah to the Lamb – Don Moen</strong></h3>
+<p><em>"Lord, I stand in the midst of a multitude<br />
+Of those from every tribe and tongue..."</em></p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/60k_gMGRnRk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<p>This song paints a vivid picture of heaven, inspired by Revelation, where a great multitude worships before the throne. It’s a vision of <strong>eternal praise</strong> , declaring that the Lamb who was slain is now glorified. As we approach Easter, this reminds us that <strong>the story of Jesus didn’t end at the cross—it continues in the throne room of heaven</strong> , where Christ now reigns forever.</p>
+<p>Jesus didn’t just die, <strong>He rose again</strong>. And now, He is exalted above every name. This song helps us anticipate the day when we, too, will stand before Him, joining the heavenly chorus singing, <em>“Hallelujah to the Lamb!”</em></p>
+<hr />
+<h3><strong>What He's Done – Passion</strong></h3>
+<p><em>"See, on the hill of Calvary<br />
+My Savior bled for me..."</em></p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/j5lcadt8D2o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<p>This modern worship anthem invites us to stand at the foot of the cross and see what our Savior endured for us. It’s a song of awe and gratitude, acknowledging the <strong>depth of sacrifice</strong> and the <strong>miracle of grace</strong>. As Easter reminds us of Christ’s death and resurrection, this song helps us personalize that truth: <em>“What He’s done, what He’s done / All the glory and the honor to the Son.”</em></p>
+<p>This is what Easter is all about: the <strong>victory of Jesus over sin and death</strong>. This song leads us to remember not just the events of the cross, but the life change we now experience because of it. We live free, forgiven, and full of hope <strong>all because of what He’s done</strong>.</p>
+<hr />
+<h3><strong>Why These Songs Matter</strong></h3>
+<p>Together, these two songs capture the full arc of the Gospel:</p>
+<ul>
+<li><strong>"What He’s Done"</strong> helps us remember the <strong>price Jesus paid</strong> and the grace He poured out.</li>
+<li><strong>"Hallelujah to the Lamb"</strong> lifts our eyes to <strong>where Jesus is now</strong> —seated in majesty, forever glorified.</li>
+</ul>
+<p>As we sing them during this Easter season, we are doing more than remembering a historical event. We’re responding with worship, worship that acknowledges the Lamb of God who takes away the sin of the world, and who lives and reigns forever.</p>
+<hr />
+<h3><strong>Final Thoughts</strong></h3>
+<p>Easter isn’t just about looking back. It’s about looking up and moving forward—with hearts full of praise. These two songs are a beautiful way to realign our focus on Jesus, the Lamb who was slain and who now lives.</p>
+<p>So as Easter approaches, whether you're worshiping at church, at home, or on a quiet morning with your coffee and your thoughts may your heart echo with these words:</p>
+<p><strong>"Hallelujah to the Lamb."</strong><br />
+<strong>"All the glory and the honor to the Son."</strong></p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="when-love-moves-at-different-speeds.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">When Love Moves at Different Speeds</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="he-is-risen-the-hope-that-fuels-my-life.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">He is Risen! The Hope That Fuels My Life</span>
       </a>
     </div>
   </article>
@@ -391,131 +434,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "honoring-the-lamb-through-the-cross-in-song";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

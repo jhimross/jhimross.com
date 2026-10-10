@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>A Guide to the WordPress Request Lifecycle — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="WordPress is known for its flexibility and extensibility, making it the most popular content management system (CMS) in the world. But have you ever wondered ho..." />
   <meta property="twitter:image" content="https://lh7-rt.googleusercontent.com/slidesz/AGV_vUec7Ku7FU6v3I9j7G_tKEJkPdauBbqFP-98ikTvrSlqL7KZt6W46BM8dg2k8pq6A2hecykPQozM6IU7-83VHwEWDIErQsiePCnw06K_JckPuZo7NoB_32Aqo8Gwesg2smsudzR887XpdZa4K5jok81_mXOYrj-L=nw?key=i3UP4DfSr6rdhx3gPf3lFA" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,94 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>A Guide to the WordPress Request Lifecycle</h1>
+      <div class="post-categories"><span class="category-tag">Web Development</span><span class="category-tag">WordPress</span></div>
+      <div class="post-meta">Published on January 23, 2025</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>WordPress is known for its flexibility and extensibility, making it the most popular content management system (CMS) in the world. But have you ever wondered how WordPress loads or what happens behind the scenes when someone visits your website? This is where the <strong>WordPress Request Lifecycle</strong>  comes into play. Understanding this process is key to optimizing performance, debugging, and even developing custom plugins or themes.</p>
+<p>In this article, we’ll dive deep into the WordPress load sequence, also known as the <strong>WordPress Request Lifecycle</strong> , to give you a clear view of how WordPress processes a request, from the moment a URL is entered until a page is displayed..</p>
+<h3>What is the WordPress Request Lifecycle?</h3>
+<p>The <strong>WordPress Request Lifecycle</strong>  refers to the series of steps that WordPress follows to handle and process every HTTP request. Whether it’s loading a post, displaying a product page, or processing a form submission, WordPress goes through a sequence of actions to produce the desired output.</p>
+<p>This sequence includes loading core files, initializing themes and plugins, and finally generating the HTML that is sent back to the browser.</p>
+<h3>Key Stages of the WordPress Load Sequence</h3>
+<h4>1. <strong>Web Server &amp; PHP Execution</strong></h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://lh7-rt.googleusercontent.com/slidesz/AGV_vUec7Ku7FU6v3I9j7G_tKEJkPdauBbqFP-98ikTvrSlqL7KZt6W46BM8dg2k8pq6A2hecykPQozM6IU7-83VHwEWDIErQsiePCnw06K_JckPuZo7NoB_32Aqo8Gwesg2smsudzR887XpdZa4K5jok81_mXOYrj-L=nw?key=i3UP4DfSr6rdhx3gPf3lFA" /></p>
+<p>When a user types a URL and hits enter, the request is sent to the web server hosting your WordPress site. This could be Apache, Nginx, or another web server. The web server then initiates PHP execution, which kicks off the WordPress lifecycle.</p>
+<h4>2. <strong><code>wp-config.php</code> File</strong></h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/f4138-image.png?w=1024&amp;h=865" /></p>
+<p>The first crucial file that WordPress loads is the <code>wp-config.php</code> file. This file contains essential settings for your WordPress site, including the database connection details, debugging options, and site-specific configurations. It is critical because it tells WordPress how to connect to your MySQL database.</p>
+<h4>3. <strong>Loading  <code>wp-settings.php</code></strong></h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/01efa-image-1.png" /></p>
+<p>Next, WordPress moves to the <code>wp-settings.php</code> file. This is one of the core files responsible for setting up the environment. It loads many of the default functions, plugins, and theme files that WordPress needs to run.</p>
+<p>During this step, WordPress:</p>
+<ul>
+<li>Loads active plugins.</li>
+<li>Sets default constants like <code>ABSPATH</code> (the absolute path of your WordPress installation).</li>
+<li>Loads must-use (MU) plugins.</li>
+</ul>
+<h4>4. <strong><code>wp-content</code> and themes</strong></h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/6386a-image-2.png" /></p>
+<p>After the plugins are loaded, WordPress moves to loading the currently active theme, located in the <code>wp-content/themes/</code> folder. It starts by loading the <code>functions.php</code> file of the theme, which includes theme-specific configurations and functions.</p>
+<p>If the child theme is in use, its <code>functions.php</code> file is loaded first, followed by the parent theme’s <code>functions.php</code>.</p>
+<h4>5. <strong>Handling the Request: Routing and Query Parsing</strong></h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/877c1-image-3.png" /></p>
+<p>At this point, WordPress uses the URL to determine what content to show. This process is handled by the <strong>WP Query</strong>  class, which interprets the URL and determines whether the request is for a post, page, category, archive, or something else entirely. WordPress uses <strong>rewrite rules</strong>  to translate the human-readable URLs (pretty permalinks) into something that the database can understand.</p>
+<p>Once the query is parsed, WordPress interacts with the MySQL database to retrieve the appropriate content.</p>
+<h4>6. <strong>Generating the Page: Template Hierarchy</strong></h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/2e2f2-image-4.png?w=1024&amp;h=639" /></p>
+<p>After the query is parsed, WordPress moves to the <strong>template hierarchy</strong>. The template hierarchy is a system that WordPress uses to decide which PHP file in the active theme should be used to generate the page.</p>
+<p>For example:</p>
+<ul>
+<li>If it’s a single post, WordPress will look for <code>single.php</code>.</li>
+<li>For pages, it looks for <code>page.php</code>.</li>
+<li>If it’s an archive page, WordPress will use <code>archive.php</code>.</li>
+</ul>
+<p>If none of these templates are found, WordPress falls back to the most generic template, <code>index.php</code>.</p>
+<h4>7. <strong>Executing Hooks and Filters</strong></h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/a35b4-image-5.png" /></p>
+<p>WordPress provides developers with various hooks and filters that run at different points throughout the request lifecycle. This allows theme and plugin developers to inject custom functionality or modify how WordPress behaves at different stages.</p>
+<p>Some of the most critical hooks during this phase include:</p>
+<ul>
+<li><strong><code>wp_loaded</code></strong>  – Fires once WordPress and all plugins are fully loaded.</li>
+<li><strong><code>template_redirect</code></strong>  – Runs just before WordPress determines the template to load.</li>
+<li><strong><code>the_content</code></strong>  – Runs before displaying the content on the page, allowing for content filtering.</li>
+</ul>
+<h4>8. <strong>Sending Headers and Output</strong></h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/c7234-image-7-edited.png" /></p>
+<p>Once the content is retrieved, WordPress sends the HTTP headers, followed by the HTML content. It may also send cookies or perform additional redirects, depending on the request and the state of the user (logged-in, logged-out, etc.).</p>
+<h4>9. <strong>Final Output</strong></h4>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/52e50-image-6.png?w=1024&amp;h=562" /></p>
+<p>Finally, the user sees the rendered HTML page in their browser. This is the final output after the WordPress request lifecycle has completed its process. The browser receives this HTML, CSS, JavaScript, and any other assets (images, etc.) and presents the fully rendered page to the visitor.</p>
+<p><strong>Here is an Infographic for you to visualize the entire Process</strong></p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.com/wp-content/uploads/2025/01/WordPress-Request-Lifecycle-1024x523.png" /></p>
+<h3>Why Understanding the WordPress Load Sequence Matters</h3>
+<p>Understanding how WordPress loads and processes requests offers several practical benefits:</p>
+<ol>
+<li><strong>Performance Optimization</strong><br />
+By knowing what happens at each step, you can identify bottlenecks in your website's performance and implement caching, lazy loading, or reduce the number of HTTP requests where necessary.</li>
+<li><strong>Troubleshooting and Debugging</strong><br />
+If something goes wrong, knowing where WordPress is in its load sequence can help narrow down the problem, whether it's related to the database, a plugin, or the theme.</li>
+<li><strong>Plugin and Theme Development</strong><br />
+For developers, understanding the lifecycle is critical for hooking into the right actions and filters, ensuring your code runs at the appropriate time during the request.</li>
+<li><strong>Security</strong><br />
+Being familiar with the load sequence helps you identify vulnerabilities and secure sensitive files like <code>wp-config.php</code>. You can also prevent direct access to important files and directories through proper server configuration.</li>
+</ol>
+<hr />
+<h3>Conclusion</h3>
+<p>The WordPress Request Lifecycle is a complex yet fascinating process that happens behind the scenes every time a user interacts with your website. From the moment the server receives the request to the point the browser renders the page, WordPress goes through multiple steps to provide a smooth user experience.</p>
+<p>By understanding this sequence, you can better manage performance, optimize your site, and develop custom features that work harmoniously within the WordPress framework. So the next time you're optimizing your WordPress site or troubleshooting an issue, you’ll have a clear understanding of how WordPress works from the inside out!</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="highlights-from-my-japan-trip.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Highlights from My Japan Trip</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="what-i-learned-co-leading-the-contributor-day-team-for-wordcamp-asia-2025.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">What I Learned Co-Leading the Contributor Day Team for WordCamp Asia 2025</span>
       </a>
     </div>
   </article>
@@ -391,131 +474,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "a-guide-to-the-wordpress-request-lifecycle";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

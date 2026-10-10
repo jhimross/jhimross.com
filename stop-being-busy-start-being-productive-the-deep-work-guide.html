@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>Stop Being Busy, Start Being Productive - The Deep Work Guide — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="In today&#x27;s world, the most valuable skill isn&#x27;t multitasking...it&#x27;s **focus**. This ability to concentrate, called **Deep Work** , is what separates the best fr..." />
   <meta property="twitter:image" content="https://jhimross.wordpress.com/wp-content/uploads/2025/11/8ac9e-image.png?w=768&h=1024" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,74 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>Stop Being Busy, Start Being Productive - The Deep Work Guide</h1>
+      <div class="post-categories"><span class="category-tag">Leadership</span><span class="category-tag">Mindset</span><span class="category-tag">Self Development</span></div>
+      <div class="post-meta">Published on November 10, 2025</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>In today's world, the most valuable skill isn't multitasking...it's <strong>focus</strong>. This ability to concentrate, called <strong>Deep Work</strong> , is what separates the best from the rest.</p>
+<h2>The Big Idea Comes From...</h2>
+<p>Everything you read here; the definitions, the rules, and the strong focus on concentration; comes from the best-selling book <strong>"<a href="https://www.goodreads.com/book/show/25744928-deep-work">Deep Work</a>"</strong> by <strong>Cal Newport</strong>.</p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/8ac9e-image.png?w=768&amp;h=1024" /></p>
+<p>Newport argues that in a world full of distractions, the ability to <strong>focus deeply</strong> is your single most valuable skill. If you want the full plan for how to build this skill, check out his book!</p>
+<h2>The Core Idea: What Is Deep Work?</h2>
+<ul>
+<li><strong>Deep Work</strong> - Professional time spent in <strong>distraction-free concentration</strong> to make something valuable and challenging. </li>
+<li><strong>Shallow Work -</strong> Easy, logistical tasks often done while distracted (like checking email or scheduling). This doesn't create much new value.</li>
+</ul>
+<h3>Why Deep Work is Your Secret Weapon</h3>
+<p>The ability to do deep work is becoming <strong>rare and valuable</strong>. If you master it, you will thrive.</p>
+<p>1.) <strong>You Learn Faster</strong> - Intense focus (like "deliberate practice") trains your brain by strengthening the neural circuits needed for a new skill. If you're unfocused, you learn nothing effectively.</p>
+<p>2.) You Produce Better Results, Faster - Your output is governed by this simple rule:</p>
+<blockquote>
+<p>High-Quality Work = Time Spent * Intensity of Focus. </p>
+</blockquote>
+<p>Your focus, and you maximize your results. Multitasking leaves "attention residue," which just makes your next task worse.</p>
+<h2><strong>3 Rules to Start Working Deeply Today</strong></h2>
+<p>Don't just <em>intend</em> to focus... use routines to make it automatic.</p>
+<h2>Rule 1: Schedule Your Deep Time</h2>
+<p><img loading="lazy" decoding="async" alt="Black-and-white close-up of person writing in a notebook, emphasizing handwriting and detail." src="http://jhimross.com/wp-content/uploads/2025/11/black-and-white-close-up-of-person-writing-in-a-notebook-emphasizing-handwriting-and-detail.-5710585-1024x683.jpg" /></p>
+<p>You need rituals to prevent using up your limited willpower.</p>
+<ul>
+<li><strong>Go Rhythmic</strong> - Make <strong>Deep Work a habit</strong> by scheduling it for a consistent block of time every day (e.g., 90 minutes every morning). This removes the energy needed to decide <em>when</em> to work.</li>
+<li><strong>Create a Ritual</strong> - Before you start, define: <strong>Where</strong> you'll work, <strong>how long</strong> you'll work, and <strong>what tools</strong> (or lack of tools) you'll use.</li>
+<li><strong>Focus on Wildly Important Goals</strong> - Don't try to do everything. Pick a small number of crucial goals and use Deep Work time only for them.</li>
+</ul>
+<h2>Rule 2: Embrace Boredom (and Kill Distraction)</h2>
+<p><img loading="lazy" decoding="async" alt="Dynamic blurred image depicting stress in a modern office setting." src="http://jhimross.com/wp-content/uploads/2025/11/dynamic-blurred-image-depicting-stress-in-a-modern-office-setting.-9065101-1024x683.jpg" /></p>
+<p>The urge to check your phone whenever you feel a moment of boredom is the enemy of deep work.</p>
+<ul>
+<li><strong>Don't Take Breaks from Distraction; Take Breaks <em>from</em> Focus</strong> - Don't check the internet whenever you feel like it. Instead, <strong>schedule blocks of time</strong> specifically for checking email and social media, and strictly avoid them outside those times.</li>
+<li><strong>Meditate Productively</strong> - When you're physically busy (like walking or cleaning), focus your mind on <strong>one single professional problem</strong> instead of letting it drift to anxiety or social media feeds.</li>
+<li><strong>Quit Low-Value Social Media</strong> - These tools fragment your time and train your brain to have low concentration.</li>
+</ul>
+<h2>Rule 3: Guard Your Time (Be Lazy and Say No)</h2>
+<p><img loading="lazy" decoding="async" alt="Cozy morning setup with a vintage alarm clock and floral coffee cup on a book. Perfect for capturing morning routines." src="http://jhimross.com/wp-content/uploads/2025/11/cozy-morning-setup-with-a-vintage-alarm-clock-and-floral-coffee-cup-on-a-book.-perfect-for-capturing-morning-routines.-359991-1024x683.jpg" /></p>
+<p>If you maximize your focus during deep time, you don't need to work all night.</p>
+<ul>
+<li><strong>Be Lazy (Downtime is Essential)</strong> - When you finish your day, <strong>have a strict shutdown ritual</strong> (e.g., "I'm done at 5:30 PM"). Downtime recharges your finite focus and even helps your unconscious mind solve hard problems for you.</li>
+<li><strong>Schedule Every Minute</strong> - This isn't about working constantly; it's about being <strong>thoughtful</strong> about how your time is used. If a task isn't deep work, it should be a planned block of shallow work, or better yet, a block of free time.</li>
+<li><strong>Become Hard to Reach</strong> - Set drastic limits on shallow work like email. Use filters and be clear in refusing new commitments that don't serve your important goals.</li>
+</ul>
+<h2>Final Thought: Your Choice</h2>
+<p>We've learned that <strong>Deep Work</strong> is the key to creating valuable things and living a meaningful life. But this requires you to make a choice every day:</p>
+<ul>
+<li><strong>Will you choose distraction</strong> (the easy, shallow path) that leaves you busy but unfulfilled?</li>
+<li><strong>Or will you choose focus</strong> (the hard, deep path) that pushes your limits and creates your best work?</li>
+</ul>
+<p>It takes discipline to ignore the noise, but the payoff is huge. By choosing to work deeply, you are not just changing your productivity; you are improving the quality of your life.</p>
+<p><strong>Choose depth. Choose focus. Choose a better life.</strong></p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="thirty-and-grateful.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Thirty and Grateful</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="why-a-cheap-monoblock-chair-beats-every-fancy-office-and-gaming-seat.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Why a Simple Monoblock Chair Beats High-End Office and Gaming Chairs</span>
       </a>
     </div>
   </article>
@@ -391,131 +454,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "stop-being-busy-start-being-productive-the-deep-work-guide";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

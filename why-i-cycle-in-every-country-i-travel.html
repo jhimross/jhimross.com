@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>Why I Cycle in Every Country I Travel — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="Traveling is an experience that enriches the soul and broadens the mind. As someone who loves to explore the world, I’ve found that cycling has become the perfe..." />
   <meta property="twitter:image" content="https://jhimross.com/assets/about.jpg" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,52 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>Why I Cycle in Every Country I Travel</h1>
+      <div class="post-categories"><span class="category-tag">Cycling</span><span class="category-tag">Travel</span></div>
+      <div class="post-meta">Published on November 01, 2024</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>Traveling is an experience that enriches the soul and broadens the mind. As someone who loves to explore the world, I’ve found that cycling has become the perfect way for me to connect with the places I visit. It’s not just about getting from one point to another, it’s about embracing the journey, discovering new cultures, and experiencing life at a different pace. Here’s why cycling has become a must-do activity in every country I travel to.</p>
+<h3>1. <strong>A Deeper Connection to the Place</strong></h3>
+<p>When I cycle through a city or rural area, I’m not just passing by—it’s a slow, intimate experience. You notice the small details that you would miss in a car or bus: the scent of freshly baked bread from a corner bakery, the sound of locals chatting over coffee, or the wind rustling through the trees in a park. Cycling allows me to move at a pace that connects me with the rhythm of a place, rather than just observing it from a distance.</p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/71Fvu9CdwXI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<p>Cycling in West Kowloon, Hong Kong</p>
+<h3>2. <strong>The Freedom of Exploration</strong></h3>
+<p>Cycling gives me the freedom to go off the beaten path. While buses and taxis are confined to specific routes, my bike can take me down quiet alleys, to hidden beaches, or into the heart of a local neighborhood. It allows me to create my own adventure and find gems that might not appear in any travel guide. Whether it’s a secluded mountain trail or a charming street lined with local art shops, my bike is the key to unlock places only the locals know.</p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/M8huo7x-4I4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<p>Commuting using a Bicycle in Taipei, Taiwan</p>
+<h3>3. <strong>A Sustainable Way to Travel</strong></h3>
+<p>As someone who values sustainability, cycling aligns perfectly with my travel ethos. It’s an eco-friendly way to explore, reducing my carbon footprint while still being able to experience the world in all its glory. I believe that travel doesn’t have to come at the expense of the environment, and cycling allows me to explore new destinations with minimal impact.</p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/cT6ow7JT5wQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<p>Cycling and Exploring Hanoi</p>
+<h3>4. <strong>The Joy of Physical Challenge</strong></h3>
+<p>Cycling is more than just a means of transportation; it’s also a form of self-expression and challenge. Whether I'm climbing the hills of a mountain pass or navigating busy city streets, the physical exertion of cycling makes me feel alive. It’s an opportunity to push my limits and discover what my body is capable of. Plus, cycling helps me stay active, so I can enjoy local cuisine without worrying too much about overindulgence!</p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/gwWSQeavO-8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<h3>5. <strong>A Unique Perspective</strong></h3>
+<p>I’ve found that cycling gives me a unique perspective on the places I visit. It’s not just about the landmarks, but the journey in between. Cycling helps me see the contrasts of a place, like the bustling energy of a city center versus the quiet serenity of the countryside. These differences tell the true story of a destination, and cycling allows me to experience them firsthand.</p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/zikgYD5lnFc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<h3>7. <strong>Cycling is Part of My Journey</strong></h3>
+<p>Lastly, cycling is more than just an activity—it’s a part of who I am. It’s a reflection of my values and passions. For me, every bike ride is a personal journey, one that aligns with my love for exploration, self-growth, and my deep faith in Jesus. It’s a reminder that life is not just about where you’re going but how you get there.</p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/FSPJ0rzFE_A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<p>Traveling by bike allows me to see the world through a different lens, and that’s why I cycle in every country I visit.</p>
+<p>What about you? Do you find unique ways to connect with the places you travel to? Share your thoughts in the comments below!</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="where-shuttles-fly-and-relationships-thrive.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Where Shuttles Fly and Relationships Thrive</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="apart-from-you-i-am-nothing.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Apart from You, I Am Nothing</span>
       </a>
     </div>
   </article>
@@ -391,131 +432,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "why-i-cycle-in-every-country-i-travel";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>In the Middle of the Storm — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="Storms have a way of disrupting life—leaving behind destruction, fear, and uncertainty. While news headlines often highlight natural disasters, there are other ..." />
   <meta property="twitter:image" content="https://jhimross.com/assets/about.jpg" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,48 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>In the Middle of the Storm</h1>
+      <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Faith</span></div>
+      <div class="post-meta">Published on July 23, 2024</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>Storms have a way of disrupting life—leaving behind destruction, fear, and uncertainty. While news headlines often highlight natural disasters, there are other storms just as devastating: sickness, financial hardship, and broken relationships. These personal storms threaten our peace, comfort, and joy, leaving us vulnerable to fear, doubt, and hopelessness.</p>
+<p>In <strong>Mark 4:35–41</strong> , we see the disciples caught in a storm, both physical and spiritual, while crossing the Sea of Galilee. The wind and waves raged against their small boat, and fear consumed them. Meanwhile, Jesus was asleep in the stern. Overwhelmed, they cried out, <em>“Teacher, do you not care that we are perishing?”</em> (Mark 4:38).</p>
+<p>Jesus awoke, rebuked the wind and sea with the words, <em>“Peace! Be still!”</em> (Mark 4:39), and questioned their faith. Stunned, the disciples were no longer afraid of the storm but marveled at Jesus’ authority over nature, asking, <em>“Who then is this, that even the wind and the sea obey him?”</em> (Mark 4:41).</p>
+<p>The disciples learned powerful lessons that day—lessons we can apply as we face our own storms.</p>
+<h2>God Ordains the Storms of Life</h2>
+<p>It’s hard to accept that a loving God permits trials in our lives. For some, it seems contradictory: <em>“If God loves me, why does He allow suffering?”</em> But Jesus Himself addressed this tension:</p>
+<p><em>"In this world you will have tribulation. But take heart; I have overcome the world.”</em> (John 16:33)</p>
+<p>Jesus promised we would face difficulties, but He also reassured us of His victory over them. Trials test the genuineness of our faith, as James 1:2-3 reminds us:</p>
+<p><em>"Consider it pure joy, my brothers and sisters, whenever you face trials of many kinds, because you know that the testing of your faith produces perseverance.”</em></p>
+<p>In Mark 4, the disciples’ faith was tested. They doubted Jesus’ care for them in their fear, asking if He even cared that they were in danger. We often feel the same way when faced with health crises or financial struggles, but Scripture reminds us to cast our cares on Him because He cares deeply for us (1 Peter 5:7).</p>
+<h2>God Is in Control of the Storms</h2>
+<p>When Jesus calmed the storm, He demonstrated His absolute sovereignty. He is not merely present during our trials—He has control over them. As Psalm 24:1-2 proclaims:</p>
+<p><em>"The earth is the LORD’s, and everything in it, the world, and all who live in it; for he founded it on the seas and established it on the waters.”</em></p>
+<p>This sovereignty assures us that nothing happens outside God’s plan or power. While the disciples were right to turn to Jesus in the storm, they did so in fear and doubt rather than faith. Instead, Jesus calls us to trust Him completely. Philippians 4:6-7 offers the key:</p>
+<p><em>"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.”</em></p>
+<p>When we thank God for His power and purpose in the storm, His peace guards us from fear and anxiety.</p>
+<h2>God Is for You in the Storm</h2>
+<p>In their fear, the disciples questioned Jesus’ care for them. Jesus rebuked both the storm and their unbelief, reminding them of His deep love and faithfulness.</p>
+<p>Isaiah 41:10 reassures us:</p>
+<p><em>"Fear not, for I am with you; be not dismayed, for I am your God. I will strengthen you, I will help you, I will uphold you with my righteous right hand.”</em></p>
+<p>Believing that God is for you changes everything. When trials come, you won’t be tempted to doubt His love or purpose. Even when He seems silent, you can trust His promises.</p>
+<h2>Trusting God in the Storm</h2>
+<p>The storms of life are part of God’s sanctification process. They reveal our hearts, refine our faith, and draw us closer to Him. Isaiah 43:2 promises:</p>
+<p><em>"When you pass through the waters, I will be with you; and through the rivers, they shall not overwhelm you."</em></p>
+<p>Let the storms of life remind you of God’s faithfulness. Instead of focusing on the size of the storm, focus on the greatness of God. He is your refuge, deliverer, and peace in every trial.</p>
+<p>Trust Him, for He has overcome the world.</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="leadership-of-a-lion.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Leadership of a Lion</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="why-i-love-black-coffee-and-the-ritual-of-brewing-it.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Why I Love Black Coffee and the Ritual of Brewing It</span>
       </a>
     </div>
   </article>
@@ -391,131 +428,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "in-the-middle-of-the-storm";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

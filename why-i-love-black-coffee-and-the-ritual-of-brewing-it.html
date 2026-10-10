@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>Why I Love Black Coffee and the Ritual of Brewing It — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="There’s something about black coffee that resonates deeply with me. It’s not just the rich, bold flavor or the caffeine boost—it’s the simplicity and authentici..." />
   <meta property="twitter:image" content="https://jhimross.wordpress.com/wp-content/uploads/2025/11/04313-coffee-machine-1.gif" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,31 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>Why I Love Black Coffee and the Ritual of Brewing It</h1>
+      <div class="post-categories"><span class="category-tag">Beverage</span><span class="category-tag">Habit</span><span class="category-tag">Random</span></div>
+      <div class="post-meta">Published on October 16, 2024</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>There’s something about black coffee that resonates deeply with me. It’s not just the rich, bold flavor or the caffeine boost—it’s the simplicity and authenticity of it all. Black coffee strips everything down to its essence, allowing me to fully savor the pure taste of the beans. No milk, no sugar—just the unadulterated goodness of coffee.</p>
+<p>Every morning, I get to begin my day with a small yet meaningful ritual: making my coffee. I don’t just pour hot water over grounds or press a button on an automatic machine. For me, making coffee is a ceremony. I take the time to enjoy the process, as if the brewing of the coffee itself sets the tone for the day ahead.</p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/04313-coffee-machine-1.gif" />DeLonghi Espresso Maching</p>
+<p>The star of this ritual is my Delonghi Espresso machine. The sleek, efficient design and the smoothness of the espresso it brews make every cup feel like a treat. It’s more than just a machine—it’s an extension of my love for the craft of coffee-making. The sound of the machine whirring as it grinds the beans, the aroma that fills the air as the espresso drips into my cup—these small moments are what make the process special.</p>
+<p><img loading="lazy" decoding="async" alt="" src="http://jhimross.com/wp-content/uploads/2024/10/Camera-King-Gcam21-Nov-12_42.iphone-pixel-1024x768.jpg" />Kapeng Barako from Batangas</p>
+<p>One of the things that adds a personal touch to my coffee is the beans I use. Currently, my favorite is Batangas coffee. I get it from one of the women in our church who often travels to Batangas. We call it "pasabuy," a Filipino term for items bought by someone for friends or family as a gesture of care. This Batangas coffee has a rich, smooth flavor that perfectly complements the espresso brewing process. It’s not just about the taste—it’s the connection I feel to the people I know who bring it to me, making each cup more than just a drink, but a part of my community and my morning routine.</p>
+<p>I also love the adventure of discovering new places with the perfect cup of black coffee. Sometimes, I get on my bike and cycle to different spots, searching for that ideal brew. It’s a fun way to combine my love for cycling with my passion for coffee. Each new place offers a different experience—whether it’s a cozy local café, a hidden gem with an unmatched atmosphere, or a barista who takes their coffee seriously. The thrill of finding that perfect cup makes the journey all the more rewarding.</p>
+<p>I love the control I have over every step, from choosing the beans to adjusting the grind size, the water temperature, and the brewing time. Each cup is a reflection of my choices, a reminder that I’m not just drinking coffee—I’m crafting it.</p>
+<p>As I sip my black coffee in the quiet morning hours or after a refreshing bike ride, I’m reminded of the simplicity and mindfulness that this ritual brings into my life. It’s a moment of pause before the busyness of the day begins, a chance to center myself. Whether it’s the steady rhythm of the espresso machine or the first satisfying sip, there’s something deeply comforting about making and enjoying a perfect cup of black coffee. It’s my way of starting the day on the right note, every single morning.</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="in-the-middle-of-the-storm.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">In the Middle of the Storm</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="where-shuttles-fly-and-relationships-thrive.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Where Shuttles Fly and Relationships Thrive</span>
       </a>
     </div>
   </article>
@@ -391,131 +411,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "why-i-love-black-coffee-and-the-ritual-of-brewing-it";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>Highlights from My Japan Trip — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="Last December 2024, I had the privilege of experiencing the vibrant culture and beauty of Japan, and I&#x27;m thrilled to share the highlights with you. Whether you&#x27;..." />
   <meta property="twitter:image" content="https://jhimross.wordpress.com/wp-content/uploads/2025/11/90bd3-image-1.png" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,89 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>Highlights from My Japan Trip</h1>
+      <div class="post-categories"><span class="category-tag">Travel</span></div>
+      <div class="post-meta">Published on January 03, 2025</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>Last December 2024, I had the privilege of experiencing the vibrant culture and beauty of Japan, and I'm thrilled to share the highlights with you. Whether you're planning your first trip or just looking for tips, this post covers everything from essential preparations to must-see spots, and everything in between.</p>
+<h2><strong>What to Prepare Before You Go:</strong></h2>
+<p>Before traveling to Japan, there are a few things you should make sure to prepare:</p>
+<p>1. <strong>SIM Card and IC Card</strong> – Once you arrive, head to the airport's mobile service counters to pick up a prepaid SIM card or order an eSim through Klook or Airalo. It’s super handy for navigation and communication. Don’t forget to load an IC card (like the <em>Suica</em> , Passmo or <em>Icoca</em>), which can be used for public transportation and even purchases at convenience stores!</p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/90bd3-image-1.png" />Japan IC Cards: Suica, Icoca, and Pasmo</p>
+<p>2. <strong>Cash and Credit Cards</strong> – While Japan is incredibly tech-savvy, it's still common for small businesses to prefer cash. ATM machines are easy to find, but always carry some yen for smaller purchases, especially in rural areas. Having a credit card as a backup is a good idea.</p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/4e82e-image-2.png?w=1024&amp;h=683" />Japan Yen Coins and Paper Bills</p>
+<p>3. <strong>Language</strong> – Japanese is the official language, and while many people speak some English, learning a few basic phrases like "Arigato gozaimasu" (thank you) or "Sumimasen" (excuse me) will earn you smiles and appreciation. I also recommend using apps such Google Translate.</p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/35781-image-3.png" />Using Google Translate to Read and Translate Japanese Text</p>
+<p>4. <strong>Weather Preparation</strong> – Depending on the season, pack accordingly. Japan experiences all four seasons, so check the weather forecast for the region you're visiting to ensure you have appropriate clothing.</p>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/ca6a6-at-mount-fuji.jpg" />A cold weather in Mt. Fuji 5th Station</p>
+<hr />
+<h2><strong>Tokyo: The Perfect Blend of Tradition and Innovation</strong></h2>
+<p>Tokyo is an exhilarating city that blends modern skyscrapers with ancient temples. The <strong>public transportation system</strong> is easy to use, and the train stations are equipped with English signs to help you get around with ease.</p>
+<h3><strong>Asakusa and the Sensoji Temple</strong></h3>
+<p>A visit to Asakusa is a must. Sensoji Temple is Tokyo’s oldest and most famous temple. The area is filled with traditional shops selling souvenirs like <strong>yosegi zaiku</strong> (intricate wooden puzzles) and <strong>kimonos</strong>. The approach to the temple, called Nakamise Street, is a fantastic spot to try <strong>melon pan</strong> and <strong>taiyaki</strong> , classic Japanese street foods.</p>
+<h3><strong>Shibuya Crossing</strong></h3>
+<p>Experience the world’s busiest intersection, where the crossing light turns green, and hundreds of people flood into the streets. The sight is breathtaking, and it’s an iconic moment for anyone visiting Japan!</p>
+<hr />
+<h2><strong>Cultural Immersion: Traditional Japanese Experiences</strong></h2>
+<h3><strong>Sento (Public Bath)</strong></h3>
+<p><img loading="lazy" decoding="async" alt="" src="https://jhimross.wordpress.com/wp-content/uploads/2025/11/f9f62-image-4.png?w=1024&amp;h=576" /></p>
+<p>One of the most unique aspects of Japanese culture is the sento, a public bathhouse. Though it can be a bit intimidating at first, it’s an incredible way to experience Japanese relaxation. Be sure to bring your own towel and soap, as those aren’t typically provided.</p>
+<h3><strong>Kamakura</strong></h3>
+<p>A short train ride from Tokyo, Kamakura offers scenic views of beaches and mountains, with historical landmarks like the <strong>Great Buddha</strong>. I recommend renting a bike to explore the coast and enjoy the beautiful nature. If you're an anime fan, Kamakura’s peaceful vibes will remind you of scenes from <strong>Slam Dunk</strong>.</p>
+<hr />
+<h2><strong>Outside Tokyo: Mount Fuji and Beyond</strong></h2>
+<h3><strong>Mount Fuji</strong></h3>
+<p>If you’re in Japan, a trip to Mount Fuji is a must. You can join a guided tour that includes breathtaking views of the mountain and stops at nearby attractions like the <strong>Gemba Premium Outlets</strong> , where you can shop for great deals.</p>
+<p>For those who love capturing stunning landscapes, bring a drone along for a unique perspective of Mount Fuji. It was one of the highlights of my trip!</p>
+<h2><strong>Cycling in Japan</strong></h2>
+<p>As usual, I made cycling part of my trip. Every time I travel, I love cycling around the city or countryside to immerse myself in the surroundings. </p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/FSPJ0rzFE_A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<p>In Japan, cycling is a fantastic way to explore areas like <strong>Kamakura</strong> , where I pedaled along scenic routes, enjoying the sights and the fresh air. It’s a great way to discover hidden gems and feel the pulse of the place.</p>
+<hr />
+<h2><strong>State of the Word 2024: Connecting with the WordPress Community</strong></h2>
+<p>My trip to Japan coincided with <strong>State of the Word 2024</strong> , a major event for WordPress enthusiasts held on the 49th floor of the <strong>Tokyo Node building</strong>. Listening to Matt Mullenweg and other leaders talk about the future of WordPress was an eye-opening experience. The venue offered spectacular views of the <strong>Tokyo Tower</strong> in the distance, and the after-party was a fantastic opportunity to meet WordPress users from around the globe.</p>
+<hr />
+<h2><strong>Still Have Time? Explore Narita Before Your Flight Back</strong></h2>
+<p>If you still have time to kill before your flight back, consider exploring the <strong>Narita area</strong>! It’s often overlooked by travelers who are just passing through Narita Airport, but there’s plenty to discover.</p>
+<ul>
+<li><strong>Narita-san Shinsho-ji Temple</strong> : Just a short train ride from the airport, this historic temple is one of the most significant in Japan. The temple’s impressive architecture and peaceful gardens make it the perfect spot for a quiet stroll before heading home.</li>
+<li><strong>Naritasan Park</strong> : Nearby the temple, Naritasan Park offers a tranquil escape with walking paths, ponds, and beautiful seasonal flowers. It’s a great place to relax, especially during cherry blossom season.</li>
+<li><strong>Omotesando Street</strong> : This charming street near the temple is lined with traditional shops offering local snacks, souvenirs, and even the famous <strong>unagi (eel)</strong> , which you can enjoy at one of the local restaurants.</li>
+</ul>
+<hr />
+<h2><strong>What to Eat in Tokyo</strong></h2>
+<p>Food in Japan is an experience on its own. Don’t miss out on:</p>
+<ul>
+<li><strong>Ramen</strong> : Every region in Japan has its own ramen style, so be sure to try a bowl wherever you are. Whether it's a rich tonkotsu (pork broth) in Fukuoka or soy-based in Tokyo, it's always delicious.</li>
+<li><strong>Bento Boxes</strong> : Convenient, delicious, and beautifully arranged, bento boxes are the perfect meal for a long train ride or picnics.</li>
+<li><strong>Culinary Adventures</strong> : Try local delicacies like <strong>kaiten sushi</strong> (conveyor belt sushi), <strong>okonomiyaki</strong> (Japanese savory pancakes), and <strong>takoyaki</strong> (octopus balls). The street food scene is vibrant and varied.</li>
+</ul>
+<hr />
+<h2><strong>Final Tips for Traveling in Japan</strong></h2>
+<ul>
+<li><strong>Navigation Apps</strong> : Use apps like <strong>Google Maps</strong> for easy navigation, and <strong>Japan Official Travel App</strong> for public transportation routes.</li>
+<li><strong>Respect Local Customs</strong> : Always take off your shoes when entering someone’s home or certain indoor spaces. Also, be mindful of quiet spaces like trains, where talking on the phone is frowned upon.</li>
+</ul>
+<hr />
+<h2><strong>Final Thoughts</strong></h2>
+<p>Japan was everything I hoped for and more. The perfect blend of the ancient and the modern, combined with the warmth and hospitality of its people, makes Japan a place like no other. Whether you’re exploring the neon lights of Tokyo or soaking in the natural beauty around Mount Fuji, Japan offers something special for every traveler.</p>
+<p>You can also watch my Japan Travel Vlog below. Don't forget to like, share, and subscribe to my YouTube channel ;)</p>
+<div class="yt-embed"><iframe loading="lazy" src="https://www.youtube.com/embed/jHZ_A9uOxLw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<p>I hope my tips and highlights inspire your own adventure. Whether you're planning a quick stop or an extended stay, I guarantee Japan will capture your heart – and I can’t wait to return for more discoveries! </p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="apart-from-you-i-am-nothing.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Apart from You, I Am Nothing</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="a-guide-to-the-wordpress-request-lifecycle.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">A Guide to the WordPress Request Lifecycle</span>
       </a>
     </div>
   </article>
@@ -391,131 +469,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "highlights-from-my-japan-trip";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

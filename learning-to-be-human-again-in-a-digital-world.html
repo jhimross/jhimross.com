@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>Learning to Be Human Again in a Digital World — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="I never consciously decided to spend so much of my life online. It happened slowly. A quick check of Facebook. A notification. A message. A few minutes of scrol..." />
   <meta property="twitter:image" content="https://github.com/user-attachments/assets/2b85d654-98d1-4df2-ae84-327b49f410aa" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,99 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>Learning to Be Human Again in a Digital World</h1>
+      <div class="post-categories"><span class="category-tag">Mindset</span><span class="category-tag">Self Development</span><span class="category-tag">Habit</span></div>
+      <div class="post-meta">Published on September 24, 2026</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p><img loading="lazy" decoding="async" width="100%" height="auto" alt="Digital-Minimalist (1)" src="https://github.com/user-attachments/assets/2b85d654-98d1-4df2-ae84-327b49f410aa" /></p>
+<p>I never consciously decided to spend so much of my life online.</p>
+<p>It happened slowly.</p>
+<p>A quick check of Facebook. A notification. A message. A few minutes of scrolling while waiting for something. Then another app. Another notification.</p>
+<p>None of it felt serious.</p>
+<p>Until I realized how often I was reaching for my phone <strong>without even knowing why.</strong></p>
+<p>That was probably the moment I started asking myself:</p>
+<p><strong>Am I using technology, or is technology using me?</strong></p>
+<h2>I Love Technology. That's the Problem.</h2>
+<p>I actually love technology.</p>
+<p>I work with it. I learn through it. I use it to communicate, create, and connect with people. I don't want to live without it.</p>
+<p>But I started noticing something uncomfortable.</p>
+<p>Technology was no longer something I always chose to use. Sometimes, it had become my default response to boredom, silence, and waiting.</p>
+<p>If I had nothing to do, I reached for my phone.</p>
+<p>If I was waiting, I reached for my phone.</p>
+<p>If I felt uncomfortable with silence, I reached for my phone.</p>
+<p>I wasn't necessarily looking for anything.</p>
+<p><strong>I was just checking.</strong></p>
+<p>And that made me realize that maybe the problem wasn't technology itself.</p>
+<p><strong>It was my relationship with it.</strong></p>
+<h2>I Started Asking a Different Question</h2>
+<p>I used to ask:</p>
+<blockquote>
+<p>"Is this app useful?"</p>
+</blockquote>
+<p>Almost everything is useful somehow.</p>
+<p>Instead, I'm learning to ask:</p>
+<blockquote>
+<p><strong>"Does this actually support the life I want?"</strong></p>
+</blockquote>
+<p>That's a much harder question.</p>
+<p>Social media can help me connect with people. YouTube can help me learn. Messaging apps help me communicate. The internet gives me access to an incredible amount of knowledge.</p>
+<p>But something can be useful and still take too much from me.</p>
+<p>My attention.</p>
+<p>My time.</p>
+<p>My ability to focus.</p>
+<p>Sometimes, even my presence with other people.</p>
+<h2>I'm Learning to Be Okay With Missing Out</h2>
+<p>This might be the hardest lesson.</p>
+<p>I don't need to see every post.</p>
+<p>I don't need to know every trending topic.</p>
+<p>I don't need to respond immediately to everything.</p>
+<p>I don't need to be constantly available.</p>
+<p>There will always be something happening online.</p>
+<p>Another notification.</p>
+<p>Another video.</p>
+<p>Another conversation.</p>
+<p>Another thing I could be looking at.</p>
+<p>I can't keep up with all of it.</p>
+<p>And maybe I shouldn't.</p>
+<p><strong>Missing something online doesn't necessarily mean I'm missing out on life.</strong></p>
+<h2>The Biggest Lesson: Don't Just Remove the Screen</h2>
+<p>I've also learned that simply using my phone less isn't enough.</p>
+<p>If I remove the distractions but don't replace them with anything meaningful, I'll eventually go back.</p>
+<p>So I'm trying to make room for other things.</p>
+<p>Reading.</p>
+<p>Walking as a form of exercise while feeding stray cats along the way. Somehow, those simple walks have become therapeutic for me. There's something calming about being outside, moving, and stopping for a few minutes to feed a cat. No screen needed. Just a quiet moment.</p>
+<p>Coffee without constantly checking my phone.</p>
+<p>Talking to people without looking at a screen.</p>
+<p>Doing things that don't need to be posted, liked, or measured.</p>
+<p>There's something refreshing about doing something simply because <strong>I enjoy doing it.</strong></p>
+<p>No notification.</p>
+<p>No algorithm.</p>
+<p>No audience.</p>
+<p>Just me, doing something I care about.</p>
+<h2>I'm Still Learning</h2>
+<p>I'm not writing this because I've mastered digital minimalism.</p>
+<p>I haven't.</p>
+<p>I still scroll longer than I should.</p>
+<p>I still get distracted.</p>
+<p>I still reach for my phone sometimes for no reason.</p>
+<p>But now I notice it.</p>
+<p>And I think that's where change begins.</p>
+<p>I'm not trying to become a digital monk.</p>
+<p>I don't want to abandon technology.</p>
+<p>I just want technology to return to its proper place in my life:</p>
+<p><strong>a tool, not a master.</strong></p>
+<p>Maybe that's what digital minimalism really means to me.</p>
+<p>Not necessarily using technology less, but becoming more intentional about <strong>what deserves my attention.</strong></p>
+<p>Because my attention is part of my life.</p>
+<p>And I don't want to give my life away one notification at a time.</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="building-a-qr-checkin-system-for-wordcamp-philippines.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
-      </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
-        <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">Building a QR Check-in System for WordCamp Philippines</span>
       </a>
     </div>
   </article>
@@ -391,131 +479,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "learning-to-be-human-again-in-a-digital-world";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

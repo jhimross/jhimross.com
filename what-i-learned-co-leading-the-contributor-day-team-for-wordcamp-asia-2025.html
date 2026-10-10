@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   
   <title>What I Learned Co-Leading the Contributor Day Team for WordCamp Asia 2025 — Jhimross Olinares</title>
@@ -31,7 +42,6 @@
   <meta property="twitter:description" content="As a co-lead for the Contributor Day team at WordCamp Asia, I had the unique opportunity to help shape one of the most impactful parts of the event. Contributor..." />
   <meta property="twitter:image" content="http://jhimross.com/wp-content/uploads/2025/02/Organizer-Trophy-768x1024.jpg" />
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
       --bg: #ffffff;
@@ -220,6 +230,7 @@
       max-width: 100%;
       border-radius: 12px;
       margin: 32px 0;
+      height: auto;
     }
 
     .content p {
@@ -300,7 +311,8 @@
       gap: 24px;
     }
 
-    .nav-prev, .nav-next {
+    .nav-prev,
+    .nav-next {
       display: flex;
       flex-direction: column;
       text-decoration: none;
@@ -356,23 +368,44 @@
   <article class="narrow">
     <div class="post-header">
       <a href="index.html" class="back">← Back to Journal</a>
-      <h1 id="postTitle">Loading...</h1>
-      <div id="postCategories" class="post-categories"></div>
-      <div id="postMeta" class="post-meta"></div>
+      <h1>What I Learned Co-Leading the Contributor Day Team for WordCamp Asia 2025</h1>
+      <div class="post-categories"><span class="category-tag">Community</span><span class="category-tag">WordPress</span></div>
+      <div class="post-meta">Published on February 26, 2025</div>
     </div>
 
-    <div id="postContent" class="content">
-      <!-- Markdown will be rendered here -->
+    <div class="content">
+<p>As a co-lead for the Contributor Day team at WordCamp Asia, I had the unique opportunity to help shape one of the most impactful parts of the event. Contributor Day is all about giving back to the WordPress project and community by working together to contribute in various ways. It’s a day where people of all skill levels collaborate, learn, and make meaningful contributions to open-source projects.</p>
+<p>Organizing Contributor Day as part of the WordCamp Asia team was an experience full of challenges, growth, and rewarding moments. Here are some of the most valuable lessons I learned from this experience:</p>
+<h3>1. <strong>Collaboration Is Key to Success</strong></h3>
+<p>Contributor Day thrives on collaboration. As co-lead of the team, I quickly realized that we needed to work closely with other teams within WordCamp Asia to ensure the day ran smoothly. From coordinating volunteers to aligning with the technical and logistics teams, collaboration across all areas was essential. Everyone had a role to play, and working together helped us create a seamless experience for contributors.</p>
+<h3>2. <strong>Clear Communication is Crucial</strong></h3>
+<p>One of the most important aspects of leading the Contributor Day team was ensuring clear, consistent communication. Whether it was with volunteers, contributors, or other organizers, everyone needed to be on the same page. Regular updates, check-ins, and utilizing tools like Slack and Google Docs made it easier to stay organized and communicate effectively. It was a lesson in how crucial transparent communication is to the success of any event.</p>
+<h3>3. <strong>Setting Clear Expectations for Contributors</strong></h3>
+<p>Contributor Day participants come from different backgrounds, with varying levels of experience. As co-lead, I learned the importance of setting clear expectations about what people could contribute and how to do it effectively. We provided resources and guidance to help people get started and encouraged them to choose projects that matched their skills and interests. This clarity helped attendees feel empowered and made their contributions more meaningful.</p>
+<h3>4. <strong>Adapting to Change and Problem-Solving</strong></h3>
+<p>In any large-scale event, there are bound to be challenges. During Contributor Day, we encountered a few unexpected situations that required quick thinking and problem-solving. Whether it was last-minute changes to room assignments or issues with project workflows, flexibility and adaptability were key. Staying calm and finding solutions on the fly ensured that contributors could continue to work without interruption.</p>
+<h3>5. <strong>Creating an Inclusive and Welcoming Environment</strong></h3>
+<p>One of the most rewarding parts of Contributor Day was seeing people come together in an inclusive, supportive environment. We worked hard to ensure that attendees felt welcomed and supported, no matter their background or experience level. This sense of community is at the heart of Contributor Day, and it was amazing to witness people learning, collaborating, and giving back to the WordPress project. It reminded me how important it is to create spaces where people feel valued and empowered to contribute.</p>
+<h3>6. <strong>The Importance of Delegation</strong></h3>
+<p>With a team as large and diverse as the Contributor Day team, I quickly learned the importance of delegation. As co-lead, I couldn’t do everything myself, and trusting my team members to take on specific roles was essential. By empowering each team member with their responsibilities and expertise, we were able to divide tasks efficiently and focus on the bigger picture.</p>
+<h3>7. <strong>Learning from Others</strong></h3>
+<p>Contributor Day is a great learning opportunity. As people worked on different projects, I learned a lot from the contributors themselves. Whether it was about coding, documentation, or design, there was always something new to pick up. This experience reinforced the importance of being open to learning from others and embracing the collective knowledge that the WordPress community has to offer.</p>
+<h3>8. <strong>Personal and Professional Growth</strong></h3>
+<p>Co-leading the Contributor Day team was an invaluable opportunity for personal and professional growth. I was able to enhance my leadership skills, learn how to manage large teams, and develop strategies for organizing complex events. It also gave me the chance to connect with like-minded individuals who share a passion for WordPress and open-source software, further expanding my network.</p>
+<hr />
+<p><strong>Conclusion</strong></p>
+<p><img loading="lazy" decoding="async" alt="" src="http://jhimross.com/wp-content/uploads/2025/02/Organizer-Trophy-768x1024.jpg" /></p>
+<p>Co-leading the Contributor Day team for WordCamp Asia was an incredible experience. It deepened my appreciation for the WordPress community and taught me valuable lessons in leadership, collaboration, and adaptability. Contributor Day is a day of giving back, and being a part of the team that organized it was a rewarding and fulfilling experience. I look forward to continuing to contribute to this amazing community and to future WordCamps!</p>
     </div>
 
-    <div id="postNav" class="post-nav">
-      <a id="prevPost" href="#" class="nav-prev" style="display: none;">
+    <div class="post-nav">
+      <a href="a-guide-to-the-wordpress-request-lifecycle.html" class="nav-prev">
         <span class="nav-label">← Previous</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">A Guide to the WordPress Request Lifecycle</span>
       </a>
-      <a id="nextPost" href="#" class="nav-next" style="display: none;">
+      <a href="the-power-of-showing-up-before-the-time.html" class="nav-next">
         <span class="nav-label">Next →</span>
-        <span class="nav-title"></span>
+        <span class="nav-title">The Power of Showing Up Before the Time</span>
       </a>
     </div>
   </article>
@@ -391,131 +424,11 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
       });
     });
-
-    const params = new URLSearchParams(window.location.search);
-    const slug = "what-i-learned-co-leading-the-contributor-day-team-for-wordcamp-asia-2025";
-
-    if (slug) {
-      fetch(`posts/${slug}.md`)
-        .then(response => {
-          if (!response.ok) throw new Error(`Could not find post: ${slug}`);
-          return response.text();
-        })
-        .then(text => {
-          // Extract frontmatter
-          const parts = text.split('---');
-          if (parts.length >= 3) {
-            const fm = parts[1];
-            const content = parts.slice(2).join('---');
-
-            // More robust parsing
-            const lines = fm.split('\n');
-            let title = "";
-            let date = "";
-            let categories = [];
-
-            lines.forEach(line => {
-              if (line.startsWith('title:')) {
-                let rawTitle = line.replace('title:', '').trim();
-                if (rawTitle.startsWith('"')) {
-                  try {
-                    title = JSON.parse(rawTitle);
-                  } catch (e) {
-                    title = rawTitle.replace(/^"|"$/g, '');
-                  }
-                } else {
-                  title = rawTitle;
-                }
-              }
-              if (line.startsWith('date:')) {
-                date = line.replace('date:', '').trim().split(' ')[0];
-              }
-              if (line.startsWith('categories:')) {
-                let catText = line.replace('categories:', '').trim();
-                try {
-                  // Try to parse as array
-                  const cleaned = catText.replace(/'/g, '"');
-                  const cats = JSON.parse(cleaned);
-                  if (Array.isArray(cats)) categories = cats;
-                } catch (e) {
-                  // Fallback for simple comma separated
-                  categories = catText.split(',').map(c => c.trim().replace(/^["']|["']$/g, ''));
-                }
-              }
-            });
-
-            if (!title) title = "Untitled Post";
-
-            document.title = `${title} — Jhimross Olinares`;
-            document.getElementById('postTitle').textContent = title;
-            document.getElementById('postMeta').textContent = date ? `Published on ${date}` : "";
-
-            const catsList = document.getElementById('postCategories');
-            if (categories.length > 0) {
-              catsList.innerHTML = categories.map(c => `<span class="category-tag">${c}</span>`).join('');
-            } else {
-              catsList.innerHTML = '';
-            }
-
-            if (typeof marked !== 'undefined') {
-              document.getElementById('postContent').innerHTML = marked.parse(content);
-            } else {
-              document.getElementById('postContent').innerHTML = `<pre>${content}</pre>`;
-              console.warn('Marked library not loaded');
-            }
-
-            // Load posts.json for next/prev navigation
-            fetch('posts/posts.json')
-              .then(res => {
-                if (!res.ok) throw new Error('Could not load posts.json');
-                return res.json();
-              })
-              .then(posts => {
-                const currentIndex = posts.findIndex(p => p.slug === slug);
-                if (currentIndex !== -1) {
-                  // posts are sorted by date descending (newest first)
-                  // Next post chronologically is newer (index - 1)
-                  // Previous post chronologically is older (index + 1)
-                  const nextPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-                  const prevPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
-
-                  const prevLink = document.getElementById('prevPost');
-                  const nextLink = document.getElementById('nextPost');
-
-                  if (prevPost) {
-                    prevLink.href = `${prevPost.slug}.html`;
-                    prevLink.querySelector('.nav-title').textContent = prevPost.title;
-                    prevLink.style.display = 'flex';
-                  }
-
-                  if (nextPost) {
-                    nextLink.href = `${nextPost.slug}.html`;
-                    nextLink.querySelector('.nav-title').textContent = nextPost.title;
-                    nextLink.style.display = 'flex';
-                  }
-                }
-              })
-              .catch(err => console.error('Error loading navigation:', err));
-
-          } else {
-            throw new Error('Invalid post format');
-          }
-        })
-        .catch(err => {
-          console.error('Error loading post:', err);
-          document.getElementById('postTitle').textContent = "Error";
-          document.getElementById('postContent').innerHTML = `<p style="color: red;">${err.message}</p>`;
-        });
-    } else {
-      document.getElementById('postTitle').textContent = "Post Not Found";
-      document.getElementById('postContent').innerHTML = '<p>No post specified.</p>';
-    }
   </script>
 </body>
 

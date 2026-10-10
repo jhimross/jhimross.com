@@ -3,14 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   <title>Journal — Jhimross Olinares</title>
   <meta name="description" content="Personal reflections, essays, and life thoughts from Jhimross Olinares." />
@@ -175,8 +186,231 @@
       <p>Personal reflections, essays, and life thoughts.</p>
     </div>
 
-    <div id="postsList" class="posts-grid">
-      <!-- Posts will be loaded here -->
+    <!-- POSTS_LIST_START -->
+    <div class="posts-grid">
+        <article class="post-card">
+                  <span class="post-date">September 24, 2026</span>
+                  <div class="post-categories"><span class="category-tag">Mindset</span><span class="category-tag">Self Development</span><span class="category-tag">Habit</span></div>
+                  <a href="learning-to-be-human-again-in-a-digital-world.html"><h2>Learning to Be Human Again in a Digital World</h2></a>
+                  <a href="learning-to-be-human-again-in-a-digital-world.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">September 03, 2026</span>
+                  <div class="post-categories"><span class="category-tag">Community</span><span class="category-tag">WordPress</span><span class="category-tag">Tech</span></div>
+                  <a href="building-a-qr-checkin-system-for-wordcamp-philippines.html"><h2>Building a QR Check-in System for WordCamp Philippines</h2></a>
+                  <a href="building-a-qr-checkin-system-for-wordcamp-philippines.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">May 13, 2026</span>
+                  <div class="post-categories"><span class="category-tag">Migration</span><span class="category-tag">Tech</span><span class="category-tag">GitHub</span><span class="category-tag">Web Development</span></div>
+                  <a href="my-zero-cost-static-blog-migration.html"><h2>My Zero-Cost Static Blog Migration (Just a fun experiment)</h2></a>
+                  <a href="my-zero-cost-static-blog-migration.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">May 10, 2026</span>
+                  <div class="post-categories"><span class="category-tag">Relationship</span><span class="category-tag">Personal</span></div>
+                  <a href="loving-someone-who-is-always-busy.html"><h2>Loving Someone Who Is Always Busy</h2></a>
+                  <a href="loving-someone-who-is-always-busy.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">May 08, 2026</span>
+                  <div class="post-categories"><span class="category-tag">Leadership</span><span class="category-tag">Mindset</span><span class="category-tag">Self Development</span></div>
+                  <a href="how-to-be-a-great-boss-a-foundational-guide-to-effective-leadership.html"><h2>How to Be a Great &quot;Boss&quot;: A Foundational Guide to Effective Leadership</h2></a>
+                  <a href="how-to-be-a-great-boss-a-foundational-guide-to-effective-leadership.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">February 14, 2026</span>
+                  <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Faith</span><span class="category-tag">Love</span><span class="category-tag">Worship</span></div>
+                  <a href="remembering-the-greatest-love-of-all.html"><h2>Remembering the Greatest Love of All</h2></a>
+                  <a href="remembering-the-greatest-love-of-all.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">January 24, 2026</span>
+                  <div class="post-categories"><span class="category-tag">Hiking</span><span class="category-tag">Life</span><span class="category-tag">Travel</span></div>
+                  <a href="chasing-the-sea-of-clouds.html"><h2>Chasing the Sea of Clouds</h2></a>
+                  <a href="chasing-the-sea-of-clouds.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">January 06, 2026</span>
+                  <div class="post-categories"><span class="category-tag">Leadership</span><span class="category-tag">Self Development</span></div>
+                  <a href="the-15-invaluable-laws-of-growth.html"><h2>The 15 Invaluable Laws of Growth</h2></a>
+                  <a href="the-15-invaluable-laws-of-growth.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">January 04, 2026</span>
+                  <div class="post-categories"><span class="category-tag">Faith</span><span class="category-tag">Random</span><span class="category-tag">Relationship</span></div>
+                  <a href="the-steady-anchor.html"><h2>The Steady Anchor</h2></a>
+                  <a href="the-steady-anchor.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">December 13, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Community</span><span class="category-tag">Technology</span><span class="category-tag">Travel</span></div>
+                  <a href="key-takeaways-from-open-source-summit-japan-2025.html"><h2>Key Takeaways from Open Source Summit Japan 2025</h2></a>
+                  <a href="key-takeaways-from-open-source-summit-japan-2025.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">November 17, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Budol Finds</span><span class="category-tag">Lifestyle</span><span class="category-tag">Random</span></div>
+                  <a href="why-a-cheap-monoblock-chair-beats-every-fancy-office-and-gaming-seat.html"><h2>Why a Simple Monoblock Chair Beats High-End Office and Gaming Chairs</h2></a>
+                  <a href="why-a-cheap-monoblock-chair-beats-every-fancy-office-and-gaming-seat.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">November 10, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Leadership</span><span class="category-tag">Mindset</span><span class="category-tag">Self Development</span></div>
+                  <a href="stop-being-busy-start-being-productive-the-deep-work-guide.html"><h2>Stop Being Busy, Start Being Productive - The Deep Work Guide</h2></a>
+                  <a href="stop-being-busy-start-being-productive-the-deep-work-guide.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">August 28, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Life</span></div>
+                  <a href="thirty-and-grateful.html"><h2>Thirty and Grateful</h2></a>
+                  <a href="thirty-and-grateful.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">August 14, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Mindset</span><span class="category-tag">Self Development</span><span class="category-tag">Skills</span></div>
+                  <a href="are-you-on-the-path-of-most-resistance-why-fixing-your-weaknesses-is-holding-you-back.html"><h2>Are You on the Path of Most Resistance? Why Fixing Your Weaknesses Is Holding You Back?</h2></a>
+                  <a href="are-you-on-the-path-of-most-resistance-why-fixing-your-weaknesses-is-holding-you-back.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">July 08, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Web Development</span><span class="category-tag">WordPress</span></div>
+                  <a href="a-smarter-way-to-debug-and-troubleshoot-your-wordpress-site.html"><h2>A Smarter Way to Debug and Troubleshoot Your WordPress Site</h2></a>
+                  <a href="a-smarter-way-to-debug-and-troubleshoot-your-wordpress-site.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">May 13, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Faith</span><span class="category-tag">Relationship</span></div>
+                  <a href="more-than-just-chicken-its-our-mizpah.html"><h2>More Than Just Chicken, It&#x27;s Our &quot;Mizpah&quot;</h2></a>
+                  <a href="more-than-just-chicken-its-our-mizpah.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">April 20, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Worship</span></div>
+                  <a href="he-is-risen-the-hope-that-fuels-my-life.html"><h2>He is Risen! The Hope That Fuels My Life</h2></a>
+                  <a href="he-is-risen-the-hope-that-fuels-my-life.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">April 07, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Worship</span></div>
+                  <a href="honoring-the-lamb-through-the-cross-in-song.html"><h2>Honoring the Lamb Through the Cross in Song</h2></a>
+                  <a href="honoring-the-lamb-through-the-cross-in-song.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">April 04, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Poem</span><span class="category-tag">Relationship</span></div>
+                  <a href="when-love-moves-at-different-speeds.html"><h2>When Love Moves at Different Speeds</h2></a>
+                  <a href="when-love-moves-at-different-speeds.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">March 31, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Hobby</span><span class="category-tag">Movie</span><span class="category-tag">Relationship</span></div>
+                  <a href="a-cozy-movie-night-my-thoughts-on-the-movie-flow.html"><h2>A Cozy Movie Night: My Thoughts on the Movie &quot;Flow&quot;</h2></a>
+                  <a href="a-cozy-movie-night-my-thoughts-on-the-movie-flow.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">March 16, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Relationship</span></div>
+                  <a href="the-power-of-compromise-in-a-relationship.html"><h2>The Power of Compromise in a Relationship</h2></a>
+                  <a href="the-power-of-compromise-in-a-relationship.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">March 03, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Habit</span><span class="category-tag">Mindset</span></div>
+                  <a href="the-power-of-showing-up-before-the-time.html"><h2>The Power of Showing Up Before the Time</h2></a>
+                  <a href="the-power-of-showing-up-before-the-time.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">February 26, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Community</span><span class="category-tag">WordPress</span></div>
+                  <a href="what-i-learned-co-leading-the-contributor-day-team-for-wordcamp-asia-2025.html"><h2>What I Learned Co-Leading the Contributor Day Team for WordCamp Asia 2025</h2></a>
+                  <a href="what-i-learned-co-leading-the-contributor-day-team-for-wordcamp-asia-2025.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">January 23, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Web Development</span><span class="category-tag">WordPress</span></div>
+                  <a href="a-guide-to-the-wordpress-request-lifecycle.html"><h2>A Guide to the WordPress Request Lifecycle</h2></a>
+                  <a href="a-guide-to-the-wordpress-request-lifecycle.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">January 03, 2025</span>
+                  <div class="post-categories"><span class="category-tag">Travel</span></div>
+                  <a href="highlights-from-my-japan-trip.html"><h2>Highlights from My Japan Trip</h2></a>
+                  <a href="highlights-from-my-japan-trip.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">November 28, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Faith</span></div>
+                  <a href="apart-from-you-i-am-nothing.html"><h2>Apart from You, I Am Nothing</h2></a>
+                  <a href="apart-from-you-i-am-nothing.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">November 01, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Cycling</span><span class="category-tag">Travel</span></div>
+                  <a href="why-i-cycle-in-every-country-i-travel.html"><h2>Why I Cycle in Every Country I Travel</h2></a>
+                  <a href="why-i-cycle-in-every-country-i-travel.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">October 28, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Relationship</span><span class="category-tag">Sports</span><span class="category-tag">Wellness</span></div>
+                  <a href="where-shuttles-fly-and-relationships-thrive.html"><h2>Where Shuttles Fly and Relationships Thrive</h2></a>
+                  <a href="where-shuttles-fly-and-relationships-thrive.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">October 16, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Beverage</span><span class="category-tag">Habit</span><span class="category-tag">Random</span></div>
+                  <a href="why-i-love-black-coffee-and-the-ritual-of-brewing-it.html"><h2>Why I Love Black Coffee and the Ritual of Brewing It</h2></a>
+                  <a href="why-i-love-black-coffee-and-the-ritual-of-brewing-it.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">July 23, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Faith</span></div>
+                  <a href="in-the-middle-of-the-storm.html"><h2>In the Middle of the Storm</h2></a>
+                  <a href="in-the-middle-of-the-storm.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">June 26, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Leadership</span></div>
+                  <a href="leadership-of-a-lion.html"><h2>Leadership of a Lion</h2></a>
+                  <a href="leadership-of-a-lion.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">April 02, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Mindset</span><span class="category-tag">Self Development</span></div>
+                  <a href="the-power-of-your-attitude.html"><h2>The Power of Your Attitude</h2></a>
+                  <a href="the-power-of-your-attitude.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">April 01, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Community</span><span class="category-tag">WordPress</span></div>
+                  <a href="brewing-wordpress-passion.html"><h2>Brewing WordPress Passion</h2></a>
+                  <a href="brewing-wordpress-passion.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">February 14, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Christian</span><span class="category-tag">Relationship</span></div>
+                  <a href="building-a-christ-centered-relationship-starting-with-the-right-mindset.html"><h2>Building a Christ-Centered Relationship Starts with the Right Mindset</h2></a>
+                  <a href="building-a-christ-centered-relationship-starting-with-the-right-mindset.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">January 09, 2024</span>
+                  <div class="post-categories"><span class="category-tag">Cycling</span><span class="category-tag">Self Development</span><span class="category-tag">Wellness</span></div>
+                  <a href="the-journey-behind-my-love-for-cycling.html"><h2>The Journey Behind My Love for Cycling</h2></a>
+                  <a href="the-journey-behind-my-love-for-cycling.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">September 21, 2023</span>
+                  <div class="post-categories"><span class="category-tag">Uncategorized</span></div>
+                  <a href="the-lord-is-my-shepherd.html"><h2>The Lord is My Shepherd</h2></a>
+                  <a href="the-lord-is-my-shepherd.html" class="read-more">Read →</a>
+                </article>
+        <article class="post-card">
+                  <span class="post-date">August 23, 2023</span>
+                  <div class="post-categories"><span class="category-tag">Blog</span><span class="category-tag">Random</span></div>
+                  <a href="a-journey-of-sharing-learning-and-growth.html"><h2>A Journey of Sharing, Learning, and Growth</h2></a>
+                  <a href="a-journey-of-sharing-learning-and-growth.html" class="read-more">Read →</a>
+                </article>
+    <!-- POSTS_LIST_END -->
     </div>
   </main>
 
@@ -200,37 +434,6 @@
         navLinks.classList.remove('active');
       });
     });
-
-    fetch('posts/posts.json')
-      .then(response => {
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        return response.json();
-      })
-      .then(posts => {
-        const list = document.getElementById('postsList');
-        if (posts.length === 0) {
-          list.innerHTML = '<p>No posts found.</p>';
-          return;
-        }
-        list.innerHTML = posts.map(post => {
-          const cats = post.categories && post.categories.length > 0
-            ? `<div class="post-categories">${post.categories.map(c => `<span class="category-tag">${c}</span>`).join('')}</div>`
-            : '';
-
-          return `
-            <article class="post-card">
-              <span class="post-date">${post.date}</span>
-              ${cats}
-              <a href="${post.slug}.html"><h2>${post.title}</h2></a>
-              <a href="${post.slug}.html" class="read-more">Read →</a>
-            </article>
-          `;
-        }).join('');
-      })
-      .catch(err => {
-        console.error('Error loading posts:', err);
-        document.getElementById('postsList').innerHTML = `<p style="color: red;">Error loading posts: ${err.message}. Please ensure you are running this through a web server.</p>`;
-      });
   </script>
 </body>
 </html>

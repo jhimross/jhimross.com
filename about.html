@@ -4,14 +4,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F"></script>
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
   </script>
   <title>Jhimross Olinares — Web & WordPress Developer</title>
   <meta name="description" content="Web and WordPress developer building accessible, pixel-perfect websites and custom WordPress solutions." />
@@ -635,7 +646,7 @@
 
   <section id="about" class="about">
     <div class="container about-grid">
-      <img src="assets/about.jpg" alt="Portrait of Jhimross" loading="lazy" />
+      <img src="assets/about.webp" alt="Portrait of Jhimross" width="1032" height="590" loading="lazy" decoding="async" />
       <div>
         <h2>About Me</h2>
         <p>I'm a passionate web developer with expertise in building modern, responsive websites and custom WordPress
@@ -670,40 +681,40 @@
       <h2 class="section-title">Things I've Built</h2>
       <div class="work-grid">
         <article class="project">
-          <div class="thumb"><img src="assets/proj-ecommerce.webp" alt="E-Commerce Store" loading="lazy" /></div>
+          <div class="thumb"><img src="assets/proj-ecommerce.webp" alt="E-Commerce Store" width="920" height="552" loading="lazy" decoding="async" /></div>
           <h3>E-Commerce Store</h3>
           <p>A fully custom WooCommerce store with a bespoke theme, advanced product filtering, and seamless checkout
             experience. Optimized for speed and conversions.</p>
         </article>
         <article class="project">
-          <div class="thumb"><img src="assets/proj-corporate.png" alt="Corporate Business Site" loading="lazy" /></div>
+          <div class="thumb"><img src="assets/proj-corporate.webp" alt="Corporate Business Site" width="1100" height="675" loading="lazy" decoding="async" /></div>
           <h3>Corporate Business Site</h3>
           <p>Modern, responsive corporate website built with a custom WordPress theme. Features include multilingual
             support, team management, and dynamic content sections.</p>
         </article>
         <article class="project">
-          <div class="thumb"><img src="assets/project-portfolio.jpg" alt="Portfolio & Blog Platform" loading="lazy" />
+          <div class="thumb"><img src="assets/project-portfolio.webp" alt="Portfolio & Blog Platform" width="1100" height="819" loading="lazy" decoding="async" />
           </div>
           <h3>Portfolio & Blog Platform</h3>
           <p>A sleek, performance-optimized portfolio and blog platform built with React. Features include markdown
             rendering, dynamic routing, and a custom CMS integration.</p>
         </article>
         <article class="project">
-          <div class="thumb"><img src="assets/proj-restaurant.png" alt="Restaurant Booking System" loading="lazy" />
+          <div class="thumb"><img src="assets/proj-restaurant.webp" alt="Restaurant Booking System" width="1100" height="619" loading="lazy" decoding="async" />
           </div>
           <h3>Restaurant Booking System</h3>
           <p>Full-featured restaurant website with online reservation system, menu management, and an admin dashboard
             for managing bookings and content.</p>
         </article>
         <article class="project">
-          <div class="thumb"><img src="assets/proj-realestate.webp" alt="Real Estate Listing Platform" loading="lazy" />
+          <div class="thumb"><img src="assets/proj-realestate.webp" alt="Real Estate Listing Platform" width="800" height="600" loading="lazy" decoding="async" />
           </div>
           <h3>Real Estate Listing Platform</h3>
           <p>Property listing website with advanced search filters, interactive maps, virtual tour integration, and a
             CRM-connected lead capture system for agents.</p>
         </article>
         <article class="project">
-          <div class="thumb"><img src="assets/proj-custom-new.jpg" alt="Custom Development Solutions" loading="lazy" />
+          <div class="thumb"><img src="assets/proj-custom-new.webp" alt="Custom Development Solutions" width="1100" height="645" loading="lazy" decoding="async" />
           </div>
           <h3>Custom Development Solutions</h3>
           <p>Tailored web solutions built from scratch to meet unique business needs — from custom plugins and API
@@ -723,7 +734,7 @@
             clearly, and consistently delivers high-quality results with minimal supervision.”</blockquote>
           <figcaption>
             <img src="https://jhimross.wordpress.com/wp-content/uploads/2026/04/c3b3a-neil.webp" alt="Neil Matthews"
-              class="t-avatar" />
+              class="t-avatar" width="48" height="48" loading="lazy" decoding="async" />
             <div class="t-info">
               <div class="t-name">Neil Matthews</div>
               <div class="t-meta">WordPress Consultant</div>
@@ -737,7 +748,7 @@
             backed up, and professionally maintained.”</blockquote>
           <figcaption>
             <img src="https://jhimross.wordpress.com/wp-content/uploads/2026/04/86a6d-karen.webp" alt="Karen Norman"
-              class="t-avatar" />
+              class="t-avatar" width="48" height="48" loading="lazy" decoding="async" />
             <div class="t-info">
               <div class="t-name">Karen Norman</div>
               <div class="t-meta">Marketing Manager</div>
@@ -751,7 +762,7 @@
             complicated the issue, he fixes it.”</blockquote>
           <figcaption>
             <img src="https://jhimross.wordpress.com/wp-content/uploads/2026/04/a7eae-linda-day-harrison.webp"
-              alt="Linda Day Harrison" class="t-avatar" />
+              alt="Linda Day Harrison" class="t-avatar" width="48" height="48" loading="lazy" decoding="async" />
             <div class="t-info">
               <div class="t-name">Linda Day Harrison</div>
               <div class="t-meta">Founder</div>
