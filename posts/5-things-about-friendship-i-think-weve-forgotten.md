@@ -5,6 +5,8 @@ slug: 5-things-about-friendship-i-think-weve-forgotten
 categories: ['Thoughts', 'Relationship', 'Life']
 ---
 
+![Hands holding a cup of black coffee](https://jhimross.com/assets/friendship-black-coffee.webp)
+
 Lately, I've been thinking about friendship and how it changes as we get older.
 
 When we're younger, making friends seems so natural. You meet someone, share a few laughs, discover something in common, and before you know it, you're spending time together.
