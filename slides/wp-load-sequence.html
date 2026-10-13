@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en" data-phosphor="github">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WordPress Request Lifecycle — terminal edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=VT323&display=swap" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/brands.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/fontawesome.min.js"></script>
+<style>
+:root {
+  --page: #030604;
+  --bg: #07110b;
+  --bg2: #0c1b12;
+  --bg3: #12271a;
+  --line: #1e3d2a;
+  --fg: #d6f7de;
+  --dim: #7ea78a;
+  --ok: #57f287;
+  --hi: #ffb23e;
+  --wp: #79b8ff;
+  --bad: #ff6b6b;
+  --glow: 0 0 6px rgba(87, 242, 135, .35);
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --crt: "VT323", "JetBrains Mono", ui-monospace, monospace;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --page: #030604; --bg: #07110b; } }
+:root[data-theme="dark"] { --page: #030604; --bg: #07110b; }
+:root[data-phosphor="amber"] { --bg: #110b03; --bg2: #1b1306; --bg3: #271b09; --line: #3d2b10; --fg: #ffe2b0; --dim: #b08a55; --ok: #ffb000; --hi: #ffd166; --wp: #ffcf7a; --glow: 0 0 6px rgba(255, 176, 0, .35); }
+:root[data-phosphor="blue"] { --bg: #050b16; --bg2: #0a1426; --bg3: #102040; --line: #1d3358; --fg: #d8e8ff; --dim: #7e95b8; --ok: #6fb3ff; --hi: #ffb23e; --wp: #9ecbff; --glow: 0 0 6px rgba(111, 179, 255, .35); }
+:root[data-phosphor="obsidian"] { --bg: #0e0c13; --bg2: #16131e; --bg3: #211c2d; --line: #352d49; --fg: #e8e3f5; --dim: #9b91b5; --ok: #b49cff; --hi: #ffb86c; --wp: #8be9fd; --glow: 0 0 7px rgba(180, 156, 255, .35); }
+:root[data-phosphor="obsidian"] #stage { box-shadow: 0 0 90px rgba(120, 90, 220, .18); }
+:root[data-phosphor="matrix"] { --bg: #010a03; --bg2: #031208; --bg3: #062312; --line: #0d3b1b; --fg: #c3ffc9; --dim: #3fa950; --ok: #00ff41; --hi: #d4ff3a; --wp: #6bff9e; --glow: 0 0 8px rgba(0, 255, 65, .5); }
+#rain { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: .2; display: none; }
+:root[data-phosphor="matrix"] #rain { display: block; }
+:root[data-phosphor="matrix"] .slide.interlude { background: radial-gradient(ellipse at 30% 40%, rgba(3,18,8,.75), rgba(1,10,3,.35) 70%); }
+.slide { z-index: 1; }
+:root[data-phosphor="github"] { --bg: #0d1117; --bg2: #161b22; --bg3: #21262d; --line: #30363d; --fg: #e6edf3; --dim: #7d8590; --ok: #3fb950; --hi: #d29922; --wp: #58a6ff; --glow: none; }
+:root[data-phosphor="dracula"] { --bg: #282a36; --bg2: #21222c; --bg3: #343746; --line: #44475a; --fg: #f8f8f2; --dim: #8a94c4; --ok: #bd93f9; --hi: #ff79c6; --wp: #8be9fd; --glow: 0 0 7px rgba(189, 147, 249, .3); }
+:root[data-phosphor="houston"] { --bg: #17191e; --bg2: #1e2128; --bg3: #262a33; --line: #343841; --fg: #eef0f9; --dim: #858b98; --ok: #4bf3c8; --hi: #ffd493; --wp: #54b9ff; --glow: 0 0 7px rgba(75, 243, 200, .3); }
+:root[data-phosphor="mono"] { --bg: #0b0b0b; --bg2: #151515; --bg3: #202020; --line: #333; --fg: #eaeaea; --dim: #8a8a8a; --ok: #ffffff; --hi: #ffffff; --wp: #cfcfcf; --glow: none; }
+*, *::before, *::after { box-sizing: border-box; }
+html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { height: 100%; margin: 0; background: var(--page); color: var(--fg); font-family: var(--mono); overflow: hidden; -webkit-font-smoothing: antialiased; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--hi); outline-offset: 2px; }
+
+/* ---------- stage ---------- */
+#viewport { position: relative; width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: 0 0; background: var(--bg); border: 1px solid var(--line); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 80px rgba(0,0,0,.6); }
+#stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(to bottom, rgba(255,255,255,.025) 0 1px, transparent 1px 3px); mix-blend-mode: screen; z-index: 50; }
+:root[data-crt="off"] #stage::after { display: none; }
+:root[data-crt="off"] { --glow: none; }
+
+/* tmux-style window bar */
+#tabs { height: 34px; flex: none; display: flex; align-items: stretch; background: var(--bg2); border-bottom: 1px solid var(--line); font-size: 13px; }
+#tabs .sess { display: flex; align-items: center; padding: 0 14px; background: var(--ok); color: var(--bg); font-weight: 800; }
+#tabs button { background: none; border: 0; padding: 0 14px; color: var(--dim); cursor: pointer; }
+#tabs button[aria-current="true"] { color: var(--fg); background: var(--bg3); }
+#tabs button[aria-current="true"]::after { content: "*"; color: var(--ok); }
+#tabs .spacer { flex: 1; }
+#tabs .clock { display: flex; align-items: center; padding: 0 14px; color: var(--dim); }
+
+/* screen */
+#screen { position: relative; flex: 1; overflow: hidden; }
+.slide { position: absolute; inset: 0; padding: 26px 48px 20px; display: flex; flex-direction: column; gap: 14px; }
+.prompt { font-size: 20px; color: var(--dim); white-space: pre; min-height: 24px; }
+.prompt .path { color: var(--wp); font-weight: 600; }
+.prompt .cmd { color: var(--fg); }
+.cursor { display: inline-block; width: .6em; height: 1.05em; background: var(--ok); vertical-align: -2px; margin-left: 2px; animation: blink 1.05s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.title { font-family: var(--crt); font-size: 64px; line-height: .95; color: var(--fg); text-shadow: var(--glow); margin: 0; font-weight: 400; letter-spacing: .5px; }
+.sub { font-size: 24px; color: var(--dim); margin: 0; }
+.out { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 16px; padding-top: 12px; }
+.out.printing { animation: print .45s steps(12) both; }
+@keyframes print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* text pieces */
+.lead { font-size: 26px; line-height: 1.45; margin: 0; max-width: 60ch; }
+.big { font-family: var(--crt); font-size: 64px; line-height: 1; color: var(--ok); text-shadow: var(--glow); margin: 0; }
+.muted { color: var(--dim); }
+.ok { color: var(--ok); } .hi { color: var(--hi); } .wp { color: var(--wp); } .bad { color: var(--bad); }
+.say { border-left: 3px solid var(--ok); background: var(--bg2); padding: 12px 18px; font-size: 23px; font-weight: 600; margin: 0; }
+.say::before { content: "> "; color: var(--ok); }
+.small { font-size: 18px; color: var(--dim); }
+.foot { margin-top: auto; font-size: 16px; color: var(--dim); }
+.foot::before { content: "# "; }
+pre.ascii { margin: 0; font-size: 22px; line-height: 1.3; color: var(--fg); }
+pre.ascii b { color: var(--ok); font-weight: 600; }
+pre.ascii i { color: var(--hi); font-style: normal; }
+pre.ascii u { color: var(--wp); text-decoration: none; }
+
+/* chips, flows, panels */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.grid { display: grid; gap: 12px; }
+.chip { display: inline-flex; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--line); background: var(--bg2); padding: 10px 14px; font-size: 20px; line-height: 1.25; }
+.chip.on { border-color: var(--ok); color: var(--ok); background: color-mix(in srgb, var(--ok) 10%, var(--bg2)); }
+.chip.hi { background: var(--hi); color: #1a1100; border-color: var(--hi); font-weight: 600; }
+.chip.dim { color: var(--dim); }
+.chip.strike { color: var(--dim); text-decoration: line-through; text-decoration-color: var(--bad); }
+.flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.flow .arr { color: var(--dim); font-size: 17px; }
+.flow.col { flex-direction: column; align-items: stretch; }
+.flow.col .arr { text-align: center; line-height: 1; }
+.panel { position: relative; border: 1px solid var(--line); padding: 20px 16px 14px; background: color-mix(in srgb, var(--bg2) 60%, transparent); }
+.panel[data-label]::before { content: "┤ " attr(data-label) " ├"; position: absolute; top: -11px; left: 12px; background: var(--bg); padding: 0 4px; font-size: 16px; color: var(--dim); }
+.panel.on { border-color: var(--ok); }
+.panel.on[data-label]::before { color: var(--ok); }
+.panel.hi { border-color: var(--hi); }
+.panel.hi[data-label]::before { color: var(--hi); }
+.panel h3 { margin: 0 0 8px; font-size: 23px; color: var(--fg); }
+.panel ul { margin: 0; padding: 0; list-style: none; font-size: 19px; line-height: 1.5; }
+.panel li::before { content: "- "; color: var(--dim); }
+.row { display: flex; gap: 22px; min-height: 0; }
+.row > * { min-width: 0; }
+.chip.hi .tag { color: #1a1100; border-color: rgba(0,0,0,.3); }
+.tight .chip { padding: 5px 10px; font-size: 17px; }
+.tight .arr { font-size: 11px; }
+.tag { font-size: 14px; border: 1px solid var(--line); padding: 1px 6px; color: var(--ok); margin-left: auto; white-space: nowrap; }
+.log { font-size: 23px; line-height: 1.6; margin: 0; }
+.log .t { color: var(--hi); display: inline-block; min-width: 9.5em; }
+.btn { background: var(--bg3); border: 1px solid var(--ok); color: var(--ok); padding: 9px 16px; cursor: pointer; font-size: 19px; }
+.btn:hover { background: var(--ok); color: var(--bg); }
+.btn[disabled] { opacity: .5; cursor: default; }
+.term { background: #020503; border: 1px solid var(--line); padding: 12px 14px; font-size: 17px; line-height: 1.5; overflow: hidden; white-space: pre-wrap; }
+.term .in { color: var(--wp); } .term .res { color: var(--fg); } .term .c { color: var(--dim); }
+
+/* steps */
+.step { opacity: 0; transform: translateY(4px); transition: opacity .25s, transform .25s; }
+.step.shown { opacity: 1; transform: none; }
+
+/* dark interlude slides */
+.slide.interlude { justify-content: center; padding: 0 110px; background: radial-gradient(ellipse at 30% 40%, var(--bg2), var(--bg) 70%); }
+.slide.interlude .title { font-size: 84px; max-width: 24ch; }
+.slide.interlude .prompt { margin-bottom: 12px; }
+.slide.interlude .out { flex: 0 1 auto; }
+.flow.nowrap { flex-wrap: nowrap; }
+.flow.col.start { align-items: flex-start; }
+.contact a { color: var(--ok); text-decoration: none; border-bottom: 2px solid color-mix(in srgb, var(--ok) 40%, transparent); }
+.contact a:hover { border-bottom-color: var(--ok); }
+
+/* light app windows (WordPress UI illustrations) */
+.win { background: #fff; color: #1e1e1e; border: 1px solid #c3c4c7; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+.win .bar { height: 26px; flex: none; display: flex; align-items: center; gap: 5px; padding: 0 8px; background: #f0f0f1; border-bottom: 1px solid #dcdcde; }
+.win .bar i { width: 8px; height: 8px; border-radius: 50%; background: #c3c4c7; }
+.win .bar span { margin-left: auto; font-family: var(--mono); font-size: 11px; color: #757575; }
+.win .body { flex: 1; position: relative; display: flex; min-height: 0; }
+.wp-side { width: 104px; background: #2c3338; color: #c3c4c7; padding-top: 4px; flex: none; }
+.wp-side div { padding: 4px 8px; font-size: 13px; }
+.wp-side .cur { background: #3858e9; color: #fff; }
+.wp-btn { background: #3858e9; color: #fff; border: 0; padding: 5px 10px; border-radius: 2px; font-size: 13px; cursor: pointer; }
+.wp-btn.ghost { background: #fff; color: #3858e9; border: 1px solid #3858e9; }
+.win input { background: #fff; color: #1e1e1e; color-scheme: light; }
+.win input::placeholder { color: #757575; }
+.ln { height: 5px; background: #dcdcde; margin: 6px 0; }
+.ln.s { width: 60%; }
+.cap { text-align: center; margin-top: 8px; }
+.cap b { display: block; font-size: 22px; color: var(--fg); }
+.cap span { font-size: 17px; color: var(--dim); }
+.illus { position: absolute; top: 3px; right: 8px; font-family: var(--mono); font-size: 9px; color: #757575; }
+
+/* overlays */
+#cmd { position: absolute; left: 0; right: 0; bottom: 30px; background: var(--bg2); border-top: 1px solid var(--ok); padding: 8px 14px; display: none; z-index: 60; font-size: 16px; }
+#cmd.open { display: block; }
+#cmd .row1 { display: flex; gap: 6px; align-items: center; }
+#cmd input { flex: 1; background: transparent; border: 0; outline: none; color: var(--fg); caret-color: var(--ok); }
+#cmd pre { margin: 0 0 6px; color: var(--dim); font-size: 14px; max-height: 300px; overflow: auto; white-space: pre-wrap; }
+#status { height: 30px; flex: none; display: flex; align-items: center; background: var(--bg2); border-top: 1px solid var(--line); font-size: 13px; position: relative; z-index: 61; }
+#status .mode { background: var(--ok); color: var(--bg); font-weight: 800; padding: 0 12px; height: 100%; display: flex; align-items: center; }
+#status .file { padding: 0 12px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#status .sp { flex: 1; }
+#status button { background: none; border: 0; color: var(--dim); cursor: pointer; padding: 0 10px; height: 100%; }
+#status button:hover { color: var(--fg); }
+#status .pos { color: var(--ok); padding: 0 12px; }
+#timer.warn { color: var(--hi); } #timer.over { color: var(--bad); }
+#progress { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--ok); transition: width .3s; }
+#notes { position: absolute; right: 0; top: 34px; bottom: 30px; width: 440px; background: var(--bg2); border-left: 1px solid var(--line); padding: 18px; font-size: 17px; line-height: 1.55; overflow: auto; transform: translateX(100%); transition: transform .2s; z-index: 55; }
+#notes.open { transform: none; }
+#notes h4 { margin: 0 0 10px; color: var(--hi); font-weight: 600; font-size: 14px; }
+#index { position: absolute; inset: 34px 0 30px; background: var(--bg); z-index: 58; padding: 24px 48px; overflow: auto; display: none; }
+#index.open { display: block; }
+#index .ls { columns: 2; column-gap: 40px; font-size: 15px; line-height: 1.75; }
+#index button { display: block; background: none; border: 0; color: var(--fg); cursor: pointer; text-align: left; padding: 0; width: 100%; }
+#index button:hover, #index button.cur { color: var(--ok); }
+#index button span { color: var(--dim); display: inline-block; width: 3.5em; }
+#blank { position: absolute; inset: 0; background: #000; z-index: 70; display: none; place-items: center; color: #222; font-size: 14px; }
+#blank.on { display: grid; }
+#toast { position: absolute; left: 50%; bottom: 44px; transform: translateX(-50%); background: var(--bg3); border: 1px solid var(--ok); padding: 6px 14px; font-size: 14px; z-index: 80; opacity: 0; transition: opacity .2s; pointer-events: none; }
+#toast.on { opacity: 1; }
+
+/* zoom an illustration to fill the screen */
+.win .zoomBtn { margin-left: 8px; background: #fff; border: 1px solid #c3c4c7; color: #3858e9; font: 600 12px var(--mono); padding: 1px 7px; cursor: pointer; }
+.win .zoomBtn:hover { background: #3858e9; color: #fff; }
+.zoomer { position: absolute; inset: 0; z-index: 45; background: var(--bg); display: grid; place-items: center; padding-bottom: 30px; }
+.zoomer .holder { transform-origin: center center; }
+.zoomer .hint { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; color: var(--dim); font-size: 16px; }
+.fitting .step { transform: none; transition: none; }
+
+/* request-lifecycle additions */
+.pipe { flex: none; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 48px 12px; font-size: 14px; color: var(--dim); white-space: nowrap; }
+.pipe span { padding: 3px 8px; border: 1px solid var(--line); }
+.pipe span.done { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.pipe span.now { background: var(--hi); color: #1a1100; border-color: var(--hi); font-weight: 800; }
+.pipe i { font-style: normal; color: var(--line); }
+pre.term.code { font-size: 21px; line-height: 1.55; margin: 0; white-space: pre; }
+pre.term.code .hi { color: var(--hi); } pre.term.code .ok { color: var(--ok); }
+.ws { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 44px; font-size: 21px; line-height: 1.4; }
+.sm pre.term.code { font-size: 18px; line-height: 1.45; }
+.ws li { break-inside: avoid; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+.ws .n { color: var(--dim); display: inline-block; min-width: 2.4em; }
+.hook { color: var(--hi); font-weight: 600; }
+.meter-row { display: flex; align-items: center; gap: 16px; }
+.meter { position: relative; flex: 1; height: 8px; background: var(--bg3); border: 1px solid var(--line); }
+.meter i { position: absolute; left: 0; top: 0; bottom: 0; background: color-mix(in srgb, var(--ok) 35%, transparent); }
+.meter b { position: absolute; top: 0; bottom: 0; background: var(--hi); }
+@media (prefers-reduced-motion: reduce) {
+  .out.printing { animation: none; }
+  .step { transition: none; }
+  .cursor { animation: none; }
+}
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage" role="region" aria-roledescription="slide deck" aria-label="WordPress Request Lifecycle">
+    <nav id="tabs" aria-label="Sections"></nav>
+    <main id="screen" aria-live="polite"></main>
+    <aside id="notes" aria-label="Speaker notes"><h4>speaker notes</h4><div id="notesBody"></div></aside>
+    <section id="index" aria-label="All slides"><p class="prompt"><span class="path">~/wordpress</span> $ <span class="cmd">ls slides/</span></p><div class="ls" id="indexList"></div></section>
+    <div id="cmd"><pre id="cmdOut"></pre><div class="row1"><span class="ok">:</span><input id="cmdIn" autocomplete="off" spellcheck="false" aria-label="Command"></div></div>
+    <footer id="status">
+      <span class="mode" id="mode">NORMAL</span>
+      <span class="file" id="file"></span>
+      <span class="sp"></span>
+      <button id="timerBtn" title="Start or pause the 30-minute timer (t)"><span id="timer">30:00</span></button>
+      <button id="notesBtn" title="Speaker notes (n)">notes</button>
+      <button id="indexBtn" title="All slides (o)">ls</button>
+      <button id="helpBtn" title="Commands (:)">:help</button>
+      <button id="prevBtn" aria-label="Previous slide">‹</button>
+      <span class="pos" id="pos"></span>
+      <button id="nextBtn" aria-label="Next slide">›</button>
+      <div id="progress"></div>
+    </footer>
+    <div id="blank">screen paused · press b</div>
+    <div id="toast" role="status"></div>
+  </div>
+</div>
+<script>
+/* ---------- tiny helpers for slide markup ---------- */
+const esc = (s) => String(s);
+const chipCls = (x) => x.startsWith("*") ? ["on", x.slice(1)] : x.startsWith("!") ? ["hi", x.slice(1)] : x.startsWith("~") ? ["dim", x.slice(1)] : x.startsWith("-") ? ["strike", x.slice(1)] : ["", x];
+const chips = (arr, step) => `<div class="chips${step ? " step" : ""}">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join("")}</div>`;
+const grid = (arr, cols, step) => `<div class="grid${step ? " step" : ""}" style="grid-template-columns:repeat(${cols},1fr)">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join("")}</div>`;
+const flow = (arr, opt = {}) => `<div class="flow${opt.col ? " col" : ""}${opt.start ? " start" : ""}${opt.nowrap ? " nowrap" : ""}${opt.step ? " step" : ""}">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join(`<span class="arr">${opt.col ? "▼" : "──▶"}</span>`)}</div>`;
+const say = (t, step) => `<p class="say${step ? " step" : ""}">${t}</p>`;
+const foot = (t) => `<p class="foot">${t}</p>`;
+const panel = (label, inner, cls = "") => `<div class="panel ${cls}" data-label="${label}">${inner}</div>`;
+const list = (items) => `<ul>${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
+const win = (inner, label = "illustration", style = "") => `<div class="win" style="${style}"><div class="bar"><i></i><i></i><i></i><span>${label}</span><button class="zoomBtn" title="Enlarge (z)" aria-label="Enlarge illustration">⤢ zoom</button></div><div class="body">${inner}</div></div>`;
+const cap = (b, s) => `<div class="cap"><b>${b}</b><span>${s}</span></div>`;
+const wpSide = (cur) => `<div class="wp-side">${["Dashboard", "Posts", "Media", "Pages", "Appearance", "Plugins", "Users", "Settings"].map((m) => `<div class="${m === cur ? "cur" : ""}">${m}</div>`).join("")}</div>`;
+const lines = (n, w = 100) => Array.from({ length: n }, (_, i) => `<div class="ln" style="width:${i === n - 1 ? w * 0.6 : w - (i % 2) * 8}%"></div>`).join("");
+
+/* request-lifecycle helpers */
+const STAGES = ["request", "index", "blog-header", "wp-load", "wp-config", "wp-settings", "wp()", "template-loader", "shutdown", "browser"];
+const pipe = (k) => `<div class="pipe" aria-label="Stage ${k + 1} of ${STAGES.length}: ${STAGES[k]}">${STAGES.map((s, i) => `<span class="${i < k ? "done" : i === k ? "now" : ""}">${s}</span>`).join(`<i>›</i>`)}</div>`;
+const code = (src) => `<pre class="term code">${src}</pre>`;
+const wsList = (start, items) => `<ol class="ws">${items.map((t, i) => `<li><span class="n">${String(start + i).padStart(2, "0")}</span>${t}</li>`).join("")}</ol>`;
+const meter = (from, to, label) => `<div class="meter-row"><span class="hi" style="font-size:22px;font-weight:600">${label}</span><span class="small">steps ${from}–${to} of 36</span><div class="meter"><b style="left:${((from - 1) / 36) * 100}%;width:${((to - from + 1) / 36) * 100}%"></b><i style="width:${((from - 1) / 36) * 100}%"></i></div></div>`;
+const hook = (h) => `<span class="hook">do_action( '${h}' )</span>`;
+
+/* sections for the tmux tabs */
+const SECTIONS = [["intro", 0], ["request", 2], ["bootstrap", 3], ["settings", 7], ["query", 12], ["template", 13], ["response", 15], ["recap", 17]];
+
+/* ---------- slides ---------- */
+const SLIDES = [
+/* 1 */ { maxZoom: 1, f: "00-boot.sh", cmd: "curl -I https://example.com", hero: true, h: `
+  <div class="row" style="flex:1;gap:28px;align-items:flex-start;padding-top:36px">
+    <div style="flex:1.25;display:flex;flex-direction:column;gap:16px;min-width:0">
+      <h1 class="title" style="font-size:112px">WordPress<br>Request Lifecycle</h1>
+      <p class="sub" style="font-size:30px;margin:0 0 22px">by <b style="color:var(--fg)">@jhimross</b></p>
+      ${flow(["URL", "PHP", "!a web page"])}
+    </div>
+    <div style="flex:1;min-width:0;display:flex;justify-content:center;padding-top:24px">
+      <div style="display:flex;align-items:flex-end;gap:4px">
+        <pre id="laptopCat" aria-hidden="true" style="margin:0;font:600 18px/1.2 var(--mono);color:var(--fg);text-shadow:var(--glow);font-variant-ligatures:none;white-space:pre"></pre>
+        <pre id="mug" aria-hidden="true" style="margin:0 0 0 -6px;font:600 18px/1.2 var(--mono);color:var(--hi);text-shadow:var(--glow);font-variant-ligatures:none;white-space:pre"></pre>
+      </div>
+    </div>
+  </div>`,
+  enter(el) { laptopCat(el); } },
+
+/* 2 */ { f: "01-map.md", cmd: "tree --require-order wordpress/", t: "The sequence at a glance", h: `
+  <div class="row" style="flex:1;align-items:flex-start;gap:40px">
+  <pre class="ascii" style="flex:1.3">
+<span class="step"><u>request</u> ──▶ <b>index.php</b></span>
+<span class="step">          └─ <b>wp-blog-header.php</b></span>
+<span class="step">             ├─ <b>wp-load.php</b>
+             │  └─ <b>wp-config.php</b>
+             │     └─ <b>wp-settings.php</b>  <span class="muted"># 36 steps</span></span>
+<span class="step">             ├─ <b>wp()</b>             <span class="muted"># query the data</span></span>
+<span class="step">             └─ <b>template-loader.php</b></span>
+<span class="step"><i>shutdown</i> ──▶ <u>browser</u></span></pre>
+  <div style="flex:1;display:flex;flex-direction:column;gap:18px">
+    ${panel("three jobs", `<ul style="font-size:22px"><li><b class="ok">load</b> the environment</li><li><b class="ok">query</b> the requested data</li><li><b class="ok">render</b> the right template</li></ul>`, "on")}
+    ${say("Every front-end request walks this same path.", true)}
+  </div></div>` },
+
+/* 3 */ { p: 0, f: "02-request.md", cmd: "open https://example.com/hello-world/", t: "A request is made", h: `
+  <p class="lead">You type an address. Your browser (the HTTP client) sends an <b class="ok">HTTP request</b> to a web server as a request message.</p>
+  <div class="row" style="align-items:center;gap:26px">
+    <div style="flex:1">${flow(["browser", "*HTTP request", "web server"], { nowrap: true })}</div>
+  </div>
+  <div class="step">${code(`<span class="c"># the request message</span>
+<span class="in">GET</span> /hello-world/ HTTP/1.1
+<span class="in">Host:</span> example.com
+<span class="in">Accept:</span> text/html
+<span class="in">User-Agent:</span> Mozilla/5.0 …`)}</div>
+  ${say("The server hands the request to PHP, and WordPress takes it from here.", true)}` },
+
+/* 4 */ { p: 1, f: "03-index.php", cmd: "cat index.php", t: "index.php", h: `
+  <p class="lead">WordPress starts the loading sequence with this file. Two things happen here:</p>
+  ${code(`<span class="c">&lt;?php</span>
+<span class="in">define</span>( <span class="ok">'WP_USE_THEMES'</span>, true );        <span class="c">// 1. load the active theme</span>
+<span class="in">require</span> __DIR__ . <span class="ok">'/wp-blog-header.php'</span>; <span class="c">// 2. load WordPress</span>`)}
+  <div class="row step" style="gap:22px">
+    <div style="flex:1">${panel("1 · WP_USE_THEMES", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">Tells WordPress to load the active theme.</p>`, "on")}</div>
+    <div style="flex:1">${panel("2 · wp-blog-header.php", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">Loads the WordPress environment.</p>`, "on")}</div>
+  </div>` },
+
+/* 5 */ { p: 2, f: "04-wp-blog-header.php", cmd: "cat wp-blog-header.php", t: "wp-blog-header.php", h: `
+  <div class="row" style="flex:1;gap:26px;align-items:flex-start">
+  <div style="flex:1.3" class="sm">${code(`<span class="in">if</span> ( ! isset( $wp_did_header ) ) {
+    $wp_did_header = true;
+
+    <span class="in">require_once</span> __DIR__ . <span class="ok">'/wp-load.php'</span>;
+    <span class="hi">wp</span>();
+    <span class="in">require_once</span> ABSPATH . WPINC . <span class="ok">'/template-loader.php'</span>;
+}`)}</div>
+  <div style="flex:1;display:flex;flex-direction:column;gap:12px">
+    <div class="step">${panel("wp-load.php", `<p class="small" style="margin:0;font-size:19px;color:var(--fg)">Sets up the entire WordPress environment.</p>`, "on")}</div>
+    <div class="step">${panel("wp()", `<p class="small" style="margin:0;font-size:19px;color:var(--fg)">Sets up and runs the query to get the requested data.</p>`, "hi")}</div>
+    <div class="step">${panel("template-loader.php", `<p class="small" style="margin:0;font-size:19px;color:var(--fg)">Loads the correct template from the hierarchy.</p>`, "on")}</div>
+  </div></div>
+  ${foot("This one file is the whole lifecycle in three lines.")}` },
+
+/* 6 */ { p: 3, f: "05-wp-load.php", cmd: "cat wp-load.php", t: "wp-load.php", h: `
+  <p class="lead">A bootstrap file with two main jobs:</p>
+  <div class="row" style="gap:22px">
+    <div style="flex:1">${panel("1 · define ABSPATH", `${code(`<span class="in">define</span>( <span class="ok">'ABSPATH'</span>, __DIR__ . <span class="ok">'/'</span> );`)}<p class="small" style="margin:10px 0 0">ABSPATH = this file's directory</p>`, "on")}</div>
+    <div style="flex:1">${panel("2 · find wp-config.php", `<div class="flow col start tight" style="gap:6px"><span class="chip on">found → require it</span><span class="chip hi">not found → installation starts</span></div>`, "on")}</div>
+  </div>
+  ${say("No wp-config.php? That's how a fresh download lands on the setup screen.", true)}` },
+
+/* 7 */ { p: 4, f: "06-wp-config.php", cmd: "cat wp-config.php", t: "wp-config.php", h: `
+  <div class="row" style="flex:1;gap:26px;align-items:flex-start">
+  <div style="flex:1.35" class="sm">${code(`<span class="c">// MySQL settings</span>
+<span class="in">define</span>( <span class="ok">'DB_NAME'</span>, <span class="ok">'database_name'</span> );
+<span class="in">define</span>( <span class="ok">'DB_USER'</span>, <span class="ok">'username'</span> );
+<span class="in">define</span>( <span class="ok">'DB_HOST'</span>, <span class="ok">'localhost'</span> );
+
+<span class="c">// authentication keys and salts</span>
+<span class="in">define</span>( <span class="ok">'AUTH_KEY'</span>, <span class="ok">'put your unique phrase here'</span> );
+
+$table_prefix = <span class="ok">'wp_'</span>;
+<span class="in">define</span>( <span class="ok">'WP_DEBUG'</span>, false );
+
+<span class="in">require_once</span> ABSPATH . <span class="ok">'wp-settings.php'</span>;`)}</div>
+  <div style="flex:1">${panel("what it sets up", list(["MySQL settings", "Authentication data", "Database $table_prefix", "WP_DEBUG", "<b class='hi'>Requires wp-settings.php</b>"]), "on")}</div>
+  </div>` },
+
+/* 8 */ { f: "07-wp-settings.php", cmd: "wc -l wp-settings.php", interlude: true, h: `
+  <p class="title" style="font-size:96px">wp-settings.php</p>
+  <p class="sub" style="font-size:32px;max-width:40ch">The most important file in the loading sequence.</p>
+  <div class="step" style="margin-top:26px">${chips(["!36 steps", "*7 action hooks", "~plugins · theme · user"])}</div>` },
+
+/* 9 */ { p: 5, f: "08-settings-01.md", cmd: "sed -n 1,10p wp-settings.steps", t: "wp-settings.php", h: `
+  ${meter(1, 10, "the foundations")}
+  ${wsList(1, ["Load functions needed to load WordPress", "Load constants and global variables", "Load the Plugin API", "Set up version variables", "Set up initial default constants", "Check if maintenance mode is enabled", "Check if debug mode is enabled", "Load advanced caching if needed", "Load early core utility and class files", "Load the db and create the <b class='ok'>$wpdb</b> global"])}` },
+
+/* 10 */ { p: 5, f: "09-settings-11.md", cmd: "sed -n 11,20p wp-settings.steps", t: "wp-settings.php", h: `
+  ${meter(11, 20, "core comes online")}
+  ${wsList(11, ["Connect to MySQL and select the database", "Start the object cache", "Set up the default filters and actions", "Initialize multisite, if enabled", "Stop loading if only the basics are needed", "Load the localization library", "Final check: does WP need to be installed?", "Load most of the remaining WP functionality", "Load multisite-specific files", "Load <b class='ok'>must-use plugins</b>"])}` },
+
+/* 11 */ { p: 5, f: "10-settings-21.md", cmd: "sed -n 21,30p wp-settings.steps", t: "wp-settings.php", h: `
+  ${meter(21, 30, "plugins and theme setup")}
+  ${wsList(21, ["Load network-activated plugins", hook("muplugins_loaded"), "Create initial taxonomies and post types", "Set up the default theme directory root", "Load <b class='ok'>normal plugins</b>", "Load pluggable functions", hook("plugins_loaded"), "Instantiate globals: $wp_query, $wp_rewrite, $wp, $wp_widget_factory", hook("setup_theme"), "Load the default text localization domain"])}` },
+
+/* 12 */ { p: 5, f: "11-settings-31.md", cmd: "sed -n 31,36p wp-settings.steps", t: "wp-settings.php", h: `
+  ${meter(31, 36, "ready to go")}
+  ${wsList(31, ["Load <b class='ok'>functions.php</b> for the active theme", hook("after_setup_theme"), "Set up the current user", hook("init"), hook("widgets_init"), hook("wp_loaded")])}
+  ${say("WordPress is fully loaded, but nothing has been queried yet.", true)}` },
+
+/* 13 */ { p: 6, f: "12-wp.php", cmd: "grep -n 'function wp(' wp-includes/functions.php", t: "wp()", h: `
+  <p class="lead">Lives in <b class="wp">/wp-includes/functions.php</b>, loaded earlier by wp-settings.php. It sets up the query by checking the requested URL to get the requested data.</p>
+  <div class="row" style="gap:26px;align-items:flex-start">
+    <div style="flex:1" class="sm">${code(`<span class="in">function</span> <span class="hi">wp</span>( $query_vars = <span class="ok">''</span> ) {
+    <span class="in">global</span> $wp, $wp_query, $wp_the_query;
+    $wp-&gt;<span class="hi">main</span>( $query_vars );
+    <span class="c">// …</span>
+}`)}</div>
+  </div>
+  <div class="step">${flow(["/hello-world/", "parse request", "query vars", "*WP_Query", "!the post"], { nowrap: true })}</div>` },
+
+/* 14 */ { f: "13-template-loader.md", cmd: "cat wp-includes/template-loader.php", interlude: true, h: `
+  <p class="sub" style="font-size:26px">wp-includes/template-loader.php</p>
+  <p class="title" style="font-size:80px;max-width:20ch">The final part of the loading process.</p>
+  <p class="big step" style="font-size:52px;margin-top:16px">Time to load the correct template.</p>` },
+
+/* 15 */ { p: 7, f: "14-template-steps.md", cmd: "wp template-loader --trace", t: "template-loader.php", h: `
+  <div class="row" style="flex:1;gap:28px;align-items:flex-start">
+  <pre class="log" style="flex:1.25;font-size:21px">
+<span class="step"><span class="hook">do_action( 'template_redirect' )</span> <span class="muted">fires first</span></span>
+<span class="step"><b class="ok">✓</b> Is this just a HEAD request?</span>
+<span class="step"><b class="ok">✓</b> Robots, feeds or trackbacks?</span>
+<span class="step"><b class="ok">✓</b> Determine the template file</span>
+<span class="step"><b class="ok">✓</b> Apply a filter, then include it</span></pre>
+  <div style="flex:1" class="step">${panel("template hierarchy · single post", `<div class="flow col tight" style="gap:4px"><span class="chip dim">single-post-hello-world.php</span><span class="arr">▼</span><span class="chip dim">single-post.php</span><span class="arr">▼</span><span class="chip on">single.php</span><span class="arr">▼</span><span class="chip dim">singular.php</span><span class="arr">▼</span><span class="chip dim">index.php</span></div><p class="small" style="margin:8px 0 0">first file that exists wins</p>`, "hi")}</div>
+  </div>` },
+
+/* 16 */ { p: 8, f: "15-shutdown.md", cmd: "wp hook shutdown", t: "do_action( 'shutdown' )", h: `
+  <p class="lead">The <b class="hi">last action</b> fired, just before all PHP execution ends.</p>
+  <p class="big" style="font-size:60px">WordPress has run all the code needed to build the page.</p>
+  ${say("Its work for this request is done.", true)}` },
+
+/* 17 */ { p: 9, f: "16-send-to-browser.md", cmd: "curl -i https://example.com/hello-world/", t: "Send to browser", h: `
+  <p class="lead">The web server replies to the HTTP client with the page WordPress generated.</p>
+  <div class="row" style="gap:24px;align-items:flex-start">
+    <div style="flex:1.2">${code(`<span class="ok">HTTP/1.1 200 OK</span>
+<span class="in">Content-Type:</span> text/html; charset=UTF-8
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt; …`)}</div>
+    <div style="flex:1" class="step">${grid(["*HTML", "*CSS", "*JavaScript"], 3)}<p class="small" style="margin:12px 0 0">…which tell the browser how to display the page.</p></div>
+  </div>` },
+
+/* 18 */ { f: "17-recap.md", cmd: "wp lifecycle --summary", t: "One request, start to finish", h: `
+  <div class="row" style="flex:1;gap:20px;align-items:stretch">
+    <div style="flex:1" class="step">${panel("1 · load", `<div class="flow col tight">${["index.php", "wp-blog-header.php", "wp-load.php", "wp-config.php", "wp-settings.php"].map((x) => `<span class="chip">${x}</span>`).join(`<span class="arr">▼</span>`)}</div>`, "on")}</div>
+    <div style="flex:1" class="step">${panel("2 · query", `<div class="flow col tight"><span class="chip">wp()</span><span class="arr">▼</span><span class="chip">$wp-&gt;main()</span><span class="arr">▼</span><span class="chip on">WP_Query</span></div>`, "on")}</div>
+    <div style="flex:1" class="step">${panel("3 · render", `<div class="flow col tight"><span class="chip">template-loader.php</span><span class="arr">▼</span><span class="chip">template</span><span class="arr">▼</span><span class="chip">shutdown</span><span class="arr">▼</span><span class="chip hi">browser</span></div>`, "hi")}</div>
+  </div>` },
+
+/* 19 */ { maxZoom: 1, f: "18-exit.md", cmd: "exit", interlude: true, h: `
+  <p class="sub" style="font-size:30px;max-width:40ch">Every uncached page view runs this whole sequence.</p>
+  <p class="title step" style="font-size:76px;max-width:22ch;margin-top:10px">Know the path, and you know where to hook in.</p>
+  <p class="step hi" style="font-size:26px;margin-top:18px">Thank you · Questions?<span class="cursor"></span></p>` },
+/* 20 */ { maxZoom: 1, f: "19-connect.md", cmd: "cat contact.txt", t: "Let's connect", h: `
+  <div class="row contact" style="flex:1;align-items:center;gap:48px">
+    <div style="flex:1;display:flex;flex-direction:column;gap:22px">
+      <div><p class="small" style="margin:0 0 4px">website</p><p class="big" style="font-size:56px"><a href="https://jhimross.com" target="_blank" rel="noopener">jhimross.com</a></p></div>
+      <div><p class="small" style="margin:0 0 4px">email</p><p class="big" style="font-size:48px"><a href="mailto:hi@jhimross.com">hi@jhimross.com</a></p></div>
+      <div><style>.socials{display:flex;gap:12px;margin-top:16px}.socials .key{width:72px;height:72px;display:grid;place-items:center;border:2px solid var(--line);background:var(--bg2);box-shadow:0 3px 0 var(--line);color:var(--fg);text-decoration:none;font-size:32px}.socials .key svg{width:1em;height:1em}.socials .key .alt{font-size:24px;font-weight:800;color:var(--ok)}.socials .key svg ~ .alt{display:none}.socials a.key:hover{border-color:var(--ok);color:var(--ok);transform:translateY(2px);box-shadow:0 1px 0 var(--ok)}</style><p class="big" style="font-size:56px;color:var(--hi)">@jhimross</p><div class="socials"><a class="key" href="https://github.com/jhimross" target="_blank" rel="noopener" aria-label="GitHub @jhimross" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="alt" aria-hidden="true">gh</span></a><a class="key" href="https://profiles.wordpress.org/jhimross/" target="_blank" rel="noopener" aria-label="WordPress @jhimross" title="WordPress"><i class="fa-brands fa-wordpress-simple" aria-hidden="true"></i><span class="alt" aria-hidden="true">wp</span></a><a class="key" href="https://x.com/jhimross" target="_blank" rel="noopener" aria-label="X (Twitter) @jhimross" title="X (Twitter)"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i><span class="alt" aria-hidden="true">x</span></a><a class="key" href="https://www.youtube.com/@jhimross" target="_blank" rel="noopener" aria-label="YouTube @jhimross" title="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i><span class="alt" aria-hidden="true">yt</span></a><a class="key" href="https://www.facebook.com/jhimross" target="_blank" rel="noopener" aria-label="Facebook @jhimross" title="Facebook"><i class="fa-brands fa-facebook" aria-hidden="true"></i><span class="alt" aria-hidden="true">fb</span></a><span class="key" role="img" aria-label="Strava @jhimross" title="Strava"><i class="fa-brands fa-strava" aria-hidden="true"></i><span class="alt" aria-hidden="true">st</span></span></div></div>
+    </div>
+    <figure style="margin:0;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative">
+      <div style="position:relative;display:flex;flex-direction:column;align-items:center">
+        <pre id="catHead" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;margin-bottom:-20px;position:relative;z-index:2"></pre>
+        <pre id="catHeart" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;position:absolute;right:34px;top:-8px;color:var(--hi);z-index:3"></pre>
+        <div id="qrBox" role="img" aria-label="QR code linking to jhimross.com/about" title="click to switch between white and dark QR" data-bits="000000000000000000000000000000000,000000000000000000000000000000000,001111111010110001111000111111100,001000001000000110110010100000100,001011101011111011111110101110100,001011101000100010011000101110100,001011101000110111001000101110100,001000001011001001011010100000100,001111111010101010101010111111100,000000000001001011101110000000000,001010001101100110000010010010100,000010100001001110001101110001100,001110101001100001010101101110100,001010100110101100001010111100000,000011001010110101100010110000100,000111110100101000101110110001100,001101011111001110110100001000100,000011000001001011100111101000000,001010111100001110011010110000100,000001100001000110010111110011100,001110001010011001000101111100100,000001010100111100010101101000000,001101001111001101110111111101000,000000000011111000100010001110100,001111111011100110111010101000100,001000001001010011101110001000100,001011101000001110011111111101000,001011101001000010011011001111000,001011101010010111000000001001100,001000001001010010010010001100000,001111111011110111110110010100100,000000000000000000000000000000000,000000000000000000000000000000000" style="padding:12px;cursor:pointer;position:relative;z-index:1"></div>
+        <pre id="catTail" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;position:absolute;left:-34px;bottom:6px"></pre>
+        <pre id="catSleep" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;position:absolute;left:-170px;bottom:-4px;color:var(--dim)"></pre>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:14px"><figcaption class="lead ok" style="margin:0;text-align:center;font-weight:600">Scan QR code</figcaption><pre id="kitten" aria-hidden="true" style="font:600 17px/1.12 var(--mono);color:var(--fg);text-shadow:var(--glow);white-space:pre;margin:0;font-size:14px"></pre></div>
+    </figure>
+  </div>`,
+  enter(el) { fitAsciiQR(el); asciiCat(el); } },
+];
+
+
+const NOTES = ["Welcome. Tonight we follow one request through WordPress, from the moment someone types an address to the moment the page appears in their browser.", "Here's the whole map before we zoom in. Notice the nesting: index.php requires wp-blog-header.php, which does three things in order: load the environment, query the data, and render the template. Everything else in this talk is a closer look at one line of this tree.", "When you type in an address, your browser, the HTTP client, sends an HTTP request to a web server in the form of a request message. The server sees a PHP site and hands the request to WordPress's front door: index.php.", "WordPress starts the loading sequence with this file, and it's tiny. Two things happen: WP_USE_THEMES is defined, which tells WordPress to load the active theme, and it requires /wp-blog-header.php, which loads the WordPress environment.", "wp-blog-header.php does three things: require /wp-load.php, which sets up the entire WordPress environment; run the wp() function, which sets up and runs the query to get the request data; and require /wp-includes/template-loader.php, which loads the correct template from the hierarchy. The $wp_did_header check makes sure this only runs once.", "wp-load.php is a bootstrap file with two main pieces of functionality. It defines the ABSPATH constant as this file's directory. Then it requires /wp-config.php, the base configuration for the environment. If it can't find that file, the WordPress installation process starts.", "wp-config.php sets up MySQL settings, authentication data (keys and salts), the database $table_prefix, and WP_DEBUG. Its last job is to require /wp-settings.php. The values on screen are placeholders, the same ones in wp-config-sample.php.", "This is the most important file in the loading sequence. We'll walk through 36 steps in four groups. Watch for the action hooks; those are the moments plugins and themes get to join in.", "Steps 1 to 10: the foundations. Functions needed to load WordPress, constants and globals, the Plugin API, version variables, default constants, maintenance and debug mode checks, advanced caching, early core files, and finally the database class and the $wpdb global.", "Steps 11 to 20: core comes online. Connect to MySQL, start the object cache, set up default filters and actions, initialize multisite if enabled, stop early if only the basics are needed, load localization, do a final install check, load most of WordPress, load multisite files, and load must-use plugins.", "Steps 21 to 30: plugins and theme setup. Network-activated plugins, then muplugins_loaded. Taxonomies and post types, the theme directory root, then normal plugins and pluggable functions, then plugins_loaded. The main globals are created, setup_theme fires, and the default text domain loads.", "Steps 31 to 36: the theme's functions.php loads, after_setup_theme fires, the current user is set up, then init, widgets_init and wp_loaded. At this point WordPress is fully loaded, but it still doesn't know what page you asked for. That's next.", "wp() is located in /wp-includes/functions.php, which was loaded earlier by wp-settings.php as part of the early WordPress files. It calls $wp->main(), which checks the requested URL, turns it into query variables, and runs the main WP_Query to get the requested data.", "WordPress has arrived at the final part of its loading process. It's time to load the correct template.", "template-loader.php: template_redirect fires before WordPress decides which template to load. Then it checks whether the request is just a HEAD request, checks for robots, feeds or trackbacks, determines the template file to load, and applies a filter (template_include) before including the template. On the right is the template hierarchy for a single post: WordPress uses the first file that exists in the theme.", "shutdown is the last action fired, just before all PHP execution ends. WordPress has run all the code needed to build the requested page, and it stops working now.", "The web server replies to the HTTP client by sending the page WordPress generated, made of HTML, CSS and JavaScript, which tells the browser how to display the page.", "Recap in three columns: load the environment, query the data, render the template. Same three lines we saw in wp-blog-header.php.", "Every uncached page view runs this entire sequence, usually in a fraction of a second. Knowing the order is what lets you pick the right hook. Thank you, and open for questions.", "Leave this slide up during Q&A. Mention that you're @jhimross on every social platform. The QR code opens the About page on jhimross.com. If someone's phone can't read the white QR code, click it once to switch to the classic dark-on-light version."];
+
+
+/* ---------- engine ---------- */
+const $ = (s) => document.querySelector(s);
+const screen = $("#screen"), stage = $("#stage");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+let cur = 0, curEl = null, typing = null;
+
+function fit() {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const s = Math.min(vw / 1280, vh / 720) * (vw < 700 ? 1 : 0.98);
+  stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+  stage.style.transformOrigin = "center center";
+  stage.style.left = "50%"; stage.style.top = "50%";
+}
+addEventListener("resize", fit);
+
+function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove("on"), 1600); }
+
+function bootLog(pre) {
+  const L = ["[ ok ] mounting /wp-content", "[ ok ] loading wp-settings.php", "[ ok ] registering abilities", "[ ok ] connecting AI providers", "[ ok ] starting talk…"];
+  pre.classList.add("shown"); pre.textContent = "";
+  if (reduce) { pre.textContent = L.join("\n"); return; }
+  L.forEach((l, i) => setTimeout(() => { if (pre.isConnected) pre.textContent += (i ? "\n" : "") + l; }, 180 + i * 170));
+}
+
+function sectionOf(i) { let s = 0; SECTIONS.forEach(([, start], k) => { if (i >= start) s = k; }); return s; }
+
+function drawTabs() {
+  const tabs = $("#tabs");
+  tabs.innerHTML = `<span class="sess">[WordPress]</span>` + SECTIONS.map(([n, start], k) => `<button data-go="${start}" aria-current="${sectionOf(cur) === k}">${k}:${n}</button>`).join("") + `<span class="spacer"></span><span class="clock" id="clock"></span>`;
+  tabs.querySelectorAll("button").forEach((b) => b.onclick = () => go(+b.dataset.go));
+  tickClock();
+}
+function tickClock() { const c = $("#clock"); if (c) c.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); }
+setInterval(tickClock, 15000);
+
+function render(i, dir = 1) {
+  zoomState = null;
+  if (curEl && curEl._cleanup) curEl._cleanup();
+  clearInterval(typing);
+  const S = SLIDES[i];
+  const el = document.createElement("section");
+  el.className = "slide" + (S.interlude ? " interlude" : "");
+  el.setAttribute("aria-label", `Slide ${i + 1} of ${SLIDES.length}`);
+  el.innerHTML = `<p class="prompt"><span class="path">~/wordpress</span> $ <span class="cmd"></span><span class="cursor"></span></p>${S.t ? `<h2 class="title">${S.t}</h2>` : ""}<div class="out">${S.h}</div>${S.p != null ? pipe(S.p) : ""}`;
+  const rc = document.getElementById("rain"); screen.innerHTML = ""; if (rc) screen.appendChild(rc); screen.appendChild(el); curEl = el;
+  const cmd = el.querySelector(".cmd"), out = el.querySelector(".out"), title = el.querySelector(".title");
+  if (reduce) { cmd.textContent = S.cmd; }
+  else {
+    out.style.visibility = "hidden"; if (title) title.style.visibility = "hidden";
+    let k = 0; const full = S.cmd, speed = Math.max(8, Math.min(28, 700 / full.length));
+    typing = setInterval(() => { k++; cmd.textContent = full.slice(0, k); if (k >= full.length) { clearInterval(typing); if (title) title.style.visibility = ""; out.style.visibility = ""; out.classList.add("printing"); } }, speed);
+  }
+  if (S.enter) S.enter(el);
+  autoFit(el, S);
+  if (dir < 0) el.querySelectorAll(".step").forEach((s) => s.classList.add("shown"));
+  $("#file").textContent = `slides/${S.f}`;
+  $("#pos").textContent = `${i + 1}/${SLIDES.length}`;
+  $("#progress").style.width = `${((i + 1) / SLIDES.length) * 100}%`;
+  $("#notesBody").innerHTML = (NOTES[i] || "No notes for this slide.").split("\n").map((p) => `<p>${p.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[c])}</p>`).join("");
+  document.querySelectorAll("#indexList button").forEach((b, k) => b.classList.toggle("cur", k === i));
+  drawTabs();
+  store.set("wp-lifecycle-slide", String(i));
+  if (location.hash !== "#" + (i + 1)) history.replaceState(null, "", "#" + (i + 1));
+}
+
+/* make text as large as the slide allows (for the back of the room) */
+function overflowing(out) {
+  const ob = out.getBoundingClientRect(); const tol = 2;
+  for (const e of out.querySelectorAll("*")) {
+    const r = e.getBoundingClientRect();
+    if (!r.width && !r.height) continue;
+    if (r.bottom > ob.bottom + tol || r.right > ob.right + tol) return true;
+    if (e.tagName !== "INPUT" && e.clientHeight && (e.scrollHeight > e.clientHeight + tol || e.scrollWidth > e.clientWidth + tol)) { if (!e.closest(".win") && !e.matches("#audChips")) return true; }
+  }
+  return false;
+}
+function autoFit(el, S) {
+  const out = el.querySelector(".out"); if (!out) return;
+  const max = S.maxZoom ?? (el.querySelector(".win") ? 1 : 1.45);
+  out.style.zoom = 1;
+  if (max <= 1) return;
+  out.classList.add("fitting");
+  let best = 1;
+  for (let z = max; z > 1.001; z -= 0.05) { out.style.zoom = z.toFixed(2); if (!overflowing(out)) { best = z; break; } }
+  out.style.zoom = best.toFixed(2);
+  out.classList.remove("fitting");
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (curEl) autoFit(curEl, SLIDES[cur]); });
+
+/* ascii QR: a grid of text cells. In "white" mode the modules are white █ blocks on a transparent
+   background (an inverted code); click it to switch to the classic dark-on-light version. Each cell is an
+   exact square with its own background, so it scans no matter which font loads. */
+function fitAsciiQR(el) {
+  const box = el.querySelector("#qrBox"); if (!box) return;
+  const rows = box.dataset.bits.split(","), n = rows.length, cell = 8;
+  const draw = () => {
+    const inv = (store.get("wp-deck-qr") || "white") === "white";
+    const ink = inv ? "#ffffff" : "#04140a", paper = inv ? "transparent" : "#e9fbe9", dot = inv ? "rgba(255,255,255,.18)" : "#c4e2c7";
+    box.style.background = paper;
+    box.innerHTML = `<div aria-hidden="true" style="display:grid;grid-template-columns:repeat(${n},${cell}px);grid-auto-rows:${cell}px;font:600 ${cell}px/${cell}px var(--mono);text-align:center">${rows.map((r) => [...r].map((b) => b === "1" ? `<span style="background:${ink};color:${ink};overflow:hidden;box-shadow:0 0 0 .6px ${ink}">█</span>` : `<span style="color:${dot};overflow:hidden">·</span>`).join("")).join("")}</div>`;
+  };
+  draw();
+  box.onclick = () => { store.set("wp-deck-qr", (store.get("wp-deck-qr") || "white") === "white" ? "dark" : "white"); draw(); };
+}
+
+/* ascii cats: a chubby cat holding the QR code (blinks, winks, purrs, sends hearts, swishes its tail),
+   a kitten next to the caption, and a sleepy cat dreaming beside the code */
+function asciiCat(el) {
+  const head = el.querySelector("#catHead"), tail = el.querySelector("#catTail"), heart = el.querySelector("#catHeart"),
+    kit = el.querySelector("#kitten"), zz = el.querySelector("#catSleep");
+  if (!head) return;
+  const face = (eyes, mouth, ears = "/\\_____/\\", cheeks = "'") => [
+    `         ${ears}         `,
+    `        /  ${eyes}  \\        `,
+    `       ( =${cheeks}  ${mouth}  ${cheeks}= )       `,
+    `        \\         /        `,
+    `   .-----'       '-----.   `,
+    ` ("")                 ("") `].join("\n");
+  const F = {
+    open: face("o   o", "ω"), blink: face("-   -", "ω"), happy: face("^   ^", "ω"),
+    wink: face("o   ^", "ω"), purr: face("^   ^", "w"), twitch: face("o   o", "ω", "/'_____/\\"), love: face("*   *", "ω"),
+  };
+  const seq = ["open", "open", "open", "blink", "open", "open", "happy", "purr", "happy", "open", "twitch", "twitch", "open", "wink", "open", "open", "love", "love", "open", "blink"];
+  const T = [["(", " )", "(", " )", "(_ "], [" )", "(", " )", "(", " (_"], ["(", " (", "  )", " (", "(_ "]].map((t) => t.join("\n"));
+  const H = ["", "", " <3", "  <3", "   <3", "", "", "", "", "", "", "", "", "", "", "", " <3", "<3 <3", " <3", ""];
+  const K = [[" /\\_/\\ ", "( o.o )", " > ^ < "], [" /\\_/\\ ", "( o.o )", " > ^ < "], [" /\\_/\\ ", "( -.- )", " > ^ < "], [" /\\_/\\ ", "(o.o  )", " > ^ < "], [" /\\_/\\ ", "(  o.o)", " > ^ < "], [" /\\_/\\ ", "( ^.^ )", "  > <  "]].map((k) => k.join("\n"));
+  const Z = [["      z  ", "         ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"], ["     z   ", "      Z  ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"], ["    z    ", "     z   ", "  |\\_/| Z", "  (-.-)__", "  (__,,)_)"], ["         ", "         ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"]].map((z) => z.join("\n"));
+  let k = 0;
+  const step = () => {
+    head.textContent = F[seq[k % seq.length]];
+    tail.textContent = T[k % T.length];
+    heart.textContent = H[k % H.length];
+    kit.textContent = K[Math.floor(k / 2) % K.length];
+    zz.textContent = Z[Math.floor(k / 2) % Z.length];
+    k++;
+  };
+  step();
+  if (reduce) return;
+  const iv = setInterval(step, 420);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+/* title slide: a page assembling itself, block by block */
+function heroBlocks(el) {
+  const art = el.querySelector("#heroArt"), log = el.querySelector("#heroLog"); if (!art) return;
+  const W = 30;
+  const pad = (t) => "| " + t.padEnd(W - 4) + " |";
+  const top = "+" + "-".repeat(W - 2) + "+", bot = "+" + "-".repeat(W - 2) + "+";
+  const BLOCKS = [
+    { name: "core/site-title", lines: ["== Meetup Site ==========="] },
+    { name: "core/heading", lines: ["", "# What's new in WordPress?"] },
+    { name: "core/paragraph", lines: ["~~~~~~~~~~~~~~~~~~~~~~~~~~", "~~~~~~~~~~~~~~~~~~~~~"] },
+    { name: "core/image", lines: ["", "+--------+ ~~~~~~~~~~~~~~~", "|  /\\/\\  | ~~~~~~~~~~~~~~~", "+--------+ ~~~~~~~~~~"] },
+    { name: "core/buttons", lines: ["", "[ Join the meetup ]"] },
+  ];
+  const ROWS = BLOCKS.reduce((n, b) => n + b.lines.length, 0);
+  let stage = 0, drop = 0, iv;
+  const draw = () => {
+    const shown = BLOCKS.slice(0, stage).flatMap((b) => b.lines);
+    const falling = stage < BLOCKS.length ? BLOCKS[stage] : null;
+    const body = [...shown];
+    if (falling) {
+      const free = ROWS - shown.length, y = Math.min(drop, free - falling.lines.length);
+      for (let i = 0; i < y; i++) body.push("");
+      falling.lines.forEach((l) => body.push(l));
+    }
+    while (body.length < ROWS) body.push("");
+    art.textContent = [top, ...body.slice(0, ROWS).map(pad), bot].join("\n");
+  };
+  const tick = () => {
+    if (stage >= BLOCKS.length) { stage = 0; drop = 0; log.textContent = "$ wp post create --blocks   ok: page published"; draw(); return; }
+    const free = ROWS - BLOCKS.slice(0, stage).flatMap((b) => b.lines).length - BLOCKS[stage].lines.length;
+    if (drop >= free) { log.textContent = `$ wp block insert ${BLOCKS[stage].name}`; stage++; drop = 0; }
+    else drop++;
+    draw();
+  };
+  draw();
+  if (reduce) { stage = BLOCKS.length; draw(); return; }
+  iv = setInterval(tick, 180);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+/* title slide: a cat typing on a laptop (blinks, twitches an ear, swishes its tail, types commands) */
+function laptopCat(el) {
+  const pre = el.querySelector("#laptopCat"); if (!pre) return;
+  const mug = el.querySelector("#mug");
+  const STEAM = [["  (  (  ", "   )  ) ", "  (  (  "], ["   )  ) ", "  (  (  ", "   )  ) "], ["  ( )   ", "   ) (  ", "  ( )   "], ["        ", "  (  (  ", "   )  ) "]];
+  const drawMug = (t) => {
+    if (!mug) return;
+    const st = STEAM[Math.floor(t / 3) % STEAM.length].map((l) => `<span style="color:var(--dim)">${l}</span>`);
+    mug.innerHTML = [...st, " .______.  ", " |~~~~~~|] ", " |      |] ", " |  <3  |  ", " `------'  "].join("\n");
+  };
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const SCRIPT = [["$ curl example.com", "HTTP/1.1 200 OK"], ["$ cat index.php", "WP_USE_THEMES"], ["$ wp hook list", "init  wp_loaded"], ["$ meow --help", "purr purr ok"], ["$ wp template", "single.php"]];
+  const W = 20;
+  let buf = [], typed = "", si = 0, ci = 0, wait = 0, tick = 0;
+  const frame = () => {
+    drawMug(tick);
+    const blink = tick % 14 === 0, twitch = tick % 23 < 2, happy = tick % 37 < 3;
+    const eyes = blink ? "-.-" : happy ? "^.^" : "o.o";
+    const ears = twitch ? "/'_/\\" : "/\\_/\\";
+    const tail = ["  )", " (", "  )"][Math.floor(tick / 3) % 3];
+    const typing = ci > 0 && ci <= SCRIPT[si % SCRIPT.length][0].length && wait === 0;
+    const pawL = typing && tick % 2 ? "(,)" : '(")', pawR = typing && !(tick % 2) ? "(,)" : '(")';
+    const lines = [...buf.slice(-2), typed + (tick % 4 < 2 ? "_" : " ")];
+    while (lines.length < 3) lines.unshift("");
+    const scr = lines.map((l) => esc(l.slice(-W).padEnd(W)));
+    pre.innerHTML = [
+      `               ${ears}`,
+      `             =( ${eyes} )=`,
+      `     .${"-".repeat(W + 2)}.`,
+      `     | <span style="color:var(--ok)">${scr[0]}</span> |`,
+      `     | <span style="color:var(--ok)">${scr[1]}</span> |`,
+      `     | <span style="color:var(--ok)">${scr[2]}</span> |${tail}`,
+      `     '${"-".repeat(W + 2)}' (`,
+      `    __${pawL}${"_".repeat(W - 2)}${pawR}_)`,
+      `   /${"_".repeat(W + 8)}\\`].join("\n");
+  };
+  const step = () => {
+    tick++;
+    const [cmd, out] = SCRIPT[si % SCRIPT.length];
+    if (wait > 0) { wait--; }
+    else if (ci < cmd.length) { ci++; typed = cmd.slice(0, ci); }
+    else { buf.push(typed, out); typed = ""; ci = 0; si++; wait = 6; }
+    frame();
+  };
+  frame();
+  if (reduce) { buf = ["$ curl example.com", "HTTP/1.1 200 OK"]; frame(); return; }
+  const iv = setInterval(step, 150);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+function go(i, dir) { i = Math.max(0, Math.min(SLIDES.length - 1, i)); const d = dir ?? (i >= cur ? 1 : -1); cur = i; render(cur, d); }
+function next() {
+  const hidden = curEl && curEl.querySelector(".step:not(.shown)");
+  if (hidden) { hidden.classList.add("shown"); return; }
+  if (cur < SLIDES.length - 1) go(cur + 1, 1);
+}
+function prev() {
+  const shown = curEl ? [...curEl.querySelectorAll(".step.shown")] : [];
+  if (shown.length && cur !== 0) { shown[shown.length - 1].classList.remove("shown"); return; }
+  if (cur > 0) go(cur - 1, -1);
+}
+
+/* zoom illustrations */
+let zoomState = null;
+function zoomWin(win) {
+  if (zoomState) { const { win: w, ph, css } = zoomState; ph.replaceWith(w); w.style.cssText = css; zoomState.ov.remove(); zoomState = null; if (!win || win === w) return; }
+  if (!win) return;
+  const w0 = win.offsetWidth, h0 = win.offsetHeight, css = win.style.cssText;
+  const ph = document.createElement("div"); ph.style.cssText = `width:${w0}px;height:${h0}px;flex:${win.style.flex || "none"}`;
+  win.replaceWith(ph);
+  const ov = document.createElement("div"); ov.className = "zoomer";
+  const holder = document.createElement("div"); holder.className = "holder"; holder.style.cssText = `width:${w0}px;height:${h0}px;display:flex`;
+  win.style.flex = "1"; holder.appendChild(win); ov.appendChild(holder);
+  ov.insertAdjacentHTML("beforeend", `<p class="hint">press z or esc to return · it still works when enlarged</p>`);
+  screen.appendChild(ov);
+  const s = Math.min((screen.clientWidth - 60) / w0, (screen.clientHeight - 100) / h0);
+  holder.style.transform = `scale(${s})`;
+  ov.addEventListener("click", (e) => { if (e.target === ov) zoomWin(null); });
+  zoomState = { win, ph, css, ov };
+}
+screen.addEventListener("click", (e) => { const b = e.target.closest(".zoomBtn"); if (b) { e.stopPropagation(); zoomWin(b.closest(".win")); } });
+
+/* themes + matrix code rain */
+function setTheme(t) { document.documentElement.dataset.phosphor = t === "green" ? "" : t; store.set("wp-deck-phosphor", t); rain(t === "matrix"); const nt = document.getElementById("nfTheme"); if (nt) nt.textContent = t; }
+let rainIv = null;
+function rain(on) {
+  let cv = document.getElementById("rain");
+  if (!on || reduce) { clearInterval(rainIv); rainIv = null; return; }
+  if (!cv) { cv = document.createElement("canvas"); cv.id = "rain"; cv.setAttribute("aria-hidden", "true"); screen.prepend(cv); }
+  if (rainIv) return;
+  const ctx = cv.getContext("2d"), fs = 18, chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789<>/{}=WP$#";
+  const size = () => { cv.width = screen.clientWidth; cv.height = screen.clientHeight; };
+  size(); let drops = Array.from({ length: Math.ceil(cv.width / fs) }, () => Math.random() * -40);
+  rainIv = setInterval(() => {
+    if (!cv.isConnected) screen.prepend(cv);
+    ctx.fillStyle = "rgba(1, 10, 3, .14)"; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = "#00ff41"; ctx.font = `${fs}px monospace`;
+    drops.forEach((y, i) => { ctx.fillText(chars[(Math.random() * chars.length) | 0], i * fs, y * fs); drops[i] = y * fs > cv.height && Math.random() > 0.975 ? 0 : y + 1; });
+  }, 70);
+}
+
+/* index */
+$("#indexList").innerHTML = SLIDES.map((s, i) => `<button data-i="${i}"><span>${String(i + 1).padStart(2, "0")}</span>${s.f}</button>`).join("");
+$("#indexList").querySelectorAll("button").forEach((b) => b.onclick = () => { toggleIndex(false); go(+b.dataset.i); });
+function toggleIndex(force) { const x = $("#index"); const on = force ?? !x.classList.contains("open"); x.classList.toggle("open", on); $("#mode").textContent = on ? "LS" : "NORMAL"; }
+function toggleNotes(force) { const x = $("#notes"); x.classList.toggle("open", force ?? !x.classList.contains("open")); }
+function toggleBlank() { $("#blank").classList.toggle("on"); }
+
+/* timer */
+let tLeft = 30 * 60, tRun = null;
+function drawTimer() { const t = $("#timer"); const a = Math.abs(tLeft); t.textContent = `${tLeft < 0 ? "+" : ""}${String(Math.floor(a / 60)).padStart(2, "0")}:${String(a % 60).padStart(2, "0")}`; t.className = tLeft < 0 ? "over" : tLeft < 300 ? "warn" : ""; }
+function toggleTimer() { if (tRun) { clearInterval(tRun); tRun = null; toast("timer paused"); } else { tRun = setInterval(() => { tLeft--; drawTimer(); }, 1000); toast("timer running · 30 minutes"); } }
+function setTimer(min) { tLeft = Math.round(min * 60); drawTimer(); }
+
+/* command line */
+const cmdBox = $("#cmd"), cmdIn = $("#cmdIn"), cmdOut = $("#cmdOut");
+const HELP = `keys      → space  next     ← back     o  slide list     n  notes     z  zoom illustration     c  cycle themes
+          t  timer        b  blank   f  fullscreen    :  command line   ?  help
+commands  goto N · ls · notes · timer [min] · theme green|amber|blue|obsidian|matrix|github|dracula|houston|mono
+          crt on|off · blank · top · end · whoami · wp --version · clear`;
+function openCmd(prefill = "") { cmdBox.classList.add("open"); cmdIn.value = prefill; cmdIn.focus(); $("#mode").textContent = "COMMAND"; }
+function closeCmd() { cmdBox.classList.remove("open"); cmdOut.textContent = ""; cmdIn.blur(); $("#mode").textContent = "NORMAL"; }
+function run(line) {
+  const [c, ...a] = line.trim().split(/\s+/); const arg = a.join(" ");
+  const say = (t) => { cmdOut.textContent = t; };
+  if (!c) return closeCmd();
+  if (/^\d+$/.test(c)) { go(+c - 1); return closeCmd(); }
+  switch (c) {
+    case "help": case "?": return say(HELP);
+    case "goto": case "g": go((+a[0] || 1) - 1); return closeCmd();
+    case "ls": closeCmd(); return toggleIndex(true);
+    case "notes": closeCmd(); return toggleNotes();
+    case "timer": if (a[0]) { setTimer(+a[0]); say(`timer set to ${a[0]} minutes`); } else { toggleTimer(); closeCmd(); } return;
+    case "theme": if (["green", "amber", "blue", "obsidian", "matrix", "github", "dracula", "houston", "mono"].includes(a[0])) { setTheme(a[0]); return say(`theme: ${a[0]}`); } return say("usage: theme green|amber|blue|obsidian|matrix|github|dracula|houston|mono");
+    case "crt": document.documentElement.dataset.crt = a[0] === "off" ? "off" : "on"; store.set("wp-deck-crt", a[0] === "off" ? "off" : "on"); return say(`crt effect ${a[0] === "off" ? "off" : "on"}`);
+    case "blank": closeCmd(); return toggleBlank();
+    case "top": go(0); return closeCmd();
+    case "end": case "exit": go(SLIDES.length - 1); return closeCmd();
+    case "clear": return say("");
+    case "whoami": return say("a WordPress meetup audience member. welcome!");
+    case "wp": return say(arg.includes("version") ? "WordPress Request Lifecycle · try: goto 8 for wp-settings.php" : "usage: wp --version");
+    case "sudo": return say("Permission denied: current_user_can() said no. (Step 33 sets up the user.)");
+    case "rm": return say("Nice try. The request is already on its way to shutdown.");
+    case "coffee": case "make": return say("☕ brewing… the next slide will be ready in 0.3 seconds.");
+    default: return say(`command not found: ${c}. type help`);
+  }
+}
+cmdIn.addEventListener("keydown", (e) => { e.stopPropagation(); if (e.key === "Enter") run(cmdIn.value); if (e.key === "Escape") closeCmd(); });
+
+/* keyboard */
+addEventListener("keydown", (e) => {
+  if (e.target.matches("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key;
+  if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(k)) { e.preventDefault(); if (!$("#index").classList.contains("open")) next(); }
+  else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(k)) { e.preventDefault(); prev(); }
+  else if (k === "Home") go(0); else if (k === "End") go(SLIDES.length - 1);
+  else if (k === "c") { const T = ["green", "amber", "blue", "obsidian", "matrix", "github", "dracula", "houston", "mono"]; const now = document.documentElement.dataset.phosphor || "green"; const nx = T[(T.indexOf(now) + 1) % T.length]; setTheme(nx); toast(`theme: ${nx}`); }
+  else if (k === "o") toggleIndex(); else if (k === "n") toggleNotes(); else if (k === "t") toggleTimer(); else if (k === "b" || k === ".") toggleBlank();
+  else if (k === "f") { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.().catch(() => toast("fullscreen isn't available here")); }
+  else if (k === ":" || k === "/") { e.preventDefault(); openCmd(); }
+  else if (k === "?") { openCmd(); run("help"); }
+  else if (k === "z") { const wins = curEl ? [...curEl.querySelectorAll(".win")] : []; if (!wins.length) return; if (zoomState) { const i = wins.indexOf(zoomState.win); zoomWin(null); if (i < wins.length - 1) zoomWin(wins[i + 1]); } else zoomWin(wins[0]); }
+  else if (k === "Escape") { if (zoomState) return zoomWin(null); toggleIndex(false); toggleNotes(false); $("#blank").classList.remove("on"); }
+});
+
+/* buttons and touch */
+$("#nextBtn").onclick = next; $("#prevBtn").onclick = prev;
+$("#notesBtn").onclick = () => toggleNotes(); $("#indexBtn").onclick = () => toggleIndex(); $("#helpBtn").onclick = () => { openCmd(); run("help"); }; $("#timerBtn").onclick = toggleTimer;
+$("#blank").onclick = toggleBlank;
+let tx = null; stage.addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; }, { passive: true });
+stage.addEventListener("touchend", (e) => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) (dx < 0 ? next : prev)(); tx = null; });
+
+/* start */
+(function init() {
+  setTheme(store.get("wp-deck-phosphor") || "github");
+  const crt = store.get("wp-deck-crt"); if (crt) document.documentElement.dataset.crt = crt;
+  const h = parseInt(location.hash.slice(1), 10);
+  fit(); drawTimer();
+  go(Number.isFinite(h) ? h - 1 : 0, 1);
+})();
+</script>
+</body>
+</html>
