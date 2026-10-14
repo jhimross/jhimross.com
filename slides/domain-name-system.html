@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en" data-phosphor="github">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Domain Name System — terminal edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=VT323&display=swap" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/brands.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/fontawesome.min.js"></script>
+<style>
+:root {
+  --page: #030604;
+  --bg: #07110b;
+  --bg2: #0c1b12;
+  --bg3: #12271a;
+  --line: #1e3d2a;
+  --fg: #d6f7de;
+  --dim: #7ea78a;
+  --ok: #57f287;
+  --hi: #ffb23e;
+  --wp: #79b8ff;
+  --bad: #ff6b6b;
+  --glow: 0 0 6px rgba(87, 242, 135, .35);
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --crt: "VT323", "JetBrains Mono", ui-monospace, monospace;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --page: #030604; --bg: #07110b; } }
+:root[data-theme="dark"] { --page: #030604; --bg: #07110b; }
+:root[data-phosphor="amber"] { --bg: #110b03; --bg2: #1b1306; --bg3: #271b09; --line: #3d2b10; --fg: #ffe2b0; --dim: #b08a55; --ok: #ffb000; --hi: #ffd166; --wp: #ffcf7a; --glow: 0 0 6px rgba(255, 176, 0, .35); }
+:root[data-phosphor="blue"] { --bg: #050b16; --bg2: #0a1426; --bg3: #102040; --line: #1d3358; --fg: #d8e8ff; --dim: #7e95b8; --ok: #6fb3ff; --hi: #ffb23e; --wp: #9ecbff; --glow: 0 0 6px rgba(111, 179, 255, .35); }
+:root[data-phosphor="obsidian"] { --bg: #0e0c13; --bg2: #16131e; --bg3: #211c2d; --line: #352d49; --fg: #e8e3f5; --dim: #9b91b5; --ok: #b49cff; --hi: #ffb86c; --wp: #8be9fd; --glow: 0 0 7px rgba(180, 156, 255, .35); }
+:root[data-phosphor="obsidian"] #stage { box-shadow: 0 0 90px rgba(120, 90, 220, .18); }
+:root[data-phosphor="matrix"] { --bg: #010a03; --bg2: #031208; --bg3: #062312; --line: #0d3b1b; --fg: #c3ffc9; --dim: #3fa950; --ok: #00ff41; --hi: #d4ff3a; --wp: #6bff9e; --glow: 0 0 8px rgba(0, 255, 65, .5); }
+#rain { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: .2; display: none; }
+:root[data-phosphor="matrix"] #rain { display: block; }
+:root[data-phosphor="matrix"] .slide.interlude { background: radial-gradient(ellipse at 30% 40%, rgba(3,18,8,.75), rgba(1,10,3,.35) 70%); }
+.slide { z-index: 1; }
+:root[data-phosphor="github"] { --bg: #0d1117; --bg2: #161b22; --bg3: #21262d; --line: #30363d; --fg: #e6edf3; --dim: #7d8590; --ok: #3fb950; --hi: #d29922; --wp: #58a6ff; --glow: none; }
+:root[data-phosphor="dracula"] { --bg: #282a36; --bg2: #21222c; --bg3: #343746; --line: #44475a; --fg: #f8f8f2; --dim: #8a94c4; --ok: #bd93f9; --hi: #ff79c6; --wp: #8be9fd; --glow: 0 0 7px rgba(189, 147, 249, .3); }
+:root[data-phosphor="houston"] { --bg: #17191e; --bg2: #1e2128; --bg3: #262a33; --line: #343841; --fg: #eef0f9; --dim: #858b98; --ok: #4bf3c8; --hi: #ffd493; --wp: #54b9ff; --glow: 0 0 7px rgba(75, 243, 200, .3); }
+:root[data-phosphor="mono"] { --bg: #0b0b0b; --bg2: #151515; --bg3: #202020; --line: #333; --fg: #eaeaea; --dim: #8a8a8a; --ok: #ffffff; --hi: #ffffff; --wp: #cfcfcf; --glow: none; }
+*, *::before, *::after { box-sizing: border-box; }
+html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { height: 100%; margin: 0; background: var(--page); color: var(--fg); font-family: var(--mono); overflow: hidden; -webkit-font-smoothing: antialiased; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--hi); outline-offset: 2px; }
+
+/* ---------- stage ---------- */
+#viewport { position: relative; width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: 0 0; background: var(--bg); border: 1px solid var(--line); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 80px rgba(0,0,0,.6); }
+#stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(to bottom, rgba(255,255,255,.025) 0 1px, transparent 1px 3px); mix-blend-mode: screen; z-index: 50; }
+:root[data-crt="off"] #stage::after { display: none; }
+:root[data-crt="off"] { --glow: none; }
+
+/* tmux-style window bar */
+#tabs { height: 34px; flex: none; display: flex; align-items: stretch; background: var(--bg2); border-bottom: 1px solid var(--line); font-size: 13px; }
+#tabs .sess { display: flex; align-items: center; padding: 0 14px; background: var(--ok); color: var(--bg); font-weight: 800; }
+#tabs button { background: none; border: 0; padding: 0 14px; color: var(--dim); cursor: pointer; }
+#tabs button[aria-current="true"] { color: var(--fg); background: var(--bg3); }
+#tabs button[aria-current="true"]::after { content: "*"; color: var(--ok); }
+#tabs .spacer { flex: 1; }
+#tabs .clock { display: flex; align-items: center; padding: 0 14px; color: var(--dim); }
+
+/* screen */
+#screen { position: relative; flex: 1; overflow: hidden; }
+.slide { position: absolute; inset: 0; padding: 26px 48px 20px; display: flex; flex-direction: column; gap: 14px; }
+.prompt { font-size: 20px; color: var(--dim); white-space: pre; min-height: 24px; }
+.prompt .path { color: var(--wp); font-weight: 600; }
+.prompt .cmd { color: var(--fg); }
+.cursor { display: inline-block; width: .6em; height: 1.05em; background: var(--ok); vertical-align: -2px; margin-left: 2px; animation: blink 1.05s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.title { font-family: var(--crt); font-size: 64px; line-height: .95; color: var(--fg); text-shadow: var(--glow); margin: 0; font-weight: 400; letter-spacing: .5px; }
+.sub { font-size: 24px; color: var(--dim); margin: 0; }
+.out { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 16px; padding-top: 12px; }
+.out.printing { animation: print .45s steps(12) both; }
+@keyframes print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* text pieces */
+.lead { font-size: 26px; line-height: 1.45; margin: 0; max-width: 60ch; }
+.big { font-family: var(--crt); font-size: 64px; line-height: 1; color: var(--ok); text-shadow: var(--glow); margin: 0; }
+.muted { color: var(--dim); }
+.ok { color: var(--ok); } .hi { color: var(--hi); } .wp { color: var(--wp); } .bad { color: var(--bad); }
+.say { border-left: 3px solid var(--ok); background: var(--bg2); padding: 12px 18px; font-size: 23px; font-weight: 600; margin: 0; }
+.say::before { content: "> "; color: var(--ok); }
+.small { font-size: 18px; color: var(--dim); }
+.foot { margin-top: auto; font-size: 16px; color: var(--dim); }
+.foot::before { content: "# "; }
+pre.ascii { margin: 0; font-size: 22px; line-height: 1.3; color: var(--fg); }
+pre.ascii b { color: var(--ok); font-weight: 600; }
+pre.ascii i { color: var(--hi); font-style: normal; }
+pre.ascii u { color: var(--wp); text-decoration: none; }
+
+/* chips, flows, panels */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.grid { display: grid; gap: 12px; }
+.chip { display: inline-flex; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--line); background: var(--bg2); padding: 10px 14px; font-size: 20px; line-height: 1.25; }
+.chip.on { border-color: var(--ok); color: var(--ok); background: color-mix(in srgb, var(--ok) 10%, var(--bg2)); }
+.chip.hi { background: var(--hi); color: #1a1100; border-color: var(--hi); font-weight: 600; }
+.chip.dim { color: var(--dim); }
+.chip.strike { color: var(--dim); text-decoration: line-through; text-decoration-color: var(--bad); }
+.flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.flow .arr { color: var(--dim); font-size: 17px; }
+.flow.col { flex-direction: column; align-items: stretch; }
+.flow.col .arr { text-align: center; line-height: 1; }
+.panel { position: relative; border: 1px solid var(--line); padding: 20px 16px 14px; background: color-mix(in srgb, var(--bg2) 60%, transparent); }
+.panel[data-label]::before { content: "┤ " attr(data-label) " ├"; position: absolute; top: -11px; left: 12px; background: var(--bg); padding: 0 4px; font-size: 16px; color: var(--dim); }
+.panel.on { border-color: var(--ok); }
+.panel.on[data-label]::before { color: var(--ok); }
+.panel.hi { border-color: var(--hi); }
+.panel.hi[data-label]::before { color: var(--hi); }
+.panel h3 { margin: 0 0 8px; font-size: 23px; color: var(--fg); }
+.panel ul { margin: 0; padding: 0; list-style: none; font-size: 19px; line-height: 1.5; }
+.panel li::before { content: "- "; color: var(--dim); }
+.row { display: flex; gap: 22px; min-height: 0; }
+.row > * { min-width: 0; }
+.chip.hi .tag { color: #1a1100; border-color: rgba(0,0,0,.3); }
+.tight .chip { padding: 5px 10px; font-size: 17px; }
+.tight .arr { font-size: 11px; }
+.tag { font-size: 14px; border: 1px solid var(--line); padding: 1px 6px; color: var(--ok); margin-left: auto; white-space: nowrap; }
+.log { font-size: 23px; line-height: 1.6; margin: 0; }
+.log .t { color: var(--hi); display: inline-block; min-width: 9.5em; }
+.btn { background: var(--bg3); border: 1px solid var(--ok); color: var(--ok); padding: 9px 16px; cursor: pointer; font-size: 19px; }
+.btn:hover { background: var(--ok); color: var(--bg); }
+.btn[disabled] { opacity: .5; cursor: default; }
+.term { background: #020503; border: 1px solid var(--line); padding: 12px 14px; font-size: 17px; line-height: 1.5; overflow: hidden; white-space: pre-wrap; }
+.term .in { color: var(--wp); } .term .res { color: var(--fg); } .term .c { color: var(--dim); }
+
+/* steps */
+.step { opacity: 0; transform: translateY(4px); transition: opacity .25s, transform .25s; }
+.step.shown { opacity: 1; transform: none; }
+
+/* dark interlude slides */
+.slide.interlude { justify-content: center; padding: 0 110px; background: radial-gradient(ellipse at 30% 40%, var(--bg2), var(--bg) 70%); }
+.slide.interlude .title { font-size: 84px; max-width: 24ch; }
+.slide.interlude .prompt { margin-bottom: 12px; }
+.slide.interlude .out { flex: 0 1 auto; }
+.flow.nowrap { flex-wrap: nowrap; }
+.flow.col.start { align-items: flex-start; }
+.contact a { color: var(--ok); text-decoration: none; border-bottom: 2px solid color-mix(in srgb, var(--ok) 40%, transparent); }
+.contact a:hover { border-bottom-color: var(--ok); }
+
+/* light app windows (WordPress UI illustrations) */
+.win { background: #fff; color: #1e1e1e; border: 1px solid #c3c4c7; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+.win .bar { height: 26px; flex: none; display: flex; align-items: center; gap: 5px; padding: 0 8px; background: #f0f0f1; border-bottom: 1px solid #dcdcde; }
+.win .bar i { width: 8px; height: 8px; border-radius: 50%; background: #c3c4c7; }
+.win .bar span { margin-left: auto; font-family: var(--mono); font-size: 11px; color: #757575; }
+.win .body { flex: 1; position: relative; display: flex; min-height: 0; }
+.wp-side { width: 104px; background: #2c3338; color: #c3c4c7; padding-top: 4px; flex: none; }
+.wp-side div { padding: 4px 8px; font-size: 13px; }
+.wp-side .cur { background: #3858e9; color: #fff; }
+.wp-btn { background: #3858e9; color: #fff; border: 0; padding: 5px 10px; border-radius: 2px; font-size: 13px; cursor: pointer; }
+.wp-btn.ghost { background: #fff; color: #3858e9; border: 1px solid #3858e9; }
+.win input { background: #fff; color: #1e1e1e; color-scheme: light; }
+.win input::placeholder { color: #757575; }
+.ln { height: 5px; background: #dcdcde; margin: 6px 0; }
+.ln.s { width: 60%; }
+.cap { text-align: center; margin-top: 8px; }
+.cap b { display: block; font-size: 22px; color: var(--fg); }
+.cap span { font-size: 17px; color: var(--dim); }
+.illus { position: absolute; top: 3px; right: 8px; font-family: var(--mono); font-size: 9px; color: #757575; }
+
+/* overlays */
+#cmd { position: absolute; left: 0; right: 0; bottom: 30px; background: var(--bg2); border-top: 1px solid var(--ok); padding: 8px 14px; display: none; z-index: 60; font-size: 16px; }
+#cmd.open { display: block; }
+#cmd .row1 { display: flex; gap: 6px; align-items: center; }
+#cmd input { flex: 1; background: transparent; border: 0; outline: none; color: var(--fg); caret-color: var(--ok); }
+#cmd pre { margin: 0 0 6px; color: var(--dim); font-size: 14px; max-height: 300px; overflow: auto; white-space: pre-wrap; }
+#status { height: 30px; flex: none; display: flex; align-items: center; background: var(--bg2); border-top: 1px solid var(--line); font-size: 13px; position: relative; z-index: 61; }
+#status .mode { background: var(--ok); color: var(--bg); font-weight: 800; padding: 0 12px; height: 100%; display: flex; align-items: center; }
+#status .file { padding: 0 12px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#status .sp { flex: 1; }
+#status button { background: none; border: 0; color: var(--dim); cursor: pointer; padding: 0 10px; height: 100%; }
+#status button:hover { color: var(--fg); }
+#status .pos { color: var(--ok); padding: 0 12px; }
+#timer.warn { color: var(--hi); } #timer.over { color: var(--bad); }
+#progress { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--ok); transition: width .3s; }
+#notes { position: absolute; right: 0; top: 34px; bottom: 30px; width: 440px; background: var(--bg2); border-left: 1px solid var(--line); padding: 18px; font-size: 17px; line-height: 1.55; overflow: auto; transform: translateX(100%); transition: transform .2s; z-index: 55; }
+#notes.open { transform: none; }
+#notes h4 { margin: 0 0 10px; color: var(--hi); font-weight: 600; font-size: 14px; }
+#index { position: absolute; inset: 34px 0 30px; background: var(--bg); z-index: 58; padding: 24px 48px; overflow: auto; display: none; }
+#index.open { display: block; }
+#index .ls { columns: 2; column-gap: 40px; font-size: 15px; line-height: 1.75; }
+#index button { display: block; background: none; border: 0; color: var(--fg); cursor: pointer; text-align: left; padding: 0; width: 100%; }
+#index button:hover, #index button.cur { color: var(--ok); }
+#index button span { color: var(--dim); display: inline-block; width: 3.5em; }
+#blank { position: absolute; inset: 0; background: #000; z-index: 70; display: none; place-items: center; color: #222; font-size: 14px; }
+#blank.on { display: grid; }
+#toast { position: absolute; left: 50%; bottom: 44px; transform: translateX(-50%); background: var(--bg3); border: 1px solid var(--ok); padding: 6px 14px; font-size: 14px; z-index: 80; opacity: 0; transition: opacity .2s; pointer-events: none; }
+#toast.on { opacity: 1; }
+
+/* zoom an illustration to fill the screen */
+.win .zoomBtn { margin-left: 8px; background: #fff; border: 1px solid #c3c4c7; color: #3858e9; font: 600 12px var(--mono); padding: 1px 7px; cursor: pointer; }
+.win .zoomBtn:hover { background: #3858e9; color: #fff; }
+.zoomer { position: absolute; inset: 0; z-index: 45; background: var(--bg); display: grid; place-items: center; padding-bottom: 30px; }
+.zoomer .holder { transform-origin: center center; }
+.zoomer .hint { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; color: var(--dim); font-size: 16px; }
+.fitting .step { transform: none; transition: none; }
+
+/* deck-kit additions */
+.pipe { flex: none; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 48px 12px; font-size: 14px; color: var(--dim); white-space: nowrap; }
+.pipe span { padding: 3px 8px; border: 1px solid var(--line); }
+.pipe span.done { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.pipe span.now { background: var(--hi); color: #1a1100; border-color: var(--hi); font-weight: 800; }
+.pipe i { font-style: normal; color: var(--line); }
+pre.term.code { font-size: 21px; line-height: 1.55; margin: 0; white-space: pre; }
+pre.term.code .hi { color: var(--hi); } pre.term.code .ok { color: var(--ok); }
+.ws { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 44px; font-size: 21px; line-height: 1.4; }
+.sm pre.term.code { font-size: 18px; line-height: 1.45; }
+.ws li { break-inside: avoid; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+.ws .n { color: var(--dim); display: inline-block; min-width: 2.4em; }
+.hook { color: var(--hi); font-weight: 600; }
+.meter-row { display: flex; align-items: center; gap: 16px; }
+.meter { position: relative; flex: 1; height: 8px; background: var(--bg3); border: 1px solid var(--line); }
+.meter i { position: absolute; left: 0; top: 0; bottom: 0; background: color-mix(in srgb, var(--ok) 35%, transparent); }
+.meter b { position: absolute; top: 0; bottom: 0; background: var(--hi); }
+@media (prefers-reduced-motion: reduce) {
+  .out.printing { animation: none; }
+  .step { transition: none; }
+  .cursor { animation: none; }
+}
+
+/* ---------- Wapuu: shaded ASCII art (hero + "let's connect") ---------- */
+/* The art is drawn from the "@ % # * = : - + ." ramp, one <span> per glyph, so a band of
+   light can sweep through it. Colours are mixed from the theme vars, so the art re-tints
+   itself under every phosphor theme instead of staying hardcoded green. */
+#catArt { line-height: 1.06; transform-origin: 50% 55%; animation: catBreathe 4.4s ease-in-out infinite; }
+#catArt .l { display: block; }
+#catArt .c { transition: color .40s linear, text-shadow .40s linear; }
+#catArt .a0 { color: color-mix(in srgb, var(--ok) 16%, var(--bg)); }
+#catArt .a1 { color: color-mix(in srgb, var(--ok) 28%, var(--bg)); }
+#catArt .a2 { color: color-mix(in srgb, var(--ok) 44%, var(--bg)); }
+#catArt .a3 { color: color-mix(in srgb, var(--ok) 62%, var(--bg)); }
+#catArt .a4 { color: color-mix(in srgb, var(--ok) 84%, var(--fg)); }
+#catArt .a5 { color: var(--fg); }
+#catArt .c.hot { color: #fff; text-shadow: 0 0 8px var(--ok); }
+#catArt .c.spark { color: var(--hi); text-shadow: 0 0 8px var(--hi); }
+@keyframes catBreathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
+@media (prefers-reduced-motion: reduce) { #catArt { animation: none; } #catArt .c { transition: none; } }
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage" role="region" aria-roledescription="slide deck" aria-label="The Domain Name System">
+    <nav id="tabs" aria-label="Sections"></nav>
+    <main id="screen" aria-live="polite"></main>
+    <aside id="notes" aria-label="Speaker notes"><h4>speaker notes</h4><div id="notesBody"></div></aside>
+    <section id="index" aria-label="All slides"><p class="prompt"><span class="path">~/domain name system</span> $ <span class="cmd">ls slides/</span></p><div class="ls" id="indexList"></div></section>
+    <div id="cmd"><pre id="cmdOut"></pre><div class="row1"><span class="ok">:</span><input id="cmdIn" autocomplete="off" spellcheck="false" aria-label="Command"></div></div>
+    <footer id="status">
+      <span class="mode" id="mode">NORMAL</span>
+      <span class="file" id="file"></span>
+      <span class="sp"></span>
+      <button id="timerBtn" title="Start or pause the 30-minute timer (t)"><span id="timer">30:00</span></button>
+      <button id="notesBtn" title="Speaker notes (n)">notes</button>
+      <button id="indexBtn" title="All slides (o)">ls</button>
+      <button id="helpBtn" title="Commands (:)">:help</button>
+      <button id="prevBtn" aria-label="Previous slide">‹</button>
+      <span class="pos" id="pos"></span>
+      <button id="nextBtn" aria-label="Next slide">›</button>
+      <div id="progress"></div>
+    </footer>
+    <div id="blank">screen paused · press b</div>
+    <div id="toast" role="status"></div>
+  </div>
+</div>
+<script>
+/* ---------- tiny helpers for slide markup ---------- */
+const esc = (s) => String(s);
+const chipCls = (x) => x.startsWith("*") ? ["on", x.slice(1)] : x.startsWith("!") ? ["hi", x.slice(1)] : x.startsWith("~") ? ["dim", x.slice(1)] : x.startsWith("-") ? ["strike", x.slice(1)] : ["", x];
+const chips = (arr, step) => `<div class="chips${step ? " step" : ""}">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join("")}</div>`;
+const grid = (arr, cols, step) => `<div class="grid${step ? " step" : ""}" style="grid-template-columns:repeat(${cols},1fr)">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join("")}</div>`;
+const flow = (arr, opt = {}) => `<div class="flow${opt.col ? " col" : ""}${opt.start ? " start" : ""}${opt.nowrap ? " nowrap" : ""}${opt.step ? " step" : ""}">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join(`<span class="arr">${opt.col ? "▼" : "──▶"}</span>`)}</div>`;
+const say = (t, step) => `<p class="say${step ? " step" : ""}">${t}</p>`;
+const foot = (t) => `<p class="foot">${t}</p>`;
+const panel = (label, inner, cls = "") => `<div class="panel ${cls}" data-label="${label}">${inner}</div>`;
+const list = (items) => `<ul>${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
+const win = (inner, label = "illustration", style = "") => `<div class="win" style="${style}"><div class="bar"><i></i><i></i><i></i><span>${label}</span><button class="zoomBtn" title="Enlarge (z)" aria-label="Enlarge illustration">⤢ zoom</button></div><div class="body">${inner}</div></div>`;
+const cap = (b, s) => `<div class="cap"><b>${b}</b><span>${s}</span></div>`;
+const wpSide = (cur) => `<div class="wp-side">${["Dashboard", "Posts", "Media", "Pages", "Appearance", "Plugins", "Users", "Settings"].map((m) => `<div class="${m === cur ? "cur" : ""}">${m}</div>`).join("")}</div>`;
+const lines = (n, w = 100) => Array.from({ length: n }, (_, i) => `<div class="ln" style="width:${i === n - 1 ? w * 0.6 : w - (i % 2) * 8}%"></div>`).join("");
+
+/* ---------- extra helpers (deck kit) ---------- */
+/* code(src): a code/terminal block. Wrap tokens in <span class="in|ok|hi|c"> for keyword/string/highlight/comment. Escape < as &lt; */
+const code = (src) => `<pre class="term code">${src}</pre>`;
+/* numbered(start, items): two-column numbered list for long step lists (max ~10 per slide) */
+const numbered = (start, items) => `<ol class="ws">${items.map((t, i) => `<li><span class="n">${String(start + i).padStart(2, "0")}</span>${t}</li>`).join("")}</ol>`;
+/* meter(from, to, total, label): progress meter for a list split across several slides */
+const meter = (from, to, total, label) => `<div class="meter-row"><span class="hi" style="font-size:22px;font-weight:600">${label}</span><span class="small">steps ${from}–${to} of ${total}</span><div class="meter"><b style="left:${((from - 1) / total) * 100}%;width:${((to - from + 1) / total) * 100}%"></b><i style="width:${((from - 1) / total) * 100}%"></i></div></div>`;
+/* hook(name): highlighted code token, e.g. do_action( 'init' ) */
+const hook = (h) => `<span class="hook">do_action( '${h}' )</span>`;
+/* pipe(k): journey bar under the slide. Define const STAGES = [...] (short labels) in the slides block, then set p: k on a slide */
+const pipe = (k) => typeof STAGES === "undefined" ? "" : `<div class="pipe" aria-label="Stage ${k + 1} of ${STAGES.length}: ${STAGES[k]}">${STAGES.map((s, i) => `<span class="${i < k ? "done" : i === k ? "now" : ""}">${s}</span>`).join(`<i>›</i>`)}</div>`;
+
+const WAPUU_ART = `
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                          %%%%@%%%%%%%                                              
+                                   %%%%%%%%%%%%%%%%%%%%%%%%@%                                       
+                             @%%%%%%%%%%@@%%%%%%%%   %@%%%%%%%%%@%                                  
+                          %%%%%%%@%     %%%%%%@             %%%%%%%%%                               
+                       %%%%%%%@  %%%%%%%%%%%                     %%%%%%%                            
+                     %%%%%%    %%%%%%%%%%                        %%%%%%%%%                          
+                   %%%%%% @%@%%%%@   %%%%                   %%%%%%%%%%@%%%%%%                       
+                 %%%%%%%%%%%%%%%%    %%%%%%%%%@          @%%%%%%%%       @%%%%                      
+                %%%%%%%%%%@@@@@%%%   %%%%%@%%%%%%%%%%  %%%%@%%             %@%%%                    
+              %%%%%           %%%%%%%%%%       %%%%%%%%%%%%                  @%%%                   
+             %%%@            %%%@@%%%@           %%%%%%%%%%                   %%%%                  
+            %%%%            %%%%               %%%%@%    @                                          
+          %%%%@            %%%@              %%%%%                                                  
+         %%%%@            %%%%            @%%%%%     %%                                             
+         %%%%            %%%%           %%%%%%     %%%%@ %%%%%%%%    %%%@      %%%@  %%%%%%%        
+        %%%@            %%%%          %@%%%%      %%%@@ %%%%@%%%%%%  @%%%%     %%%@ %%%%%%%%%%      
+       %%%%            %%%%         @%%%%%       %%%%   %%%%    %%%% %%%%%@    %%%@%%%@   %%%%@     
+       %%%%           %%%%        @%%%%%        %%%@    %%%%     %%%%%%%%%%@   %%%%@%%@    %%       
+      %%%%           %%%%@       %%%%@         %%%@     %%%%     %%%%%%%%%%%@  %%%@%%%%%            
+      %%%%           %%%%      %%%%@          %%%%      %%%%     %%%%%%%@ %%%% %%%@ %%%%%%%%%       
+      %%@%          %%%%     %%%%@@          %%%%       %%%%     %%%%%%%@  @%%%%%%@    %%%%%%%      
+     %%%%           %%%     %%%%%           %%%%        %%%%     %%%%@%%@   %%%%%%@        %%%@     
+     %%%%          @%%%   @%%%@            @%%%         %%%%    %%%% @%%@    %%%%%@%%%@    %%%@     
+     %%%%%@        %%%%  %%%@              %%%%         %%%%@@%%%%%% %%%@     @%%%@ @%%%%%%%%@      
+     %%%%%%%      @%%@ %%%%@              %%%@          %%%%%%%%%@   %%%%      @%%@  %%%%%%%        
+     @%%%%%%%     %%%%%%%%@              %%%@                                                       
+      @%@%%%%%   @%%%%%%@                %%%                                                        
+      %%%% %%%%% %%%%%%@                %@%%                                                        
+      %%%%   %%%%%%%%%%                 %%%@            %@            %%%@           @%%@           
+       %%%%   @%%%%%%@                 %%%%           @%%%@          %%%%            %%%            
+       %%%%     %%%%%@                 %%%@         %%%%@           %%%%            %%%@            
+        %%%%   %%%%%%%%%               @%%        @%%%@@            %%%@            @%%             
+         %%%% %%%%%% @%%%%%           %%%%      %%%%%@            @%%%@           %%%%@             
+         %%%%%%%%%%%   @%%%%%%        %%%%    %%%%%%             %%%%%           %%%%@              
+          %%%%%% %%%      %%%%%%%    %%%%%% %%%%%               %%%%             %%%%               
+            %%%% %%%%        @%%%%%%%%%%%%%%%%%                %%%%@            %%%%                
+             %%%%%%%@           %%%%%%@   @%%@                %%%@@           %%%%%                 
+              @%%%%%@             @%%%    @%%%%%             %%%%           %%%%%                   
+                %%%%%@           %%%%%%%%%%%%%%%%%%@%%%%%% %%%%%     %%%%%%%%%%%                    
+                 %%%%%%       %%%%%%%%%%%%%@    @@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%                     
+                   @%%%%@ @%%%%%%%                      %%%%%%@@@%%@@@%%%%%@@                       
+                     %%%%%%%%%%                       %%%%@         %%%%%@%                         
+                       %@%%%%@                      %%%%%        %%%%%%%                            
+                          @%%%%%%%%              %%%%%%     %%%%%%%%%                               
+                             @%%%%%%%%%%@%    %%%%%%%%@%%%%%%%%%%@                                  
+                                   %@%%%%%%%%%%%%%%%%%%%%%%@%                                       
+                                          %@@%@@@%%@%                                               
+                                                                                                    
+                                                                                                    
+                                                                                                    
+                                                                                                    
+`;
+const STAGES = ["resolver", "root", "tld", "authoritative"];
+const SECTIONS = [["intro", 0], ["lookup", 6], ["records", 18], ["edit", 30], ["need", 36], ["propagation", 41], ["fix", 45]];
+
+/* the seven hops of a DNS lookup, one per line — reused on the overview and each step slide */
+const CHAIN = [
+  ["your browser",   "DNS resolver",       "what is the IP for wordpress.org?"],
+  ["DNS resolver",   "DNS root server",    "where is the .org TLD server?"],
+  ["DNS root server","TLD .org server",    "where is ns1.wordpress.org?"],
+  ["TLD .org server","authoritative NS",   "what are the records for wordpress.org?"],
+  ["authoritative NS","DNS resolver",      "198.143.164.252"],
+  ["DNS resolver",   "your browser",       "198.143.164.252"],
+  ["your browser",   "web server",         "now send me the site data"],
+];
+const hop = (n) => {
+  const [a, b, q] = CHAIN[n];
+  return `<span style="color:var(--ok)"><b>${a}</b></span> <span class="muted">──▶</span> <span style="color:var(--ok)"><b>${b}</b></span>\n<span class="muted">      "${q}"</span>`;
+};
+
+const SLIDES = [
+/* 0 */ { maxZoom: 1, f: "00-boot.sh", cmd: "./resolve.sh wordpress.org", hero: true, h: `
+  <div class="row" style="flex:1;gap:28px;align-items:flex-start">
+    <div style="flex:1.25;display:flex;flex-direction:column;gap:16px;min-width:0;padding-top:36px">
+      <h1 class="title" style="font-size:112px">The Domain<br>Name System</h1>
+      <p class="sub" style="font-size:30px;margin:0 0 22px">by <b style="color:var(--fg)">@jhimross</b></p>
+      ${flow(["an address", "a name", "!DNS"])}
+    </div>
+    <div id="artBox" style="flex:1;min-width:0;align-self:stretch;display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <pre id="catArt" aria-hidden="true" style="margin:0;font:600 11px/1.06 var(--mono);white-space:pre;font-variant-ligatures:none"></pre>
+    </div>
+  </div>`,
+  enter(el) { asciiHero(el, WAPUU_ART); } },
+
+/* 1 */ { f: "01-familiar.md", cmd: "whois --how-familiar-are-you", t: "How familiar are you with DNS?", h: `
+  <p class="lead">Before we start — on a scale of <b class="ok">1</b> to <b class="ok">5</b>, how familiar are you with the Domain Name System?</p>
+  <div class="step" style="display:flex;gap:12px;align-items:stretch">
+    <span class="chip dim" style="flex:1">1<br><span class="small">never heard of it</span></span>
+    <span class="chip" style="flex:1">2</span>
+    <span class="chip" style="flex:1">3</span>
+    <span class="chip" style="flex:1">4</span>
+    <span class="chip hi" style="flex:1">5<br><span style="opacity:.75">I'd call myself an expert</span></span>
+  </div>
+  <div class="step">${say("Nobody needs to be an expert. By the end you will know where to edit your own records.")}</div>` },
+
+/* 2 */ { f: "02-what-is-a-domain.md", cmd: "dig wordpress.org", t: "What is a domain?", h: `
+  <p class="lead">A domain is <b class="ok">a string of text that corresponds to an IP address</b>.</p>
+  <div class="row step" style="align-items:center;gap:26px;margin-top:10px">
+    <div style="flex:1">${panel("a name", `<pre class="ascii" style="font-size:30px;margin:0">wordpress.org</pre>`, "on")}</div>
+    <div style="flex:1">${panel("an address", `<pre class="ascii" style="font-size:30px;margin:0">198.143.164.252</pre>`)}</div>
+  </div>
+  <div class="step">${foot("Same site. Two ways to reach it.")}</div>` },
+
+/* 3 */ { f: "03-why-a-domain.md", cmd: "cat /etc/hosts", t: "Why do sites need a domain?", h: `
+  <div class="row" style="flex:1;align-items:center;gap:26px">
+    <div style="flex:1">${panel("what machines use", `${list(["IP addresses", "a device's <i>name</i> is also a number"])}`)}</div>
+    <div style="flex:1">${panel("what people use", `${list(["domains", "easy to remember and locate"])}`, "on")}</div>
+  </div>
+  ${say("Nobody can remember 198.143.164.252. Everybody can remember wordpress.org.", true)}` },
+
+/* 4 */ { f: "04-parts-of-a-domain.md", cmd: "cut -d. -f1-4 wordpress.org", t: "Different parts of a domain", h: `
+  <pre class="ascii" style="font-size:26px;line-height:1.45;margin:0">
+<span class="hi">3LD</span>     <span class="ok">2LD</span>        <b>TLD</b>
+ <b>make</b>   .  <b>wordpress</b>  .  <b>org</b>
+
+<span class="muted">&lt;──────── more specific ───────────── general ────────▶</span></pre>
+  <div class="step">${panel("reading right to left", list(["<b class=\"ok\">org</b> — top-level domain. The most general part.", "<b class=\"ok\">wordpress</b> — second-level domain. Who owns it.", "<b class=\"hi\">make</b> — third-level domain. What it's for."]), "on")}</div>` },
+
+/* 5 */ { f: "05-agenda.md", cmd: "grep -c question agenda.md", t: "What we'll talk about today", h: `
+  <div class="row" style="flex:1;gap:24px;align-items:center">
+    <div style="flex:1.1">${numbered(1, ["How does the Domain Name System work?", "What are DNS records?", "Where can I edit my domain's DNS records?", "What DNS records do I need for my site?", "What is <i>domain record propagation</i>?"])}</div>
+    <div style="flex:.9">${panel("and then", `${list(["a short troubleshooting guide", "you leave knowing where to click"])}`, "on")}</div>
+  </div>` },
+
+/* 6 */ { f: "06-section-lookup.md", cmd: "dig +trace wordpress.org", interlude: true, h: `
+  <p class="title" style="font-size:84px;max-width:24ch">How does the Domain Name System work?<span class="cursor"></span></p>` },
+
+/* 7 */ { f: "07-network-of-devices.md", cmd: "arp -a", t: "The internet is a complicated network of devices", h: `
+  <div class="step">${chips(["computer", "phone", "appliances", "router", "hub", "server", "*etc."], true)}</div>
+  <div class="step">${say("All of them are on the internet, and all of them talk to each other.")}</div>` },
+
+/* 8 */ { f: "08-devices-talk.md", cmd: "tcpdump -A -c 4", t: "Devices communicate with each other", h: `
+  <pre class="log" style="font-size:24px;line-height:1.8">
+<span class="t">laptop</span> <b class="ok">I'm trying to find the WordPress website.</b>
+<span class="t">server A</span> Sure! The server over there has the information.
+<span class="t">laptop</span> I have it! Let me send you the website data.
+<span class="t">server A</span> Thanks!</pre>
+  ${say("The internet is just information going between devices. Devices talking to each other.", true)}` },
+
+/* 9 */ { f: "09-devices-need-names.md", cmd: "ifconfig en0 | grep inet", t: "Devices need a name to call each other by", h: `
+  <p class="lead">Computers love numbers. So the <b class="ok">name</b> of a device is also a number — its <i class="hi">IP address</i>.</p>
+  <pre class="log step" style="font-size:23px;line-height:1.75">
+<span class="t">laptop</span> <b class="ok">I'm trying to find the WordPress website.</b>
+<span class="t">server A</span> Sure! It's on server <i class="hi">198.143.164.252</i>.</pre>
+  ${say("So we ask for a domain, and the domain system hands back an IP address. That transfer is DNS.", true)}` },
+
+/* 10 */ { f: "10-the-whole-lookup.md", cmd: "dig +trace wordpress.org", t: "Where is wordpress.org?", h: `
+  <pre class="ascii" style="font-size:19px;line-height:1.5;margin:0">
+<span class="muted">step 1</span>   <b>your browser</b>     ──▶ <b>DNS resolver</b>       "what is the IP for wordpress.org?"
+<span class="muted">step 2</span>   <b>DNS resolver</b>     ──▶ <b>DNS root server</b>    "where is the .org TLD server?"
+<span class="muted">step 3</span>   <b>DNS root server</b>  ──▶ <b>TLD .org server</b>    "where is ns1.wordpress.org?"
+<span class="muted">step 4</span>   <b>TLD .org server</b>  ──▶ <b>authoritative NS</b>   "what are the records?"
+<span class="muted">step 5</span>   <b>authoritative NS</b> ──▶ <b>DNS resolver</b>       "198.143.164.252"
+<span class="muted">step 6</span>   <b>DNS resolver</b>     ──▶ <b>your browser</b>       "198.143.164.252"
+<span class="muted">step 7</span>   <b>your browser</b>     ──▶ <b>web server</b>         "now send me the site data"</pre>
+  <div class="step">${say("Seven hops. Only the first and the last one involve your laptop.")}</div>` },
+
+/* 11 */ { p: 0, f: "11-dns-resolver.md", cmd: "dig wordpress.org", t: "How DNS lookups work", h: `
+  <p class="lead">You type <b class="ok">wordpress.org</b> and press Enter. Your computer does not know the IP address yet, so it asks a <b class="ok">DNS resolver</b>.</p>
+  <div class="step"><pre class="ascii" style="font-size:30px;line-height:1.35;margin:0">${hop(0)}</pre></div>
+  ${say("The resolver's whole job is: turn a name into an address. I don't care how, just tell me the IP.", true)}` },
+
+/* 12 */ { p: 1, f: "12-root-servers.md", cmd: "dig @a.root-servers.net . NS", t: "How DNS lookups work", h: `
+  <p class="lead">The resolver doesn't know the answer. But it knows the <b class="ok">DNS root name servers</b>.</p>
+  <div class="step"><pre class="ascii" style="font-size:30px;line-height:1.35;margin:0">${hop(1)}</pre></div>
+  <div class="step">${chips(["~13 worldwide", "each knows the TLD servers", "ask the closest"], true)}</div>` },
+
+/* 13 */ { p: 2, f: "13-tld-servers.md", cmd: "dig @a.gtld-servers.net org NS", t: "How DNS lookups work", h: `
+  <p class="lead">A root server never stores the IP address of a domain. It knows the <b class="ok">TLD name servers</b>.</p>
+  <div class="step"><pre class="ascii" style="font-size:30px;line-height:1.35;margin:0">${hop(2)}</pre></div>
+  <div class="step">${chips(["*.com", "*.org", "*.blog", "!*.jp  *.mx  *.au"], true)}</div>
+  <div class="step">${foot("One TLD name server holds the records for that entire top-level domain.")}</div>` },
+
+/* 14 */ { p: 3, f: "14-authoritative.md", cmd: "dig @ns1.wordpress.org wordpress.org", t: "How DNS lookups work", h: `
+  <p class="lead">The TLD server doesn't hold your records either. It points at the <b class="ok">authoritative name server</b>.</p>
+  <div class="step"><pre class="ascii" style="font-size:30px;line-height:1.35;margin:0">${hop(3)}</pre></div>
+  ${say("This is the server you'd log into if you wanted to edit your DNS records.", true)}` },
+
+/* 15 */ { f: "15-answer-comes-back.md", cmd: "dig +short wordpress.org", t: "How DNS lookups work", h: `
+  <div class="step"><pre class="ascii" style="font-size:30px;line-height:1.35;margin:0">${hop(4)}</pre></div>
+  <pre class="log step" style="font-size:23px;line-height:1.7;margin-top:8px">
+<span class="t">resolver</span> The IP for wordpress.org is <i class="hi">198.143.164.252</i></pre>
+  ${say("Your laptop sent one message. The resolver did all the walking.", true)}` },
+
+/* 16 */ { f: "16-show-site.md", cmd: "curl -sI https://wordpress.org | head -2", t: "How DNS lookups work", h: `
+  <div class="step"><pre class="ascii" style="font-size:30px;line-height:1.35;margin:0">${hop(6)}</pre></div>
+  <pre class="log step" style="font-size:22px;line-height:1.7;margin-top:8px">
+<span class="t">laptop</span>  <b class="ok">Hi, 198.143.164.252! Please send me the site data for wordpress.org</b>
+<span class="t">server</span>  Sure! Here's the site data for wordpress.org</pre>
+  <div class="step">${foot("HTML, CSS and JavaScript come back — and only now does the page appear.")}</div>` },
+
+/* 17 */ { f: "17-phone-book.md", cmd: "man phone_book", interlude: true, h: `
+  <p class="title" style="font-size:76px;max-width:26ch">DNS is the internet's phone book.<span class="cursor"></span></p>
+  <p class="step hi" style="font-size:28px;max-width:44ch;margin-top:22px">You look up a name. You get a number. Then you call.</p>` },
+
+/* 18 */ { f: "18-section-records.md", cmd: "man 5 named", interlude: true, h: `
+  <p class="title" style="font-size:84px;max-width:24ch">What are DNS records?<span class="cursor"></span></p>` },
+
+/* 19 */ { f: "19-what-are-records.md", cmd: "ls -la /var/named/zones", t: "What are DNS records?", h: `
+  <p class="lead">DNS records are <b class="ok">text files that give information about the domain</b>.</p>
+  <div class="step">${panel("where they live", list(["on the <b>authoritative name server</b>", "look them up with the Google Admin Toolbox Dig tool", "the owner can change them"]), "on")}</div>
+  ${say("That's us — if the domain is registered with us, we're the ones who edit those records.", true)}` },
+
+/* 20 */ { f: "20-where-records-live.md", cmd: "dig +trace wordpress.org | grep 'ANSWER'", t: "Where DNS records are stored", h: `
+  <div class="row" style="flex:1;gap:22px;align-items:center">
+    <div style="flex:1.25">${code(`<span class="c"># root server</span>   knows TLD servers
+<span class="c"># TLD server</span>   knows authoritative servers
+<span class="hi"># authoritative NS</span>  <span class="ok">has the actual records</span>
+   A  MX  TXT  CNAME  NS …`)}</div>
+    <div style="flex:1">${panel("why only here", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">Every domain can have many records. Piling them all onto one TLD server would be unworkable — so each domain gets its own authoritative server.</p>`, "on")}</div>
+  </div>` },
+
+/* 21 */ { f: "21-ttl.md", cmd: "dig TXT wordpress.org | grep ttl", t: "Servers remember DNS records for a while", h: `
+  <p class="lead">Every DNS record carries a <b class="ok">TTL</b> — <i>time to live</i>.</p>
+  <div class="step">${panel("what the TTL tells a device", list(["how long it may keep this record", "how long before it has to come back and ask again"]), "on")}</div>
+  <div class="step">${panel("in practice", `<pre class="ascii" style="font-size:22px;margin:0">wordpress.org  TXT  …  2936   <span class="muted"># 49 min</span>
+wordpress.org  A    …  210    <span class="muted"># 3 min</span>
+wordpress.org  MX   …  14400  <span class="muted"># 4 hours</span></pre>`)}</div>
+  ${say("Temporarily saving information so one doesn't have to request it again is called caching.", true)}` },
+
+/* 22 */ { f: "22-how-servers-use-ttl.md", cmd: "dig wordpress.org +noall +answer", t: "How servers use TTL", h: `
+  <pre class="log" style="font-size:23px;line-height:1.75">
+<span class="t">browser</span> <b class="ok">wordpress.org</b> — oh no, I closed my browser!
+<span class="t">resolver</span> What is the IP for wordpress.org?
+<span class="t">resolver</span> <i class="hi">Hey.</i> I just looked this up 2 minutes ago.
+<span class="t">resolver</span> That record has a 4 hour TTL. Still current — no need to ask again.</pre>
+  ${say("The resolver never left the building. That is the whole point of a TTL.", true)}` },
+
+/* 23 */ { f: "23-many-types.md", cmd: "dig -t TYPE wordpress.org", t: "Common types of DNS records", h: `
+  <p class="lead">Wikipedia lists at least <b class="ok">48 types</b> of DNS record.</p>
+  <div class="step">${chips(["*A record", "CNAME", "TXT", "MX", "NS"], true)}</div>
+  <div class="step">${say("Today we'll just look at these five.", true)}</div>` },
+
+/* 24 */ { f: "24-a-record.md", cmd: "dig A wordpress.org", t: "Common types of DNS records", h: `
+  <p class="lead"><b class="ok">A record</b> — the IP address of a domain.</p>
+  ${code(`domain:          wordpress.org
+record type:     A
+value:           198.143.164.252
+TTL (seconds):   600`)}
+  ${say("Without an A record the internet has no idea where your site lives.", true)}` },
+
+/* 25 */ { f: "25-cname-record.md", cmd: "dig CNAME learn.wordpress.org", t: "Common types of DNS records", h: `
+  <p class="lead"><b class="ok">CNAME record</b> — forwards one domain to another domain.</p>
+  ${code(`domain:          learn.wordpress.org
+record type:     CNAME
+value:           alias of wordpress.org
+TTL (seconds):   14400`)}
+  ${say("An alias, not a copy. If wordpress.org moves, the alias follows it.", true)}` },
+
+/* 26 */ { f: "26-txt-record.md", cmd: "dig TXT wordpress.org", t: "Common types of DNS records", h: `
+  <p class="lead"><b class="ok">TXT record</b> — text notes associated with a domain.</p>
+  <div class="step">${panel("often used for", list(["domain verification", "email security"]), "on")}</div>
+  ${code(`wordpress.org  TXT  google-site-verification=ABCD     14400
+wordpress.org  TXT  v=spf1 ip4:66.155.40.0/24              14400
+wordpress.org  TXT  include:helpscoutemail.com -all       14400`)}
+  ${say("Nothing here is fetched by visitors. It's for other systems to read.", true)}` },
+
+/* 27 */ { f: "27-mx-record.md", cmd: "dig MX wordpress.org", t: "Common types of DNS records", h: `
+  <p class="lead"><b class="ok">MX record</b> — directs mail to an email server.</p>
+  ${code(`domain:          wordpress.org
+record type:     MX
+priority:        10
+value:           mail.wordpress.org
+TTL (seconds):   14400`)}
+  ${say("Needed for both email forwarding and custom email addresses.", true)}` },
+
+/* 28 */ { f: "28-ns-record.md", cmd: "dig NS wordpress.org", t: "Common types of DNS records", h: `
+  <p class="lead"><b class="ok">NS record</b> — indicates the authoritative name servers of the domain.</p>
+  <pre class="ascii" style="font-size:21px;line-height:1.5;margin:0 0 14px">
+<span class="muted">domain              type    value                     TTL</span>
+wordpress.org      NS     ns1.wordpress.org        6800
+wordpress.org      NS     ns2.wordpress.org        6800
+wordpress.org      NS     ns3.wordpress.org        6800
+wordpress.org      NS     ns4.wordpress.org        6800</pre>
+  ${say("Four nameservers, not one. That's on purpose.", true)}` },
+
+/* 29 */ { f: "29-records-recap.md", cmd: "echo $RECORDS", interlude: true, h: `
+  <p class="title" style="font-size:70px;max-width:28ch">DNS records are text files that tell the internet everything about your domain.<span class="cursor"></span></p>` },
+
+/* 30 */ { f: "30-section-edit.md", cmd: "vim /etc/resolv.conf", interlude: true, h: `
+  <p class="title" style="font-size:78px;max-width:26ch">Where can I edit my domain's DNS records?<span class="cursor"></span></p>` },
+
+/* 31 */ { f: "31-quick-answer.md", cmd: "grep -A3 'registrar' whois.md", t: "Quick answer!", h: `
+  <div class="step">${panel("registered through your web host", list(["your web host's dashboard will have an area to update domain records", "your web host's support can make changes for you too"]), "on")}</div>
+  <div class="step">${panel("otherwise…", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">It depends on who is your <b class="hi">authoritative name server</b>. Let's map out the possibilities.</p>`, "hi")}</div>` },
+
+/* 32 */ { f: "32-overview-setting-records.md", cmd: "cat setup-steps.md", t: "Overview of setting domain records", h: `
+  ${numbered(1, ["Choose where your <b>authoritative name servers</b> will be", "Set <b>NS records</b> at your domain registrar to indicate where they are", "Set all other records <i>within</i> your authoritative name server"])}
+  ${say("Pick your name servers first. Everything else is set where you picked.", true)}` },
+
+/* 33 */ { f: "33-example-1-web-host.md", cmd: "dig NS mydomain.com", t: "Example 1", h: `
+  <div class="row" style="flex:1;align-items:center;gap:22px">
+    <div style="flex:1">${panel("domain registrar", `<pre class="ascii" style="font-size:26px;margin:0">mydomain.com</pre><p class="small" style="margin:10px 0 0">I registered my domain through my web host.</p>`, "hi")}</div>
+    <div style="flex:1">${panel("web host", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">Because your domain is registered on our servers, we can set your domain records for you.</p>`, "on")}</div>
+    <div style="flex:1">${panel("website data", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">Your web host is also your authoritative name server. You only ever log in in one place.</p>`)}</div>
+  </div>` },
+
+/* 34 */ { f: "34-examples-2-3-registrar.md", cmd: "dig NS mydomain.com +short", t: "Example 2 and 3", h: `
+  <div class="row" style="flex:1;gap:22px;align-items:stretch">
+    <div style="flex:1">${panel("2 · NS records point to web host", `${code(`mydomain.com  NS  ns1.myhost.com
+mydomain.com  NS  ns2.myhost.com`)}<p class="small" style="margin:10px 0 0">Your web host is authoritative. Set NS records with us, then manage everything else with them.</p>`, "on")}</div>
+    <div style="flex:1">${panel("3 · A record points to web host", `${code(`mydomain.com  A  198.143.164.252`)}<p class="small" style="margin:10px 0 0">Your registrar is authoritative. Set every record there, and use one A record to point at the web host.</p>`, "hi")}</div>
+  </div>
+  ${foot("In example 3 the registrar is your name server — so it, not the web host, sets the records.")}` },
+
+/* 35 */ { f: "35-edit-recap.md", cmd: "echo $EDIT", interlude: true, h: `
+  <p class="title" style="font-size:66px;max-width:30ch">Set your NS records at the registrar. Set everything else at your authoritative name server.<span class="cursor"></span></p>` },
+
+/* 36 */ { f: "36-section-need.md", cmd: "dig -t ANY mydomain.com", interlude: true, h: `
+  <p class="title" style="font-size:84px;max-width:24ch">What DNS records do I need for my site?<span class="cursor"></span></p>` },
+
+/* 37 */ { f: "37-ns-records.md", cmd: "dig NS mydomain.com", t: "Every domain needs NS records", h: `
+  <div class="step">${panel("set multiple NS records", list(["if one name server is down, the lookup falls through to the next one in the list", "this is why you always see <b>ns1 … ns4</b>"]), "on")}</div>
+  ${say("No NS records, no domain. Everything else on this slide is optional.", true)}` },
+
+/* 38 */ { f: "38-a-records.md", cmd: "dig A mydomain.com", t: "You may need to set A records", h: `
+  <div class="row" style="flex:1;gap:22px;align-items:stretch">
+    <div style="flex:1">${panel("using your web host's nameservers", list(["you generally <i>don't</i> need to set A records", "your web host will usually set this for you"]), "on")}</div>
+    <div style="flex:1">${panel("otherwise", list(["you <b>do</b> need A records to point at your site", "any time your host moves, the A record needs updating"]), "hi")}</div>
+  </div>` },
+
+/* 39 */ { f: "39-mx-records.md", cmd: "dig MX mydomain.com", t: "MX records needed for email", h: `
+  <div class="step">${panel("if you use a mail service", list(["you'll need to set MX records", "needed for both email forwarding and custom email addresses"]), "on")}</div>
+  ${say("No custom email on the domain? You can skip these.", true)}` },
+
+/* 40 */ { f: "40-what-to-set.md", cmd: "ask your providers", t: "What specific records should I set?", h: `
+  <p class="lead">Your service providers can tell you what records you need.</p>
+  <div class="step">${flow(["*NS → registrar or host", "*A → your web host", "*MX → your email provider"], { nowrap: true })}</div>
+  ${say("Ask whoever you bought the service from. They have the exact values.", true)}` },
+
+/* 41 */ { f: "41-section-propagation.md", cmd: "dig @8.8.8.8 mydomain.com", interlude: true, h: `
+  <p class="title" style="font-size:76px;max-width:26ch">What is <i>domain record propagation</i>?<span class="cursor"></span></p>` },
+
+/* 42 */ { f: "42-records-take-time.md", cmd: "watch dig mydomain.com", t: "Domain records take time to update", h: `
+  <div class="step">${panel("review: records are cached", list(["every record has a TTL", "this saves servers from making the same inquiry many times in a short period"]), "on")}</div>
+  <div class="step">${panel("the catch", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">If the record is cached, <b class="hi">your updates aren't reflected right away</b>.</p>`, "hi")}</div>
+  ${say("DNS is built for speed, not for instant change. Both are by design.", true)}` },
+
+/* 43 */ { f: "43-caching-everywhere.md", cmd: "dig mydomain.com @1.1.1.1", t: "Caching happens everywhere", h: `
+  <div class="step">${chips(["browser", "OS", "resolver", "TLD server", "authoritative NS", "web server"], true)}</div>
+  <div class="step">${say("Every one of them can hold an old copy of your answer.")}</div>` },
+
+/* 44 */ { f: "44-checking-propagation.md", cmd: "curl -s dnschecker.org | head -1", t: "How to check domain record propagation", h: `
+  <p class="lead">The process of DNS servers updating their records is called <b class="ok">propagation</b>. It can take up to <i class="hi">72 hours</i>.</p>
+  <div class="step">${code(`$ dig mydomain.com @8.8.8.8     <span class="c"># Google's resolver</span>
+$ dig mydomain.com @1.1.1.1     <span class="c"># Cloudflare's resolver</span>`)}</div>
+  <div class="step">${foot("Or just point a few people at https://dnschecker.org/ and watch the answers converge.")}</div>` },
+
+/* 45 */ { f: "45-troubleshooting-problems.md", cmd: "wp site health check", t: "Troubleshooting DNS related issues", h: `
+  <div class="step">${list([
+    "My website isn't loading, and I'm not sure where to start troubleshooting.",
+    "<i>We can't display your DNS information because your nameservers aren't managed by us.</i>",
+    "Email is not sending or receiving.",
+    "www does not work with my domain name.",
+    "Record changes are taking longer than usual to propagate.",
+  ], true)}</div>
+  ${say("Four problems, four fixes. Next slide.", true)}` },
+
+/* 46 */ { f: "46-troubleshooting-fixes.md", cmd: "dig -x $MY_IP", t: "Troubleshooting DNS related issues", h: `
+  <div class="row" style="flex:1;gap:18px;align-items:stretch">
+    <div style="flex:1">${panel("site not loading", list(["check the <b class=\"ok\">A record</b> first", "it holds your web host's IP", "if it's wrong, nothing else matters"]), "on")}</div>
+    <div style="flex:1">${panel("email broken", list(["verify the <b class=\"ok\">MX records</b>", "compare them to your provider's recommended values", "if they match, it's your provider"]), "on")}</div>
+    <div style="flex:1">${panel("www doesn't work", list(["add a <b class=\"ok\">CNAME</b>: host <i>www</i> → <i>@</i>", "TTL 1 hour", "links still include www"]), "on")}</div>
+    <div style="flex:1">${panel("propagation is slow", list(["<b class=\"ok\">lower the TTL</b>", "1 hour = 3,600 seconds", "changes can take up to 48 hours"]), "on")}</div>
+  </div>
+  ${foot("If 48 hours pass with no update, contact support.")}` },
+
+/* 47 */ { f: "47-thanks.md", cmd: "exit 0", interlude: true, h: `
+  <p class="title" style="font-size:66px;max-width:28ch;margin-top:10px">Names are the interface. Everything behind them is just an address.<span class="cursor"></span></p>
+  <p class="step hi" style="font-size:26px;margin-top:18px">Thank you · Questions?</p>` },
+/* 48 */ { maxZoom: 1, f: "48-connect.md", cmd: "cat contact.txt", t: "Let's connect", h: `
+  <div class="row contact" style="flex:1;align-items:center;gap:48px">
+    <div id="contactInfo" style="flex:1;display:flex;flex-direction:column;gap:22px">
+      <div><p class="small" style="margin:0 0 4px">website</p><p class="big" style="font-size:56px"><a href="https://jhimross.com" target="_blank" rel="noopener">jhimross.com</a></p></div>
+      <div><p class="small" style="margin:0 0 4px">email</p><p class="big" style="font-size:48px"><a href="mailto:hi@jhimross.com">hi@jhimross.com</a></p></div>
+      <div><style>.socials{display:flex;gap:12px;margin-top:16px}.socials .key{width:72px;height:72px;display:grid;place-items:center;border:2px solid var(--line);background:var(--bg2);box-shadow:0 3px 0 var(--line);color:var(--fg);text-decoration:none;font-size:32px}.socials .key svg{width:1em;height:1em}.socials .key .alt{font-size:24px;font-weight:800;color:var(--ok)}.socials .key svg ~ .alt{display:none}.socials a.key:hover{border-color:var(--ok);color:var(--ok);transform:translateY(2px);box-shadow:0 1px 0 var(--ok)}</style><p class="big" style="font-size:56px;color:var(--hi)">@jhimross</p><div class="socials"><a class="key" href="https://github.com/jhimross" target="_blank" rel="noopener" aria-label="GitHub @jhimross" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="alt" aria-hidden="true">gh</span></a><a class="key" href="https://profiles.wordpress.org/jhimross/" target="_blank" rel="noopener" aria-label="WordPress @jhimross" title="WordPress"><i class="fa-brands fa-wordpress-simple" aria-hidden="true"></i><span class="alt" aria-hidden="true">wp</span></a><a class="key" href="https://x.com/jhimross" target="_blank" rel="noopener" aria-label="X (Twitter) @jhimross" title="X (Twitter)"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i><span class="alt" aria-hidden="true">x</span></a><a class="key" href="https://www.youtube.com/@jhimross" target="_blank" rel="noopener" aria-label="YouTube @jhimross" title="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i><span class="alt" aria-hidden="true">yt</span></a><a class="key" href="https://www.facebook.com/jhimross" target="_blank" rel="noopener" aria-label="Facebook @jhimross" title="Facebook"><i class="fa-brands fa-facebook" aria-hidden="true"></i><span class="alt" aria-hidden="true">fb</span></a><span class="key" role="img" aria-label="Strava @jhimross" title="Strava"><i class="fa-brands fa-strava" aria-hidden="true"></i><span class="alt" aria-hidden="true">st</span></span></div></div>
+    </div>
+    <figure style="margin:0;flex:0 1 auto;min-width:0;align-self:stretch;display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <pre id="catArt" aria-hidden="true" style="margin:0;font:600 9px/1.06 var(--mono);white-space:pre;font-variant-ligatures:none"></pre>
+    </figure>
+  </div>`,
+  enter(el) { asciiHero(el, CAT_ART2, ".row.contact", "#contactInfo"); } },
+];
+
+const NOTES = ["Welcome. Tonight we are going all the way down the stack: how a name like wordpress.org turns into an address like 198.143.164.252, who holds that information, and where you go to change it. You will not need to memorise a single command by the end — the point is to know where things live.", "Ask the room for a show of hands, one to five. One is never heard of it, five is expert. Expect most hands at one or two. The honest framing here is that DNS looks intimidating from the outside — a whole hierarchy of servers — but it is really just a phone book with a lookup chain behind it.", "A domain is a string of text that corresponds to an IP address. Computers on the internet call each other by their IP address; a domain is the text that is easier for humans to remember. Both of these reach the exact same site.", "Why do sites need a domain at all? Because long strings of numbers are hard for humans to remember and hard to read aloud. Machines are perfectly happy with numbers. People are not. The domain is the human-friendly layer on top.", "Different parts of a domain, reading right to left. The top-level domain is the most general part — org, com, blog, or a country code like jp, mx or au. Going further left it gets more specific: wordpress is the second-level domain, make is the third-level. If you have ever had make.wordpress.org or a staging subdomain, that is exactly what you are looking at.", "Here is where we are going today. Five questions. How DNS works. What DNS records are. Where you edit them. Which ones you actually need. And what propagation is. Then a short troubleshooting guide you can screenshot.", "Section one. How does the Domain Name System actually work? This is the longest section, because it is the one that explains everything else.", "Quick refresher. The internet is a complicated network of devices. Of course we have our personal computers and our phones. But there are also web servers, routers and hubs. And household appliances — refrigerators, microwaves, lights and locks. All of these are on the internet, and all of them need to talk to each other.", "So the devices communicate. A laptop asks a server whether it has the information for the WordPress website. The server says yes and sends the data over. And that is really the whole internet: information going between devices, devices talking to each other.", "But in practice they do not call each other 'blue server' or 'orange server'. Each server has a name, and that name is a list of numbers — an IP address. So when you ask for the wordpress.org domain, what you are really getting back is an IP address. That transfer — of a name into an IP address — is the domain name system.", "This is the whole picture. You do not have to read it all now — I am going to go through it step by step. But look at the shape of it: your laptop makes exactly one request, and one DNS resolver does all the walking before answering. Seven hops, and only the first and the last one involve your laptop.", "You type wordpress.org and press Enter. Your computer does not know the IP address, so the very first thing it does is connect to something called a DNS resolver. The resolver's job is to change a domain name into an IP address. Your computer says: I don't care what you do, just tell me the IP address for wordpress.org.", "The DNS resolver does not know the answer either. But it does know where the DNS root name servers are. There are about thirteen of them around the world, and DNS resolvers everywhere have their IP addresses recorded. The resolver connects to the closest one, usually the geographically closest.", "A root server never stores the IP address of your domain. Instead it records the IP addresses of the TLD name servers. For wordpress.org the top-level domain is the final 'org'. There are hundreds of TLDs — .com, .org, .blog, and country codes like .jp, .mx, .au. So the root server answers: you want the .org TLD name server, here is its IP address.", "The TLD name servers do not actually contain the DNS records for each domain. They contain information about what are called authoritative name servers — one for each domain. This is the server you would log into if you wanted to edit your DNS records. So the TLD server answers: the authoritative name server for wordpress.org is at this IP address. Connect there and it will tell you the answer.", "Finally the resolver connects to the authoritative name server, and the answer comes back: the IP for wordpress.org is 198.143.164.252. Worth pausing on — your laptop sent one message. The resolver communicated with every other server in that chain and sent back a single message.", "Now your computer can access that address. Hello 198.143.164.252, please send me the website data for wordpress.org. And the web server sends back the HTML, the CSS, the JavaScript. Only now does the page appear. This entire process is called a DNS lookup.", "So — DNS is the internet's phone book. Looking for a company in the phone book? You look for the name, and then you see the contact number too. That is the whole idea.", "Section two. What are DNS records?", "DNS records are text files that give information about the domain. They live on the authoritative name servers, and you can look them up with the Google Admin Toolbox Dig tool. And the domain owner can make changes to these records — which, if the domain is registered with us, is us.", "Just to refresh where things live. DNS records are stored on the authoritative name server for the domain. Each domain can have many records — A records, MX records, TXT records, and a lot more — and all of them are stored there. That is also why the TLD server does not store them itself: every domain could have many records, and that is a lot of information to pile onto one server.", "Servers remember DNS records for a while, and this is called caching. Every record has a TTL value — time to live. It tells a device how long it may keep that record before it has to come back and ask for the same information again. In a dig result you might see a TTL of 49 minutes on a TXT record, 3 minutes on an A record, 4 hours on an MX record. Each type is different, and the domain owner sets it.", "Here is how it plays out in practice. You accidentally close your browser tab and open it again, and you type wordpress.org. The computer asks the resolver for the IP. The resolver looks through its records and says — hey, I just looked this up two minutes ago. That record has a four hour TTL, so it is still current and I do not need to look it up again. It sends the same information straight back. Theoretically the resolver should have walked the whole chain. With caching, it never left the building.", "Wikipedia lists at least 48 types of DNS record. Today we will just look at five of them.", "The A record. This is the IP address of a domain. For wordpress.org the A record is 198.143.164.252 with a TTL of 600 seconds. Without an A record the internet has no idea where to find your website. If your site ever goes down, checking the A record should be your very first step — it tells you who your web host is and who to contact.", "The CNAME record forwards one domain to another domain. learn.wordpress.org is a CNAME that aliases wordpress.org. Think of it as an alias rather than a copy — if wordpress.org ever moves, everything pointing at it follows.", "The TXT record is a text note associated with a domain. These are often used for domain verification and email security. You will see google-site-verification values, SPF records, and things like the helpdesk include. Nothing here is ever fetched by a visitor — it is for other systems to read and verify.", "The MX record directs mail to an email server. For wordpress.org it is priority 10, pointing at mail.wordpress.org. You need MX records for both email forwarding and custom email addresses.", "The NS record indicates the authoritative name servers of the domain. Note there are four of them — ns1 through ns4 — each with a TTL of 6800 seconds. That is deliberate, and I will come back to it in a moment.", "To recap section two: DNS records are text files that provide information about a domain, and the IP address of a domain is stored as one of them.", "Section three. Where can I edit my domain's DNS records?", "Quick answer. If you registered your domain through your web host, then your web host's dashboard will have an area to update domain records, and their support can make changes for you too. Otherwise it depends on who your authoritative name server is — so let us map out the possibilities.", "The overview of setting domain records. First, choose where your authoritative name servers will be. Second, set NS records at your domain registrar to indicate where they are. Third, set all other records within your authoritative name server. The key idea is to pick your name servers first — everything else is then set where you picked.", "Example one. I registered my domain through my web host. Because the domain is registered on their servers, they can set the domain records for me. My web host is also my authoritative name server, so I only ever log in to one place to change anything.", "Example two. I will use my web host's servers as my authoritative name servers, so I set NS records at the registrar pointing at the web host. From then on the web host manages all my other records. Example three is the mirror image: I use my registrar's servers as my authoritative name servers, so I set all my records there and use a single A record to point at the web host. In example three the registrar is my name server — so it, not the web host, sets the records.", "So: set your NS records at the registrar to indicate where your authoritative name servers are, and set all other records within your authoritative name server.", "Section four. What DNS records do I actually need?", "Every domain needs NS records. You will generally want to set multiple ones — if one name server is down, the domain lookup will use the next name server indicated in the NS records. That is why you always see ns1 through ns4. This is the only record type on this slide that is genuinely mandatory.", "A records. If you are using your web host's name servers, then you generally do not need to set A records — your web host will usually set this for you. Otherwise you will need A records to point to your site, and any time your web host changes the server your site data lives on, the A records will need updating.", "MX records for email. If you use a mail service with your domain you will need to set MX records. They are needed for both email forwarding and custom email addresses. No custom email on the domain? Skip these.", "As to the specific records you should set — your service providers will tell you. NS records: whoever is your authoritative name server, that is either your registrar or your web host, will tell you what you need. A records: your web host. MX records: your email provider. Ask whoever you bought the service from; they have the exact values.", "Section five. What is domain record propagation?", "Domain records take time to update. To review: records are cached, and every record has a TTL value, which saves servers from having to make the same inquiry multiple times in a short time. The catch is that because of this caching, any updates you make are not reflected right away. DNS is built for speed, not for instant change. Both are by design.", "Caching happens everywhere. The browser caches it. The operating system caches it. The DNS resolver caches it. And so do the TLD name server and the web server. Every one of those can be holding an old copy of your answer. The source deck's diagram marks each of these with 'let me cache this for later' — worth showing if there is time.", "The process of DNS servers updating their records is called propagation, and it can take up to 72 hours to complete. You can check the status from sites like dnschecker.org, or just dig the same domain against a few different resolvers — 8.8.8.8 and 1.1.1.1 — and watch the answers converge.", "Finally, a short troubleshooting guide. Four problems people hit, four fixes. My website isn't loading and I am not sure where to start. The nameservers aren't managed by us, so I cannot see my DNS. Email is not sending or receiving. www does not work with my domain name. And record changes are taking longer than usual to propagate.", "The fixes. Site not loading: check the A record first — it holds your web host's IP, and if it is wrong nothing else matters. Email broken: verify your MX records against your provider's recommended settings, and if they already match it is your email provider's problem. www does not work: add a CNAME with host www pointing to @, TTL of one hour — most people no longer type www, but links still include it. And propagation is slow: lower the TTL, remembering that one hour is 3,600 seconds. Changes can take up to 48 hours to propagate; if 48 hours pass with no update, contact support.", "To close: names are the interface. Everything behind them is just an address. Once you know that a domain is a phone book, that the records live at your authoritative name server, and that your registrar and web host each own a different half of the setup, none of this feels like magic any more. Thank you.", "Leave this slide up during Q&A. Mention that you are @jhimross on every social platform. jhimross.com and hi@jhimross.com are both on screen, so drop the short URL in the chat for anyone who wants to follow along."];
+
+
+/* ---------- engine ---------- */
+const $ = (s) => document.querySelector(s);
+const screen = $("#screen"), stage = $("#stage");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+let cur = 0, curEl = null, typing = null;
+
+function fit() {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const s = Math.min(vw / 1280, vh / 720) * (vw < 700 ? 1 : 0.98);
+  stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+  stage.style.transformOrigin = "center center";
+  stage.style.left = "50%"; stage.style.top = "50%";
+}
+addEventListener("resize", fit);
+
+function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove("on"), 1600); }
+
+function bootLog(pre) {
+  const L = ["[ ok ] mounting /wp-content", "[ ok ] loading wp-settings.php", "[ ok ] registering abilities", "[ ok ] connecting AI providers", "[ ok ] starting talk…"];
+  pre.classList.add("shown"); pre.textContent = "";
+  if (reduce) { pre.textContent = L.join("\n"); return; }
+  L.forEach((l, i) => setTimeout(() => { if (pre.isConnected) pre.textContent += (i ? "\n" : "") + l; }, 180 + i * 170));
+}
+
+function sectionOf(i) { let s = 0; SECTIONS.forEach(([, start], k) => { if (i >= start) s = k; }); return s; }
+
+function drawTabs() {
+  const tabs = $("#tabs");
+  tabs.innerHTML = `<span class="sess">[DNS]</span>` + SECTIONS.map(([n, start], k) => `<button data-go="${start}" aria-current="${sectionOf(cur) === k}">${k}:${n}</button>`).join("") + `<span class="spacer"></span><span class="clock" id="clock"></span>`;
+  tabs.querySelectorAll("button").forEach((b) => b.onclick = () => go(+b.dataset.go));
+  tickClock();
+}
+function tickClock() { const c = $("#clock"); if (c) c.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); }
+setInterval(tickClock, 15000);
+
+function render(i, dir = 1) {
+  zoomState = null;
+  if (curEl && curEl._cleanup) curEl._cleanup();
+  clearInterval(typing);
+  const S = SLIDES[i];
+  const el = document.createElement("section");
+  el.className = "slide" + (S.interlude ? " interlude" : "");
+  el.setAttribute("aria-label", `Slide ${i + 1} of ${SLIDES.length}`);
+  el.innerHTML = `<p class="prompt"><span class="path">~/domain name system</span> $ <span class="cmd"></span><span class="cursor"></span></p>${S.t ? `<h2 class="title">${S.t}</h2>` : ""}<div class="out">${S.h}</div>${S.p != null ? pipe(S.p) : ""}`;
+  const rc = document.getElementById("rain"); screen.innerHTML = ""; if (rc) screen.appendChild(rc); screen.appendChild(el); curEl = el;
+  const cmd = el.querySelector(".cmd"), out = el.querySelector(".out"), title = el.querySelector(".title");
+  if (reduce) { cmd.textContent = S.cmd; }
+  else {
+    out.style.visibility = "hidden"; if (title) title.style.visibility = "hidden";
+    let k = 0; const full = S.cmd, speed = Math.max(8, Math.min(28, 700 / full.length));
+    typing = setInterval(() => { k++; cmd.textContent = full.slice(0, k); if (k >= full.length) { clearInterval(typing); if (title) title.style.visibility = ""; out.style.visibility = ""; out.classList.add("printing"); } }, speed);
+  }
+  if (S.enter) S.enter(el);
+  autoFit(el, S);
+  if (dir < 0) el.querySelectorAll(".step").forEach((s) => s.classList.add("shown"));
+  $("#file").textContent = `slides/${S.f}`;
+  $("#pos").textContent = `${i + 1}/${SLIDES.length}`;
+  $("#progress").style.width = `${((i + 1) / SLIDES.length) * 100}%`;
+  $("#notesBody").innerHTML = (NOTES[i] || "No notes for this slide.").split("\n").map((p) => `<p>${p.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[c])}</p>`).join("");
+  document.querySelectorAll("#indexList button").forEach((b, k) => b.classList.toggle("cur", k === i));
+  drawTabs();
+  store.set("the-domain-name-system-slide", String(i));
+  if (location.hash !== "#" + (i + 1)) history.replaceState(null, "", "#" + (i + 1));
+}
+
+/* make text as large as the slide allows (for the back of the room) */
+function overflowing(out) {
+  const ob = out.getBoundingClientRect(); const tol = 2;
+  for (const e of out.querySelectorAll("*")) {
+    const r = e.getBoundingClientRect();
+    if (!r.width && !r.height) continue;
+    if (r.bottom > ob.bottom + tol || r.right > ob.right + tol) return true;
+    if (e.tagName !== "INPUT" && e.clientHeight && (e.scrollHeight > e.clientHeight + tol || e.scrollWidth > e.clientWidth + tol)) { if (!e.closest(".win") && !e.matches("#audChips")) return true; }
+  }
+  return false;
+}
+function autoFit(el, S) {
+  const out = el.querySelector(".out"); if (!out) return;
+  const max = S.maxZoom ?? (el.querySelector(".win") ? 1 : 1.45);
+  out.style.zoom = 1;
+  if (max <= 1) return;
+  out.classList.add("fitting");
+  let best = 1;
+  for (let z = max; z > 1.001; z -= 0.05) { out.style.zoom = z.toFixed(2); if (!overflowing(out)) { best = z; break; } }
+  out.style.zoom = best.toFixed(2);
+  out.classList.remove("fitting");
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (curEl) autoFit(curEl, SLIDES[cur]); });
+
+/* ascii QR: a grid of text cells. In "white" mode the modules are white █ blocks on a transparent
+   background (an inverted code); click it to switch to the classic dark-on-light version. Each cell is an
+   exact square with its own background, so it scans no matter which font loads. */
+function fitAsciiQR(el) {
+  const box = el.querySelector("#qrBox"); if (!box) return;
+  const rows = box.dataset.bits.split(","), n = rows.length, cell = 8;
+  const draw = () => {
+    const inv = (store.get("wp-deck-qr") || "white") === "white";
+    const ink = inv ? "#ffffff" : "#04140a", paper = inv ? "transparent" : "#e9fbe9", dot = inv ? "rgba(255,255,255,.18)" : "#c4e2c7";
+    box.style.background = paper;
+    box.innerHTML = `<div aria-hidden="true" style="display:grid;grid-template-columns:repeat(${n},${cell}px);grid-auto-rows:${cell}px;font:600 ${cell}px/${cell}px var(--mono);text-align:center">${rows.map((r) => [...r].map((b) => b === "1" ? `<span style="background:${ink};color:${ink};overflow:hidden;box-shadow:0 0 0 .6px ${ink}">█</span>` : `<span style="color:${dot};overflow:hidden">·</span>`).join("")).join("")}</div>`;
+  };
+  draw();
+  box.onclick = () => { store.set("wp-deck-qr", (store.get("wp-deck-qr") || "white") === "white" ? "dark" : "white"); draw(); };
+}
+
+/* ascii cats: a chubby cat holding the QR code (blinks, winks, purrs, sends hearts, swishes its tail),
+   a kitten next to the caption, and a sleepy cat dreaming beside the code */
+function asciiCat(el) {
+  const head = el.querySelector("#catHead"), tail = el.querySelector("#catTail"), heart = el.querySelector("#catHeart"),
+    kit = el.querySelector("#kitten"), zz = el.querySelector("#catSleep");
+  if (!head) return;
+  const face = (eyes, mouth, ears = "/\\_____/\\", cheeks = "'") => [
+    `         ${ears}         `,
+    `        /  ${eyes}  \\        `,
+    `       ( =${cheeks}  ${mouth}  ${cheeks}= )       `,
+    `        \\         /        `,
+    `   .-----'       '-----.   `,
+    ` ("")                 ("") `].join("\n");
+  const F = {
+    open: face("o   o", "ω"), blink: face("-   -", "ω"), happy: face("^   ^", "ω"),
+    wink: face("o   ^", "ω"), purr: face("^   ^", "w"), twitch: face("o   o", "ω", "/'_____/\\"), love: face("*   *", "ω"),
+  };
+  const seq = ["open", "open", "open", "blink", "open", "open", "happy", "purr", "happy", "open", "twitch", "twitch", "open", "wink", "open", "open", "love", "love", "open", "blink"];
+  const T = [["(", " )", "(", " )", "(_ "], [" )", "(", " )", "(", " (_"], ["(", " (", "  )", " (", "(_ "]].map((t) => t.join("\n"));
+  const H = ["", "", " <3", "  <3", "   <3", "", "", "", "", "", "", "", "", "", "", "", " <3", "<3 <3", " <3", ""];
+  const K = [[" /\\_/\\ ", "( o.o )", " > ^ < "], [" /\\_/\\ ", "( o.o )", " > ^ < "], [" /\\_/\\ ", "( -.- )", " > ^ < "], [" /\\_/\\ ", "(o.o  )", " > ^ < "], [" /\\_/\\ ", "(  o.o)", " > ^ < "], [" /\\_/\\ ", "( ^.^ )", "  > <  "]].map((k) => k.join("\n"));
+  const Z = [["      z  ", "         ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"], ["     z   ", "      Z  ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"], ["    z    ", "     z   ", "  |\\_/| Z", "  (-.-)__", "  (__,,)_)"], ["         ", "         ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"]].map((z) => z.join("\n"));
+  let k = 0;
+  const step = () => {
+    head.textContent = F[seq[k % seq.length]];
+    tail.textContent = T[k % T.length];
+    heart.textContent = H[k % H.length];
+    kit.textContent = K[Math.floor(k / 2) % K.length];
+    zz.textContent = Z[Math.floor(k / 2) % Z.length];
+    k++;
+  };
+  step();
+  if (reduce) return;
+  const iv = setInterval(step, 420);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+/* title slide: a page assembling itself, block by block */
+function heroBlocks(el) {
+  const art = el.querySelector("#heroArt"), log = el.querySelector("#heroLog"); if (!art) return;
+  const W = 30;
+  const pad = (t) => "| " + t.padEnd(W - 4) + " |";
+  const top = "+" + "-".repeat(W - 2) + "+", bot = "+" + "-".repeat(W - 2) + "+";
+  const BLOCKS = [
+    { name: "core/site-title", lines: ["== Meetup Site ==========="] },
+    { name: "core/heading", lines: ["", "# What's new in WordPress?"] },
+    { name: "core/paragraph", lines: ["~~~~~~~~~~~~~~~~~~~~~~~~~~", "~~~~~~~~~~~~~~~~~~~~~"] },
+    { name: "core/image", lines: ["", "+--------+ ~~~~~~~~~~~~~~~", "|  /\\/\\  | ~~~~~~~~~~~~~~~", "+--------+ ~~~~~~~~~~"] },
+    { name: "core/buttons", lines: ["", "[ Join the meetup ]"] },
+  ];
+  const ROWS = BLOCKS.reduce((n, b) => n + b.lines.length, 0);
+  let stage = 0, drop = 0, iv;
+  const draw = () => {
+    const shown = BLOCKS.slice(0, stage).flatMap((b) => b.lines);
+    const falling = stage < BLOCKS.length ? BLOCKS[stage] : null;
+    const body = [...shown];
+    if (falling) {
+      const free = ROWS - shown.length, y = Math.min(drop, free - falling.lines.length);
+      for (let i = 0; i < y; i++) body.push("");
+      falling.lines.forEach((l) => body.push(l));
+    }
+    while (body.length < ROWS) body.push("");
+    art.textContent = [top, ...body.slice(0, ROWS).map(pad), bot].join("\n");
+  };
+  const tick = () => {
+    if (stage >= BLOCKS.length) { stage = 0; drop = 0; log.textContent = "$ wp post create --blocks   ok: page published"; draw(); return; }
+    const free = ROWS - BLOCKS.slice(0, stage).flatMap((b) => b.lines).length - BLOCKS[stage].lines.length;
+    if (drop >= free) { log.textContent = `$ wp block insert ${BLOCKS[stage].name}`; stage++; drop = 0; }
+    else drop++;
+    draw();
+  };
+  draw();
+  if (reduce) { stage = BLOCKS.length; draw(); return; }
+  iv = setInterval(tick, 180);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+/* ---------- Wapuu: the two shaded ASCII cats -------------------------------------
+   CAT_ART  46 rows x 77 cols - curled around the terminal, used on the hero.
+   CAT_ART2 48 rows x 100 cols - sitting cat in profile with a collar and tail,
+                          used on the "let's connect" slide.
+   Both are drawn from the "@ % # * = : - + ." shading ramp. Keep every glyph exactly
+   as-is (trailing spaces included) and never use ` , ${ or \ inside them. */
+const CAT_ART = `
+                                @@@@@@@@@@@@@@@@@@                           
+                           @@@@@@@@@%#******#%@@@@@@@@                       
+                        @@@@@@#=:::::::::::::::::=%@@@@@@@@@@@@@@@@@@@@@@@@@ 
+                      @@@@%=::::::::::::::::::::::::@@@@@@@@@@@@@@@@@@@@@@@@@
+                    @@@@+::::::::::::=%%::::::::::::=@%==================+@@@
+                  @@@@*::::::::::::::=%#::::::::::::::+@%*==============*@@@@
+                 @@@%=%*:::=*@@-::::::::::::::::::::::::-#@%*========+*@@@@@ 
+              @@@@@#:=@%-:=@@@=::::::::::::::::::::::::::::-@@@@@@@@@@@@@    
+          @@@@@@@@#:::::::::*-::::::::::=-::::::::::::::::::-@@@@@@@@@@      
+         @@@@%*==@=:::::::+@@%@@@%%@@@@@@@@@@%**-::::::::::::=@@@            
+         @@@@@@@@@%-::-=%@@%###%%@%#=::::::::::=*:::::::::::::*@@@           
+           @@@@@@@@@@@@%#####%@@=::::::::::::::::::::::::::::::@@@           
+          @@@%=::+@*-: .:  .=@*::::::::::::::::::::::::::::::::*@@@          
+          @@@::::#@*########%@=::::::::-=+***+=::::::::::::::::=@@@          
+          @@@%+%@@%##########=%@@%@@@@@@%%%%%%%@@@=-::::::::::::@@@@         
+         @@@#-*%########**##=      .*############%%@@=::::::::::%@@@         
+        @@@#.:.:#*=:   :#####-    -..###############%@@+::::::::+@@@         
+       @@@#:  -####+   .*#####-   =#.:################%@@*::::::-@@@         
+       @@%=-  .####*.   =######:  +#= *################%@@%:::::-@@@         
+       @@#:*   #####=    *#####= .##+ =#################%@:::::::@@@         
+      @@@+=#   =####=    :#####: *##+ =#################%@::::::-@@@         
+      @@@==#=  :####:-.   =###* :###= +#################%@-:::::=@@@         
+      @@@+:##:  =##* #=    *##-.*###:.##################%@-:::::*@@@         
+    @@@@@# *#*   +#+-##=   :#*.:###- *##################%@::::::%@@@         
+ @@@@@@@@%*-##+  .*=*###:   -=.#%@@##%###########%%%%%%#@#:::::=@@@          
+@@@%-::-#@%=:##=   :*####:    +@%=-+%@@%####%%@@%%***#%@@*-::::*@@@          
+@@%::::::-@@*.*#+   *####*:  .@@-::::-@@%#%@@*:::::::::::+@=:::%@@           
+@@%-:::::::#@%=.=+  *######. :@%::::::-%@%@*::::::::::::::::::*@@@           
+@@@*::::::::*@%#*:  :====:. :+@@-:::::::%@*::::::::::::::::::+@@@            
+ @@@%-:::::::*@%#####+==+*####%@+:::::::=@%:::::::::::::::::=@@@             
+  @@@@-:::::::%@%#############%@%::::::::%@-:::::::::::::::*@@@              
+   @@@@%-::::::#@%#############@@-:::::::#@=:::::::::::::=%@@@               
+     @@@@%*::::*@@@%%##########@@-:::::::%@-:::::::::::+@@@@@                
+       @@@@@@%*@@@@@@@%%%######@@-::::::=@%::::::::=+@@@@@@                  
+           @@@@@@    @@@@@@@%##@@-::::::#@+:::-#@@@%==*@@@                   
+                        @@@@@@@@@+::::=%@@@@@@@@@@*==*@@@                    
+           @@@@@@@@           @@@@@@@@@@@@@@@@@@@+==*@@@                     
+         @@@@@%%@@@@@@          @@@@@@@@  @@@@@*===%@@@                      
+         @@@======+@@@@                 @@@@@*===*@@@@                       
+        @@@%========%@@@@           @@@@@@%+===*@@@@                         
+         @@@*========*@@@@@@@@@@@@@@@@@%*====*@@@@@                          
+          @@@@+========+%@@@@@@@@@@%*======#@@@@@                            
+           @@@@@*=======================%@@@@@                               
+             @@@@@@#+==============+#%@@@@@@                                 
+                @@@@@@@@%#****#%@@@@@@@@                                     
+                    @@@@@@@@@@@@@@@@                                         
+`;
+const CAT_ART2 = `
+                                                                                                    
+                                               @@@@@@@@@@@@@@@@@@@                                  
+                                          @@@@%#*=-::::::::::::=*#%@@@                              
+                                       @@%%*::::::::::::::::::::::::=%@@@@@@@@@@@@@@@@@@@@@@@@@@    
+                                    @@@%=::::::::::::::::::::::::::::*@%%%@@@@@@@@@@@@@@@@@@@@@@@@  
+                                  @@%*-:::::::::::::=%@#::::::::::::::+@%+====================+@@   
+                                 @%*::::::::::::::::-%@*::::::::::::::::*@@*=================#@@    
+                               @@%=++-:::-=*#+::::::::::::::::::::::::::::=%@@*===========+#@@@     
+                              @@#:*@@*::*@@@@=:::::::::::::::::::::::::::::::-%@@@%**+*%@@@@        
+                           @@@@*:::--::::---:::::::::::::::::::::::::::::::::::#@@@@@@@@@           
+                       @@@@%*%%-:::::::::+@%*=-::::-=+*%@+::::::::::::::::::::::#@@%@@@@@           
+                      @@%+==+%%-:::::::=%%+:*#%%%%%%#*+:::::::::::::::::::::::::-%%%%%%%%%@@@@      
+                       @@@@@@@@*:::-+%@%=:::::::::::::::::::::-------::::::::::::=@%%%%%%%%%%@@@@   
+                              @@@@@@%=:::::::::::::::=*%%%@@@@%@%%%%@@@@@@@@@@%%%%@@%%%%@@%@%%%%@@  
+                               @%%%%%%@%+:::::::-*%@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@ 
+                              @@%%%%@%+%@@@@@@@@@%@*#@%%%%%%%%%%%%%%%%@@%%%%%%%%%%%%%%%%%%%%%%%%%@@ 
+                        @@@@@@@@@@@%%*:#%%#+-#%%%%%#=#%%%%%%%%%%%%%%%%%%%%%%%@@%%%%%%%%%%%%%%%%@@@  
+                      @@@%%%%%%%%%%%%-:#%%*==%%%@*:::#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@%%%%@@@@@@     
+                    @@*==%@%%%%%%%%%-:#%%%*:+%%%%-:::*@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+ @@@@@@@@@@@@@@@@@@@%%##**%@%%%%%%%*+%%%%%+:*%%%%%*=:-@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+@@%:::::::::::::::::::::::::::=====+*%%%%%=:#%%%%%%%%%@@@%@@%@@%@@%%%%%%%%%%%%%%%%%%%@              
+@@#::::::::::::::::::::::::::::::::::-@%%%::%%%%%%%%*.%%%%%%%%%%%%%%%%%@%%%%%%%%%%%%%@              
+@@#:::::::::::::::::::::::::::::::::::@%%%:=%%%%%%%%:+%%%%%%%%%%%%%%%%%%%%@%%%%%%%%%%@              
+@@%:::::::::::::::::::::::::::::::::::@%%*:=%%%%%%#:=%%%%%%%%%%%%%%%%%%%%%%@%%%%%%%%%@              
+@@%-:::::::::::::.    .:::::::::::::::%%%+:*%%%%%%=*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@              
+ @%-:::::::::::::: .:..:::::::::::::::%%%=-*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@              
+ @%-::::::::::::.:. :: :.:::::::::::::%%%--*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+ @%-::::::::::::..:..:...:::::::::::::%%%:-*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+ @%-:::::::::::::.:. .:::::::::-===-::#%#--#%%%%%@@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+ @%-::::::::::::::::::::::::::--=+-=::#%#--#%%%@@*:::=@@%%%%%%%%%@%%%%%%@%%%%%%%%%%@@               
+ @%-::::::::::::::::::::::::::+-=**-::*@@%%%%%%@+::::::#@%%%%@@*::::::::::+%@@%#=-*@@               
+ @%=::::::::::::::::::::::::::=+**-:::*@--====%@::::::::*@@%%=:::::::::::::::::::=@@@@@@@           
+ @%*++++++++========----::::::::::::::*@-:::::%%::::::::-%@=::::::::::::::::::-#@%*++++++*%@@       
+  @@@%#*####################%%%%%%%%%%%@#=::::%@:::::::::+@+::::::::::::::::::%#.*%%%%%%%%*:@@@     
+     @@%+::::::::::=%%@@@%%=::::::::::::*%%*::#@::::::::::@#:::::::::::::::::-@*          =: .+%@   
+       @@@%-:::::*@#+=====+#@%::::::::::::-#@%%@::::::::::@%:::::::::::::::::=@*  :---    .**:  =@@ 
+          @@%*+==%#=========+%*::::::::::::::=@%:::::::::-@*:::::::::::::::-#%@*.=***#::    @@+ .#@ 
+             @@@@@#==========%@@@@@@@@@@@@@@@@@+:::::::::+@=:::::::::::::=#@@%@*=-=#:*+=:   @@*  #@ 
+                 @%==========#%*-::::::::::::%%-::::::::-%%-::::::::::-*@@@@ @@*=*:++=++:   @@* .#@ 
+                  @%==========%@@@@%=:::::::=@%:::::::::%@-:::::::=#%@%*%@%  @@* =-*#:=.  .#*:  =@@ 
+                  @@%+=========#@@@@@@@@@@%%%@#:::::::-%@***#%%%@@%*==+%@@    @*    .     -- :+%@@  
+                    @@%=========+%@@@      @@@@+-:::=#@@@@@@@@@@%*===#@@      @@#=:.    .:=%@@@     
+                      @@%==========#%@@@      @@@@@@@@    @@@%%+===*%@@         @@@@@@@@@@@@        
+                        @@%+==========*%@@@@@%      @@@@@@%#=====*@@@                               
+                          @@@%*============+**#%%%%#**+=======*%@@@                                 
+                             @@@@%*+======================*#%@@@                                    
+                                 @@@@@@%#***+++++***#%%@@@@@                                        
+                                         @@@@@@@@@@@@                                               
+`;
+const CAT_LUM = { "@": 5, "%": 4, "#": 3, "*": 2, "=": 1, ":": 0, "-": 0, "+": 0, ".": 0 };
+
+/* shrink the art until it fits the box it was handed. When the row and the neighbouring
+   text column are passed, fit into what is left of the row so the text is never squeezed
+   (the connect slide needs this or the social buttons wrap). */
+function fitArt(pre, row, sib) {
+  const box = pre.parentElement; if (!box) return;
+  let aw = box.clientWidth, ah = box.clientHeight;
+  if (row && sib) {
+    const cs = getComputedStyle(row), gap = parseFloat(cs.columnGap || cs.gap) || 0;
+    aw = Math.max(140, row.clientWidth - sib.offsetWidth - gap);
+  }
+  if (!aw || !ah) return;
+  let fs = parseFloat(getComputedStyle(pre).fontSize) || 11, guard = 0;
+  while ((pre.scrollWidth > aw - 3 || pre.scrollHeight > ah - 2) && fs > 5 && guard++ < 400) {
+    fs -= 0.25; pre.style.fontSize = fs.toFixed(2) + "px";
+  }
+}
+
+/* paints the ramp one glyph per span, then sends a band of light down the body, breathes
+   the whole shape, and sparks a few characters like live terminal output. Timers are
+   registered on el._cleanup, which render() calls when the slide goes away. */
+function asciiHero(el, art, rowSel, sibSel) {
+  const pre = el.querySelector("#catArt"); if (!pre || !art) return;
+  const row = rowSel ? el.querySelector(rowSel) : null;
+  const sib = sibSel ? el.querySelector(sibSel) : null;
+  const rows = art.replace(/^\n/, "").replace(/\n$/, "").split("\n");
+  const lineEls = rows.map(() => []);
+  const frag = document.createDocumentFragment();
+  rows.forEach((row, ri) => {
+    const line = document.createElement("span");
+    line.className = "l";
+    for (const ch of row) {
+      if (ch === " ") { line.appendChild(document.createTextNode(" ")); continue; }
+      const s = document.createElement("span");
+      s.className = "c a" + (CAT_LUM[ch] != null ? CAT_LUM[ch] : 1);
+      s.textContent = ch;
+      line.appendChild(s); lineEls[ri].push(s);
+    }
+    frag.appendChild(line);
+  });
+  pre.textContent = ""; pre.appendChild(frag);
+  const refit = () => { if (pre.isConnected) fitArt(pre, row, sib); };
+  refit();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refit);
+  if (reduce) return;
+
+  const HL = 5, STEP = 55, PAUSE = 900;
+  const hot = new Set();
+  let head = -HL - 1, wait = 0, down = true;
+  const sweep = () => {
+    if (down) { head++; if (head > rows.length - 1) { down = false; wait = 0; } }
+    else { wait += STEP; if (wait > PAUSE) { down = true; head = -HL - 1; } }
+    const want = new Set();
+    if (down) for (let i = head - HL + 1; i <= head; i++) if (i >= 0 && i < rows.length) want.add(i);
+    for (const i of [...hot]) if (!want.has(i)) { lineEls[i].forEach((s) => s.classList.remove("hot")); hot.delete(i); }
+    for (const i of want) if (!hot.has(i)) { lineEls[i].forEach((s) => s.classList.add("hot")); hot.add(i); }
+  };
+  const spark = () => {
+    const L = lineEls[Math.floor(Math.random() * rows.length)]; if (!L.length) return;
+    for (let k = 0; k < 4; k++) {
+      const s = L[Math.floor(Math.random() * L.length)];
+      if (s.classList.contains("a0") || s.classList.contains("a1")) continue;
+      s.classList.add("spark");
+      setTimeout(() => s.classList.remove("spark"), 460);
+    }
+  };
+  const a = setInterval(sweep, STEP), b = setInterval(spark, 900);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(a); clearInterval(b); if (prev) prev(); };
+}
+
+/* Legacy alternate hero: a cat typing on a laptop (blinks, twitches an ear, swishes its
+   tail, types commands). Kept for decks that prefer it; needs #laptopCat and #mug and the
+   cat_script lines from deck.json. */
+/* title slide: a cat typing on a laptop (blinks, twitches an ear, swishes its tail, types commands) */
+function laptopCat(el) {
+  const pre = el.querySelector("#laptopCat"); if (!pre) return;
+  const mug = el.querySelector("#mug");
+  const STEAM = [["  (  (  ", "   )  ) ", "  (  (  "], ["   )  ) ", "  (  (  ", "   )  ) "], ["  ( )   ", "   ) (  ", "  ( )   "], ["        ", "  (  (  ", "   )  ) "]];
+  const drawMug = (t) => {
+    if (!mug) return;
+    const st = STEAM[Math.floor(t / 3) % STEAM.length].map((l) => `<span style="color:var(--dim)">${l}</span>`);
+    mug.innerHTML = [...st, " .______.  ", " |~~~~~~|] ", " |      |] ", " |  <3  |  ", " `------'  "].join("\n");
+  };
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const SCRIPT = [["$ ./talk.sh", "starting..."], ["$ meow --help", "purr purr ok"], ["$ git push", "slides shipped"]];
+  const W = 20;
+  let buf = [], typed = "", si = 0, ci = 0, wait = 0, tick = 0;
+  const frame = () => {
+    drawMug(tick);
+    const blink = tick % 14 === 0, twitch = tick % 23 < 2, happy = tick % 37 < 3;
+    const eyes = blink ? "-.-" : happy ? "^.^" : "o.o";
+    const ears = twitch ? "/'_/\\" : "/\\_/\\";
+    const tail = ["  )", " (", "  )"][Math.floor(tick / 3) % 3];
+    const typing = ci > 0 && ci <= SCRIPT[si % SCRIPT.length][0].length && wait === 0;
+    const pawL = typing && tick % 2 ? "(,)" : '(")', pawR = typing && !(tick % 2) ? "(,)" : '(")';
+    const lines = [...buf.slice(-2), typed + (tick % 4 < 2 ? "_" : " ")];
+    while (lines.length < 3) lines.unshift("");
+    const scr = lines.map((l) => esc(l.slice(-W).padEnd(W)));
+    pre.innerHTML = [
+      `               ${ears}`,
+      `             =( ${eyes} )=`,
+      `     .${"-".repeat(W + 2)}.`,
+      `     | <span style="color:var(--ok)">${scr[0]}</span> |`,
+      `     | <span style="color:var(--ok)">${scr[1]}</span> |`,
+      `     | <span style="color:var(--ok)">${scr[2]}</span> |${tail}`,
+      `     '${"-".repeat(W + 2)}' (`,
+      `    __${pawL}${"_".repeat(W - 2)}${pawR}_)`,
+      `   /${"_".repeat(W + 8)}\\`].join("\n");
+  };
+  const step = () => {
+    tick++;
+    const [cmd, out] = SCRIPT[si % SCRIPT.length];
+    if (wait > 0) { wait--; }
+    else if (ci < cmd.length) { ci++; typed = cmd.slice(0, ci); }
+    else { buf.push(typed, out); typed = ""; ci = 0; si++; wait = 6; }
+    frame();
+  };
+  frame();
+  if (reduce) { buf = [["$ ./talk.sh", "starting..."], ["$ meow --help", "purr purr ok"], ["$ git push", "slides shipped"]][0]; frame(); return; }
+  const iv = setInterval(step, 150);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+function go(i, dir) { i = Math.max(0, Math.min(SLIDES.length - 1, i)); const d = dir ?? (i >= cur ? 1 : -1); cur = i; render(cur, d); }
+function next() {
+  const hidden = curEl && curEl.querySelector(".step:not(.shown)");
+  if (hidden) { hidden.classList.add("shown"); return; }
+  if (cur < SLIDES.length - 1) go(cur + 1, 1);
+}
+function prev() {
+  const shown = curEl ? [...curEl.querySelectorAll(".step.shown")] : [];
+  if (shown.length && cur !== 0) { shown[shown.length - 1].classList.remove("shown"); return; }
+  if (cur > 0) go(cur - 1, -1);
+}
+
+/* zoom illustrations */
+let zoomState = null;
+function zoomWin(win) {
+  if (zoomState) { const { win: w, ph, css } = zoomState; ph.replaceWith(w); w.style.cssText = css; zoomState.ov.remove(); zoomState = null; if (!win || win === w) return; }
+  if (!win) return;
+  const w0 = win.offsetWidth, h0 = win.offsetHeight, css = win.style.cssText;
+  const ph = document.createElement("div"); ph.style.cssText = `width:${w0}px;height:${h0}px;flex:${win.style.flex || "none"}`;
+  win.replaceWith(ph);
+  const ov = document.createElement("div"); ov.className = "zoomer";
+  const holder = document.createElement("div"); holder.className = "holder"; holder.style.cssText = `width:${w0}px;height:${h0}px;display:flex`;
+  win.style.flex = "1"; holder.appendChild(win); ov.appendChild(holder);
+  ov.insertAdjacentHTML("beforeend", `<p class="hint">press z or esc to return · it still works when enlarged</p>`);
+  screen.appendChild(ov);
+  const s = Math.min((screen.clientWidth - 60) / w0, (screen.clientHeight - 100) / h0);
+  holder.style.transform = `scale(${s})`;
+  ov.addEventListener("click", (e) => { if (e.target === ov) zoomWin(null); });
+  zoomState = { win, ph, css, ov };
+}
+screen.addEventListener("click", (e) => { const b = e.target.closest(".zoomBtn"); if (b) { e.stopPropagation(); zoomWin(b.closest(".win")); } });
+
+/* themes + matrix code rain */
+function setTheme(t) { document.documentElement.dataset.phosphor = t === "green" ? "" : t; store.set("wp-deck-phosphor", t); rain(t === "matrix"); const nt = document.getElementById("nfTheme"); if (nt) nt.textContent = t; }
+let rainIv = null;
+function rain(on) {
+  let cv = document.getElementById("rain");
+  if (!on || reduce) { clearInterval(rainIv); rainIv = null; return; }
+  if (!cv) { cv = document.createElement("canvas"); cv.id = "rain"; cv.setAttribute("aria-hidden", "true"); screen.prepend(cv); }
+  if (rainIv) return;
+  const ctx = cv.getContext("2d"), fs = 18, chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789<>/{}=WP$#";
+  const size = () => { cv.width = screen.clientWidth; cv.height = screen.clientHeight; };
+  size(); let drops = Array.from({ length: Math.ceil(cv.width / fs) }, () => Math.random() * -40);
+  rainIv = setInterval(() => {
+    if (!cv.isConnected) screen.prepend(cv);
+    ctx.fillStyle = "rgba(1, 10, 3, .14)"; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = "#00ff41"; ctx.font = `${fs}px monospace`;
+    drops.forEach((y, i) => { ctx.fillText(chars[(Math.random() * chars.length) | 0], i * fs, y * fs); drops[i] = y * fs > cv.height && Math.random() > 0.975 ? 0 : y + 1; });
+  }, 70);
+}
+
+/* index */
+$("#indexList").innerHTML = SLIDES.map((s, i) => `<button data-i="${i}"><span>${String(i + 1).padStart(2, "0")}</span>${s.f}</button>`).join("");
+$("#indexList").querySelectorAll("button").forEach((b) => b.onclick = () => { toggleIndex(false); go(+b.dataset.i); });
+function toggleIndex(force) { const x = $("#index"); const on = force ?? !x.classList.contains("open"); x.classList.toggle("open", on); $("#mode").textContent = on ? "LS" : "NORMAL"; }
+function toggleNotes(force) { const x = $("#notes"); x.classList.toggle("open", force ?? !x.classList.contains("open")); }
+function toggleBlank() { $("#blank").classList.toggle("on"); }
+
+/* timer */
+let tLeft = 30 * 60, tRun = null;
+function drawTimer() { const t = $("#timer"); const a = Math.abs(tLeft); t.textContent = `${tLeft < 0 ? "+" : ""}${String(Math.floor(a / 60)).padStart(2, "0")}:${String(a % 60).padStart(2, "0")}`; t.className = tLeft < 0 ? "over" : tLeft < 300 ? "warn" : ""; }
+function toggleTimer() { if (tRun) { clearInterval(tRun); tRun = null; toast("timer paused"); } else { tRun = setInterval(() => { tLeft--; drawTimer(); }, 1000); toast("timer running · 30 minutes"); } }
+function setTimer(min) { tLeft = Math.round(min * 60); drawTimer(); }
+
+/* command line */
+const cmdBox = $("#cmd"), cmdIn = $("#cmdIn"), cmdOut = $("#cmdOut");
+const HELP = `keys      → space  next     ← back     o  slide list     n  notes     z  zoom illustration     c  cycle themes
+          t  timer        b  blank   f  fullscreen    :  command line   ?  help
+commands  goto N · ls · notes · timer [min] · theme green|amber|blue|obsidian|matrix|github|dracula|houston|mono
+          crt on|off · blank · top · end · whoami · wp --version · clear`;
+function openCmd(prefill = "") { cmdBox.classList.add("open"); cmdIn.value = prefill; cmdIn.focus(); $("#mode").textContent = "COMMAND"; }
+function closeCmd() { cmdBox.classList.remove("open"); cmdOut.textContent = ""; cmdIn.blur(); $("#mode").textContent = "NORMAL"; }
+function run(line) {
+  const [c, ...a] = line.trim().split(/\s+/); const arg = a.join(" ");
+  const say = (t) => { cmdOut.textContent = t; };
+  if (!c) return closeCmd();
+  if (/^\d+$/.test(c)) { go(+c - 1); return closeCmd(); }
+  switch (c) {
+    case "help": case "?": return say(HELP);
+    case "goto": case "g": go((+a[0] || 1) - 1); return closeCmd();
+    case "ls": closeCmd(); return toggleIndex(true);
+    case "notes": closeCmd(); return toggleNotes();
+    case "timer": if (a[0]) { setTimer(+a[0]); say(`timer set to ${a[0]} minutes`); } else { toggleTimer(); closeCmd(); } return;
+    case "theme": if (["green", "amber", "blue", "obsidian", "matrix", "github", "dracula", "houston", "mono"].includes(a[0])) { setTheme(a[0]); return say(`theme: ${a[0]}`); } return say("usage: theme green|amber|blue|obsidian|matrix|github|dracula|houston|mono");
+    case "crt": document.documentElement.dataset.crt = a[0] === "off" ? "off" : "on"; store.set("wp-deck-crt", a[0] === "off" ? "off" : "on"); return say(`crt effect ${a[0] === "off" ? "off" : "on"}`);
+    case "blank": closeCmd(); return toggleBlank();
+    case "top": go(0); return closeCmd();
+    case "end": case "exit": go(SLIDES.length - 1); return closeCmd();
+    case "clear": return say("");
+    case "whoami": return say("a WordPress meetup audience member. nice to meet you.");
+    case "wp": return say(arg.includes("version") ? "The Domain Name System · try: goto 11" : "usage: wp --version");
+    case "sudo": return say("Permission denied: you are not the zone owner.");
+    case "rm": return say("Nice try. That zone file is load-bearing.");
+    case "coffee": case "make": return say("☕ brewing… the next slide will be ready in 0.3 seconds.");
+    default: return say(`command not found: ${c}. type help`);
+  }
+}
+cmdIn.addEventListener("keydown", (e) => { e.stopPropagation(); if (e.key === "Enter") run(cmdIn.value); if (e.key === "Escape") closeCmd(); });
+
+/* keyboard */
+addEventListener("keydown", (e) => {
+  if (e.target.matches("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key;
+  if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(k)) { e.preventDefault(); if (!$("#index").classList.contains("open")) next(); }
+  else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(k)) { e.preventDefault(); prev(); }
+  else if (k === "Home") go(0); else if (k === "End") go(SLIDES.length - 1);
+  else if (k === "c") { const T = ["green", "amber", "blue", "obsidian", "matrix", "github", "dracula", "houston", "mono"]; const now = document.documentElement.dataset.phosphor || "green"; const nx = T[(T.indexOf(now) + 1) % T.length]; setTheme(nx); toast(`theme: ${nx}`); }
+  else if (k === "o") toggleIndex(); else if (k === "n") toggleNotes(); else if (k === "t") toggleTimer(); else if (k === "b" || k === ".") toggleBlank();
+  else if (k === "f") { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.().catch(() => toast("fullscreen isn't available here")); }
+  else if (k === ":" || k === "/") { e.preventDefault(); openCmd(); }
+  else if (k === "?") { openCmd(); run("help"); }
+  else if (k === "z") { const wins = curEl ? [...curEl.querySelectorAll(".win")] : []; if (!wins.length) return; if (zoomState) { const i = wins.indexOf(zoomState.win); zoomWin(null); if (i < wins.length - 1) zoomWin(wins[i + 1]); } else zoomWin(wins[0]); }
+  else if (k === "Escape") { if (zoomState) return zoomWin(null); toggleIndex(false); toggleNotes(false); $("#blank").classList.remove("on"); }
+});
+
+/* buttons and touch */
+$("#nextBtn").onclick = next; $("#prevBtn").onclick = prev;
+$("#notesBtn").onclick = () => toggleNotes(); $("#indexBtn").onclick = () => toggleIndex(); $("#helpBtn").onclick = () => { openCmd(); run("help"); }; $("#timerBtn").onclick = toggleTimer;
+$("#blank").onclick = toggleBlank;
+let tx = null; stage.addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; }, { passive: true });
+stage.addEventListener("touchend", (e) => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) (dx < 0 ? next : prev)(); tx = null; });
+
+/* start */
+(function init() {
+  setTheme(store.get("wp-deck-phosphor") || "github");
+  const crt = store.get("wp-deck-crt"); if (crt) document.documentElement.dataset.crt = crt;
+  const h = parseInt(location.hash.slice(1), 10);
+  fit(); drawTimer();
+  go(Number.isFinite(h) ? h - 1 : 0, 1);
+})();
+</script>
+</body>
+</html>
