@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en" data-phosphor="github">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WordPress Common Issues — terminal edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=VT323&display=swap" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/brands.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/fontawesome.min.js"></script>
+<style>
+:root {
+  --page: #030604;
+  --bg: #07110b;
+  --bg2: #0c1b12;
+  --bg3: #12271a;
+  --line: #1e3d2a;
+  --fg: #d6f7de;
+  --dim: #7ea78a;
+  --ok: #57f287;
+  --hi: #ffb23e;
+  --wp: #79b8ff;
+  --bad: #ff6b6b;
+  --glow: 0 0 6px rgba(87, 242, 135, .35);
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --crt: "VT323", "JetBrains Mono", ui-monospace, monospace;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --page: #030604; --bg: #07110b; } }
+:root[data-theme="dark"] { --page: #030604; --bg: #07110b; }
+:root[data-phosphor="amber"] { --bg: #110b03; --bg2: #1b1306; --bg3: #271b09; --line: #3d2b10; --fg: #ffe2b0; --dim: #b08a55; --ok: #ffb000; --hi: #ffd166; --wp: #ffcf7a; --glow: 0 0 6px rgba(255, 176, 0, .35); }
+:root[data-phosphor="blue"] { --bg: #050b16; --bg2: #0a1426; --bg3: #102040; --line: #1d3358; --fg: #d8e8ff; --dim: #7e95b8; --ok: #6fb3ff; --hi: #ffb23e; --wp: #9ecbff; --glow: 0 0 6px rgba(111, 179, 255, .35); }
+:root[data-phosphor="obsidian"] { --bg: #0e0c13; --bg2: #16131e; --bg3: #211c2d; --line: #352d49; --fg: #e8e3f5; --dim: #9b91b5; --ok: #b49cff; --hi: #ffb86c; --wp: #8be9fd; --glow: 0 0 7px rgba(180, 156, 255, .35); }
+:root[data-phosphor="obsidian"] #stage { box-shadow: 0 0 90px rgba(120, 90, 220, .18); }
+:root[data-phosphor="matrix"] { --bg: #010a03; --bg2: #031208; --bg3: #062312; --line: #0d3b1b; --fg: #c3ffc9; --dim: #3fa950; --ok: #00ff41; --hi: #d4ff3a; --wp: #6bff9e; --glow: 0 0 8px rgba(0, 255, 65, .5); }
+#rain { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: .2; display: none; }
+:root[data-phosphor="matrix"] #rain { display: block; }
+:root[data-phosphor="matrix"] .slide.interlude { background: radial-gradient(ellipse at 30% 40%, rgba(3,18,8,.75), rgba(1,10,3,.35) 70%); }
+.slide { z-index: 1; }
+:root[data-phosphor="github"] { --bg: #0d1117; --bg2: #161b22; --bg3: #21262d; --line: #30363d; --fg: #e6edf3; --dim: #7d8590; --ok: #3fb950; --hi: #d29922; --wp: #58a6ff; --glow: none; }
+:root[data-phosphor="dracula"] { --bg: #282a36; --bg2: #21222c; --bg3: #343746; --line: #44475a; --fg: #f8f8f2; --dim: #8a94c4; --ok: #bd93f9; --hi: #ff79c6; --wp: #8be9fd; --glow: 0 0 7px rgba(189, 147, 249, .3); }
+:root[data-phosphor="houston"] { --bg: #17191e; --bg2: #1e2128; --bg3: #262a33; --line: #343841; --fg: #eef0f9; --dim: #858b98; --ok: #4bf3c8; --hi: #ffd493; --wp: #54b9ff; --glow: 0 0 7px rgba(75, 243, 200, .3); }
+:root[data-phosphor="mono"] { --bg: #0b0b0b; --bg2: #151515; --bg3: #202020; --line: #333; --fg: #eaeaea; --dim: #8a8a8a; --ok: #ffffff; --hi: #ffffff; --wp: #cfcfcf; --glow: none; }
+*, *::before, *::after { box-sizing: border-box; }
+html { height: 100%; scroll-padding-top: env(safe-area-inset-top, 0px); }
+body { height: 100%; margin: 0; background: var(--page); color: var(--fg); font-family: var(--mono); overflow: hidden; -webkit-font-smoothing: antialiased; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--hi); outline-offset: 2px; }
+
+/* ---------- stage ---------- */
+#viewport { position: relative; width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden; }
+#stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: 0 0; background: var(--bg); border: 1px solid var(--line); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 80px rgba(0,0,0,.6); }
+#stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(to bottom, rgba(255,255,255,.025) 0 1px, transparent 1px 3px); mix-blend-mode: screen; z-index: 50; }
+:root[data-crt="off"] #stage::after { display: none; }
+:root[data-crt="off"] { --glow: none; }
+
+/* tmux-style window bar */
+#tabs { height: 34px; flex: none; display: flex; align-items: stretch; background: var(--bg2); border-bottom: 1px solid var(--line); font-size: 13px; }
+#tabs .sess { display: flex; align-items: center; padding: 0 14px; background: var(--ok); color: var(--bg); font-weight: 800; }
+#tabs button { background: none; border: 0; padding: 0 14px; color: var(--dim); cursor: pointer; }
+#tabs button[aria-current="true"] { color: var(--fg); background: var(--bg3); }
+#tabs button[aria-current="true"]::after { content: "*"; color: var(--ok); }
+#tabs .spacer { flex: 1; }
+#tabs .clock { display: flex; align-items: center; padding: 0 14px; color: var(--dim); }
+
+/* screen */
+#screen { position: relative; flex: 1; overflow: hidden; }
+.slide { position: absolute; inset: 0; padding: 26px 48px 20px; display: flex; flex-direction: column; gap: 14px; }
+.prompt { font-size: 20px; color: var(--dim); white-space: pre; min-height: 24px; }
+.prompt .path { color: var(--wp); font-weight: 600; }
+.prompt .cmd { color: var(--fg); }
+.cursor { display: inline-block; width: .6em; height: 1.05em; background: var(--ok); vertical-align: -2px; margin-left: 2px; animation: blink 1.05s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.title { font-family: var(--crt); font-size: 64px; line-height: .95; color: var(--fg); text-shadow: var(--glow); margin: 0; font-weight: 400; letter-spacing: .5px; }
+.sub { font-size: 24px; color: var(--dim); margin: 0; }
+.out { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 16px; padding-top: 12px; }
+.out.printing { animation: print .45s steps(12) both; }
+@keyframes print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* text pieces */
+.lead { font-size: 26px; line-height: 1.45; margin: 0; max-width: 60ch; }
+.big { font-family: var(--crt); font-size: 64px; line-height: 1; color: var(--ok); text-shadow: var(--glow); margin: 0; }
+.muted { color: var(--dim); }
+.ok { color: var(--ok); } .hi { color: var(--hi); } .wp { color: var(--wp); } .bad { color: var(--bad); }
+.say { border-left: 3px solid var(--ok); background: var(--bg2); padding: 12px 18px; font-size: 23px; font-weight: 600; margin: 0; }
+.say::before { content: "> "; color: var(--ok); }
+.small { font-size: 18px; color: var(--dim); }
+.foot { margin-top: auto; font-size: 16px; color: var(--dim); }
+.foot::before { content: "# "; }
+pre.ascii { margin: 0; font-size: 22px; line-height: 1.3; color: var(--fg); }
+pre.ascii b { color: var(--ok); font-weight: 600; }
+pre.ascii i { color: var(--hi); font-style: normal; }
+pre.ascii u { color: var(--wp); text-decoration: none; }
+
+/* chips, flows, panels */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.grid { display: grid; gap: 12px; }
+.chip { display: inline-flex; align-items: center; justify-content: center; text-align: center; border: 1px solid var(--line); background: var(--bg2); padding: 10px 14px; font-size: 20px; line-height: 1.25; }
+.chip.on { border-color: var(--ok); color: var(--ok); background: color-mix(in srgb, var(--ok) 10%, var(--bg2)); }
+.chip.hi { background: var(--hi); color: #1a1100; border-color: var(--hi); font-weight: 600; }
+.chip.dim { color: var(--dim); }
+.chip.strike { color: var(--dim); text-decoration: line-through; text-decoration-color: var(--bad); }
+.flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.flow .arr { color: var(--dim); font-size: 17px; }
+.flow.col { flex-direction: column; align-items: stretch; }
+.flow.col .arr { text-align: center; line-height: 1; }
+.panel { position: relative; border: 1px solid var(--line); padding: 20px 16px 14px; background: color-mix(in srgb, var(--bg2) 60%, transparent); }
+.panel[data-label]::before { content: "┤ " attr(data-label) " ├"; position: absolute; top: -11px; left: 12px; background: var(--bg); padding: 0 4px; font-size: 16px; color: var(--dim); }
+.panel.on { border-color: var(--ok); }
+.panel.on[data-label]::before { color: var(--ok); }
+.panel.hi { border-color: var(--hi); }
+.panel.hi[data-label]::before { color: var(--hi); }
+.panel h3 { margin: 0 0 8px; font-size: 23px; color: var(--fg); }
+.panel ul { margin: 0; padding: 0; list-style: none; font-size: 19px; line-height: 1.5; }
+.panel li::before { content: "- "; color: var(--dim); }
+.row { display: flex; gap: 22px; min-height: 0; }
+.row > * { min-width: 0; }
+.chip.hi .tag { color: #1a1100; border-color: rgba(0,0,0,.3); }
+.tight .chip { padding: 5px 10px; font-size: 17px; }
+.tight .arr { font-size: 11px; }
+.tag { font-size: 14px; border: 1px solid var(--line); padding: 1px 6px; color: var(--ok); margin-left: auto; white-space: nowrap; }
+.log { font-size: 23px; line-height: 1.6; margin: 0; }
+.log .t { color: var(--hi); display: inline-block; min-width: 9.5em; }
+.btn { background: var(--bg3); border: 1px solid var(--ok); color: var(--ok); padding: 9px 16px; cursor: pointer; font-size: 19px; }
+.btn:hover { background: var(--ok); color: var(--bg); }
+.btn[disabled] { opacity: .5; cursor: default; }
+.term { background: #020503; border: 1px solid var(--line); padding: 12px 14px; font-size: 17px; line-height: 1.5; overflow: hidden; white-space: pre-wrap; }
+.term .in { color: var(--wp); } .term .res { color: var(--fg); } .term .c { color: var(--dim); }
+
+/* steps */
+.step { opacity: 0; transform: translateY(4px); transition: opacity .25s, transform .25s; }
+.step.shown { opacity: 1; transform: none; }
+
+/* dark interlude slides */
+.slide.interlude { justify-content: center; padding: 0 110px; background: radial-gradient(ellipse at 30% 40%, var(--bg2), var(--bg) 70%); }
+.slide.interlude .title { font-size: 84px; max-width: 24ch; }
+.slide.interlude .prompt { margin-bottom: 12px; }
+.slide.interlude .out { flex: 0 1 auto; }
+.flow.nowrap { flex-wrap: nowrap; }
+.flow.col.start { align-items: flex-start; }
+.contact a { color: var(--ok); text-decoration: none; border-bottom: 2px solid color-mix(in srgb, var(--ok) 40%, transparent); }
+.contact a:hover { border-bottom-color: var(--ok); }
+
+/* light app windows (WordPress UI illustrations) */
+.win { background: #fff; color: #1e1e1e; border: 1px solid #c3c4c7; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 14px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+.win .bar { height: 26px; flex: none; display: flex; align-items: center; gap: 5px; padding: 0 8px; background: #f0f0f1; border-bottom: 1px solid #dcdcde; }
+.win .bar i { width: 8px; height: 8px; border-radius: 50%; background: #c3c4c7; }
+.win .bar span { margin-left: auto; font-family: var(--mono); font-size: 11px; color: #757575; }
+.win .body { flex: 1; position: relative; display: flex; min-height: 0; }
+.wp-side { width: 104px; background: #2c3338; color: #c3c4c7; padding-top: 4px; flex: none; }
+.wp-side div { padding: 4px 8px; font-size: 13px; }
+.wp-side .cur { background: #3858e9; color: #fff; }
+.wp-btn { background: #3858e9; color: #fff; border: 0; padding: 5px 10px; border-radius: 2px; font-size: 13px; cursor: pointer; }
+.wp-btn.ghost { background: #fff; color: #3858e9; border: 1px solid #3858e9; }
+.win input { background: #fff; color: #1e1e1e; color-scheme: light; }
+.win input::placeholder { color: #757575; }
+.ln { height: 5px; background: #dcdcde; margin: 6px 0; }
+.ln.s { width: 60%; }
+.cap { text-align: center; margin-top: 8px; }
+.cap b { display: block; font-size: 22px; color: var(--fg); }
+.cap span { font-size: 17px; color: var(--dim); }
+.illus { position: absolute; top: 3px; right: 8px; font-family: var(--mono); font-size: 9px; color: #757575; }
+
+/* overlays */
+#cmd { position: absolute; left: 0; right: 0; bottom: 30px; background: var(--bg2); border-top: 1px solid var(--ok); padding: 8px 14px; display: none; z-index: 60; font-size: 16px; }
+#cmd.open { display: block; }
+#cmd .row1 { display: flex; gap: 6px; align-items: center; }
+#cmd input { flex: 1; background: transparent; border: 0; outline: none; color: var(--fg); caret-color: var(--ok); }
+#cmd pre { margin: 0 0 6px; color: var(--dim); font-size: 14px; max-height: 300px; overflow: auto; white-space: pre-wrap; }
+#status { height: 30px; flex: none; display: flex; align-items: center; background: var(--bg2); border-top: 1px solid var(--line); font-size: 13px; position: relative; z-index: 61; }
+#status .mode { background: var(--ok); color: var(--bg); font-weight: 800; padding: 0 12px; height: 100%; display: flex; align-items: center; }
+#status .file { padding: 0 12px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#status .sp { flex: 1; }
+#status button { background: none; border: 0; color: var(--dim); cursor: pointer; padding: 0 10px; height: 100%; }
+#status button:hover { color: var(--fg); }
+#status .pos { color: var(--ok); padding: 0 12px; }
+#timer.warn { color: var(--hi); } #timer.over { color: var(--bad); }
+#progress { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--ok); transition: width .3s; }
+#notes { position: absolute; right: 0; top: 34px; bottom: 30px; width: 440px; background: var(--bg2); border-left: 1px solid var(--line); padding: 18px; font-size: 17px; line-height: 1.55; overflow: auto; transform: translateX(100%); transition: transform .2s; z-index: 55; }
+#notes.open { transform: none; }
+#notes h4 { margin: 0 0 10px; color: var(--hi); font-weight: 600; font-size: 14px; }
+#index { position: absolute; inset: 34px 0 30px; background: var(--bg); z-index: 58; padding: 24px 48px; overflow: auto; display: none; }
+#index.open { display: block; }
+#index .ls { columns: 2; column-gap: 40px; font-size: 15px; line-height: 1.75; }
+#index button { display: block; background: none; border: 0; color: var(--fg); cursor: pointer; text-align: left; padding: 0; width: 100%; }
+#index button:hover, #index button.cur { color: var(--ok); }
+#index button span { color: var(--dim); display: inline-block; width: 3.5em; }
+#blank { position: absolute; inset: 0; background: #000; z-index: 70; display: none; place-items: center; color: #222; font-size: 14px; }
+#blank.on { display: grid; }
+#toast { position: absolute; left: 50%; bottom: 44px; transform: translateX(-50%); background: var(--bg3); border: 1px solid var(--ok); padding: 6px 14px; font-size: 14px; z-index: 80; opacity: 0; transition: opacity .2s; pointer-events: none; }
+#toast.on { opacity: 1; }
+
+/* zoom an illustration to fill the screen */
+.win .zoomBtn { margin-left: 8px; background: #fff; border: 1px solid #c3c4c7; color: #3858e9; font: 600 12px var(--mono); padding: 1px 7px; cursor: pointer; }
+.win .zoomBtn:hover { background: #3858e9; color: #fff; }
+.zoomer { position: absolute; inset: 0; z-index: 45; background: var(--bg); display: grid; place-items: center; padding-bottom: 30px; }
+.zoomer .holder { transform-origin: center center; }
+.zoomer .hint { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; color: var(--dim); font-size: 16px; }
+.fitting .step { transform: none; transition: none; }
+
+/* deck-kit additions */
+.pipe { flex: none; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 48px 12px; font-size: 14px; color: var(--dim); white-space: nowrap; }
+.pipe span { padding: 3px 8px; border: 1px solid var(--line); }
+.pipe span.done { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); }
+.pipe span.now { background: var(--hi); color: #1a1100; border-color: var(--hi); font-weight: 800; }
+.pipe i { font-style: normal; color: var(--line); }
+pre.term.code { font-size: 21px; line-height: 1.55; margin: 0; white-space: pre; }
+pre.term.code .hi { color: var(--hi); } pre.term.code .ok { color: var(--ok); }
+.ws { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 44px; font-size: 21px; line-height: 1.4; }
+.sm pre.term.code { font-size: 18px; line-height: 1.45; }
+.ws li { break-inside: avoid; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+.ws .n { color: var(--dim); display: inline-block; min-width: 2.4em; }
+.hook { color: var(--hi); font-weight: 600; }
+.meter-row { display: flex; align-items: center; gap: 16px; }
+.meter { position: relative; flex: 1; height: 8px; background: var(--bg3); border: 1px solid var(--line); }
+.meter i { position: absolute; left: 0; top: 0; bottom: 0; background: color-mix(in srgb, var(--ok) 35%, transparent); }
+.meter b { position: absolute; top: 0; bottom: 0; background: var(--hi); }
+@media (prefers-reduced-motion: reduce) {
+  .out.printing { animation: none; }
+  .step { transition: none; }
+  .cursor { animation: none; }
+}
+
+/* ---------- Wapuu: shaded ASCII art (hero + "let's connect") ---------- */
+/* The art is drawn from the "@ % # * = : - + ." ramp, one <span> per glyph, so a band of
+   light can sweep through it. Colours are mixed from the theme vars, so the art re-tints
+   itself under every phosphor theme instead of staying hardcoded green. */
+#catArt { line-height: 1.06; transform-origin: 50% 55%; animation: catBreathe 4.4s ease-in-out infinite; }
+#catArt .l { display: block; }
+#catArt .c { transition: color .40s linear, text-shadow .40s linear; }
+#catArt .a0 { color: color-mix(in srgb, var(--ok) 16%, var(--bg)); }
+#catArt .a1 { color: color-mix(in srgb, var(--ok) 28%, var(--bg)); }
+#catArt .a2 { color: color-mix(in srgb, var(--ok) 44%, var(--bg)); }
+#catArt .a3 { color: color-mix(in srgb, var(--ok) 62%, var(--bg)); }
+#catArt .a4 { color: color-mix(in srgb, var(--ok) 84%, var(--fg)); }
+#catArt .a5 { color: var(--fg); }
+#catArt .c.hot { color: #fff; text-shadow: 0 0 8px var(--ok); }
+#catArt .c.spark { color: var(--hi); text-shadow: 0 0 8px var(--hi); }
+@keyframes catBreathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
+@media (prefers-reduced-motion: reduce) { #catArt { animation: none; } #catArt .c { transition: none; } }
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage" role="region" aria-roledescription="slide deck" aria-label="WordPress Common Issues">
+    <nav id="tabs" aria-label="Sections"></nav>
+    <main id="screen" aria-live="polite"></main>
+    <aside id="notes" aria-label="Speaker notes"><h4>speaker notes</h4><div id="notesBody"></div></aside>
+    <section id="index" aria-label="All slides"><p class="prompt"><span class="path">~/wp-content</span> $ <span class="cmd">ls slides/</span></p><div class="ls" id="indexList"></div></section>
+    <div id="cmd"><pre id="cmdOut"></pre><div class="row1"><span class="ok">:</span><input id="cmdIn" autocomplete="off" spellcheck="false" aria-label="Command"></div></div>
+    <footer id="status">
+      <span class="mode" id="mode">NORMAL</span>
+      <span class="file" id="file"></span>
+      <span class="sp"></span>
+      <button id="timerBtn" title="Start or pause the 30-minute timer (t)"><span id="timer">30:00</span></button>
+      <button id="notesBtn" title="Speaker notes (n)">notes</button>
+      <button id="indexBtn" title="All slides (o)">ls</button>
+      <button id="helpBtn" title="Commands (:)">:help</button>
+      <button id="prevBtn" aria-label="Previous slide">‹</button>
+      <span class="pos" id="pos"></span>
+      <button id="nextBtn" aria-label="Next slide">›</button>
+      <div id="progress"></div>
+    </footer>
+    <div id="blank">screen paused · press b</div>
+    <div id="toast" role="status"></div>
+  </div>
+</div>
+<script>
+/* ---------- tiny helpers for slide markup ---------- */
+const esc = (s) => String(s);
+const chipCls = (x) => x.startsWith("*") ? ["on", x.slice(1)] : x.startsWith("!") ? ["hi", x.slice(1)] : x.startsWith("~") ? ["dim", x.slice(1)] : x.startsWith("-") ? ["strike", x.slice(1)] : ["", x];
+const chips = (arr, step) => `<div class="chips${step ? " step" : ""}">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join("")}</div>`;
+const grid = (arr, cols, step) => `<div class="grid${step ? " step" : ""}" style="grid-template-columns:repeat(${cols},1fr)">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join("")}</div>`;
+const flow = (arr, opt = {}) => `<div class="flow${opt.col ? " col" : ""}${opt.start ? " start" : ""}${opt.nowrap ? " nowrap" : ""}${opt.step ? " step" : ""}">${arr.map((x) => { const [c, t] = chipCls(x); return `<span class="chip ${c}">${t}</span>`; }).join(`<span class="arr">${opt.col ? "▼" : "──▶"}</span>`)}</div>`;
+const say = (t, step) => `<p class="say${step ? " step" : ""}">${t}</p>`;
+const foot = (t) => `<p class="foot">${t}</p>`;
+const panel = (label, inner, cls = "") => `<div class="panel ${cls}" data-label="${label}">${inner}</div>`;
+const list = (items) => `<ul>${items.map((i) => `<li>${i}</li>`).join("")}</ul>`;
+const win = (inner, label = "illustration", style = "") => `<div class="win" style="${style}"><div class="bar"><i></i><i></i><i></i><span>${label}</span><button class="zoomBtn" title="Enlarge (z)" aria-label="Enlarge illustration">⤢ zoom</button></div><div class="body">${inner}</div></div>`;
+const cap = (b, s) => `<div class="cap"><b>${b}</b><span>${s}</span></div>`;
+const wpSide = (cur) => `<div class="wp-side">${["Dashboard", "Posts", "Media", "Pages", "Appearance", "Plugins", "Users", "Settings"].map((m) => `<div class="${m === cur ? "cur" : ""}">${m}</div>`).join("")}</div>`;
+const lines = (n, w = 100) => Array.from({ length: n }, (_, i) => `<div class="ln" style="width:${i === n - 1 ? w * 0.6 : w - (i % 2) * 8}%"></div>`).join("");
+
+/* ---------- extra helpers (deck kit) ---------- */
+/* code(src): a code/terminal block. Wrap tokens in <span class="in|ok|hi|c"> for keyword/string/highlight/comment. Escape < as &lt; */
+const code = (src) => `<pre class="term code">${src}</pre>`;
+/* numbered(start, items): two-column numbered list for long step lists (max ~10 per slide) */
+const numbered = (start, items) => `<ol class="ws">${items.map((t, i) => `<li><span class="n">${String(start + i).padStart(2, "0")}</span>${t}</li>`).join("")}</ol>`;
+/* meter(from, to, total, label): progress meter for a list split across several slides */
+const meter = (from, to, total, label) => `<div class="meter-row"><span class="hi" style="font-size:22px;font-weight:600">${label}</span><span class="small">steps ${from}–${to} of ${total}</span><div class="meter"><b style="left:${((from - 1) / total) * 100}%;width:${((to - from + 1) / total) * 100}%"></b><i style="width:${((from - 1) / total) * 100}%"></i></div></div>`;
+/* hook(name): highlighted code token, e.g. do_action( 'init' ) */
+const hook = (h) => `<span class="hook">do_action( '${h}' )</span>`;
+/* pipe(k): journey bar under the slide. Define const STAGES = [...] (short labels) in the slides block, then set p: k on a slide */
+const pipe = (k) => typeof STAGES === "undefined" ? "" : `<div class="pipe" aria-label="Stage ${k + 1} of ${STAGES.length}: ${STAGES[k]}">${STAGES.map((s, i) => `<span class="${i < k ? "done" : i === k ? "now" : ""}">${s}</span>`).join(`<i>›</i>`)}</div>`;
+
+const WAPUU_ART = `
+                                                           
+                                                           
+                                                           
+        @@@ @@@@      @@   @    @ @@@                      
+      %=========================================*@         
+     @#==#%-=%#==%===============================%         
+     @#======-===-===============================%         
+     @%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%         
+     @*. . .  .         .    .             .....:%         
+     @*. .         .+%%%%%%%-.. .    . .%%%#*%+.:%         
+     @*.    .   .:%+:::::::::=%:.    :%=:::+#...:%         
+     @*.      ..*#:::::::::::%%%=. .-#::::%...  :%%%@      
+     @*.      .-%%%#-:=%%%=::%%%#- .%::::%...  .-%--%      
+     @*. .   ..%:=%%-::+%%*:::%+:%..%::::+@....**:::%      
+     %*.   .  .%::%%%::=%%%:::%::@..%::::::-%%#-:::=%      
+     @*. ..   .*+::%%+:%:%%%:@-:*=.**:::::::::::::=%       
+     @*..     ..%-:+%%%+:-%%#@:**+*::-+%=:::::::-%@        
+     @*.        .#%:#%%:::=%%:%+#::---:-%+*%%%#+:%         
+     @*. .    .   .-%%#-::#%%=%::---:-%-... ..  :%         
+     @*.     ...      . ...:%-:---::*+..      . :%         
+     %*.    .  .        ..%=:---::**......      :%         
+     %*.              ..*+::---:+#...-====--=====%%        
+     %#.      .    ...**::---:=%....==::::::::::::#@       
+      @%%%%%%%%%%%#=::::*--:-%@%%%%%%=::::::::::::#@       
+               @%:::::::::-%@       #=::::%%%:::::#@       
+               %::%-.=%:::%         #=::::#%%%%*::#@       
+               %::%...#-:-%         #=:::::%#%+:::#@       
+               %#:-#@#-::%%         #=:::::--:--::#@       
+                 %#----%%           %*------------%        
+                    @%                @@@@@@@@@@@@         
+                                                           
+                                                           
+`;
+/* WordPress Common Issues and How to Fix It — terminal edition.
+   Slide 1 (hero) and the last slide (connect) are spliced in by make.py.
+   The deck's visual spine is ERR(): every error slide opens with the same
+   banner, the way a log would. Bodies deliberately vary in layout. */
+
+const SECTIONS = [
+  ["intro", 0], ["4xx", 2], ["5xx", 5], ["server", 9], ["security", 13],
+  ["database", 21], ["files", 24], ["browser", 27], ["misc", 30],
+];
+
+const ERR = (code, blurb) =>
+  `<pre class="log" style="font-size:40px;line-height:1.25;margin:0;white-space:pre-wrap"><b class="bad">${code}</b>\n<span class="muted" style="font-size:21px">${blurb}</span></pre>`;
+
+const SLIDES = [
+/* 0 */ { maxZoom: 1, f: "00-boot.sh", cmd: "wp doctor", hero: true, h: `
+  <div class="row" style="flex:1;gap:28px;align-items:flex-start">
+    <div style="flex:1.25;display:flex;flex-direction:column;gap:16px;min-width:0;padding-top:36px">
+      <h1 class="title" style="font-size:112px">Common<br>Issues</h1>
+      <p class="sub" style="font-size:30px;margin:0 0 22px">by <b style="color:var(--fg)">@jhimross</b></p>
+      ${flow(["403", "500", "!and 20 more"])}
+    </div>
+    <div id="artBox" style="flex:1;min-width:0;align-self:stretch;display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <pre id="catArt" aria-hidden="true" style="margin:0;font:600 11px/1.06 var(--mono);white-space:pre;font-variant-ligatures:none"></pre>
+    </div>
+  </div>`,
+  enter(el) { asciiHero(el, WAPUU_ART); } },
+
+
+/* 1 */ { f: "01-first-responder.md", cmd: "wp doctor", t: "Before you debug anything", h: `
+  <p class="lead">Almost every error in this deck answers to one of four things. Try these <b class="ok">in order</b> before you go digging.</p>
+  <div class="step">${numbered(1, ["<b class=\"ok\">Clear the cache</b> and hard-reload. Boring, but it is the single most common fix.", "Deactivate your plugins. Half of all mystery errors are a plugin conflict.", "Turn on <b class=\"ok\">WP_DEBUG</b> and read the real error instead of the blank page.", "Contact your host. Memory, CPU and disk limits are not yours to fix."])}</div>
+  ${say("Everything else in this talk is the long tail after those four.", true)}` },
+
+/* 2 */ { f: "02-section-4xx.md", cmd: "curl -I https://example.com/missing", interlude: true, h: `
+  <p class="title" style="font-size:96px;max-width:22ch">4xx errors<span class="cursor"></span></p>
+  <p class="step hi" style="font-size:27px;max-width:46ch;margin-top:20px">The request reached the server. The server understood it, and said no.</p>` },
+
+/* 3 */ { f: "03-403-forbidden.md", cmd: "curl -I https://example.com/wp-admin", h: `
+  ${ERR("403 Forbidden", "You are not allowed to see this.")}
+  <div class="row step" style="flex:1;gap:22px;align-items:stretch">
+    <div style="flex:1">${panel("what it means", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">WordPress uses <b>permissions</b> to keep people who should not have access out. Too strict, and it locks out people who should.</p>`, "on")}</div>
+    <div style="flex:1">${panel("how to fix", `${list(["reset your <b>file permissions</b>", "generate a new <b>.htaccess</b>", "suspect a plugin", "suspect your <b>CDN</b>", "check hotlink protection"])}`, "hi")}</div>
+  </div>` },
+
+/* 4 */ { f: "04-404-not-found.md", cmd: "curl -I https://example.com/nope", h: `
+  ${ERR("404 Not Found", "There is no page at this address.")}
+  <div class="step">${panel("what it means", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">A user asked for a page that does not exist. Relatively harmless — but frustrating for whoever typed the link.</p>`, "on")}</div>
+  <div class="step">${panel("how to avoid it", `${list(["fix broken links on your site <b>periodically</b>", "add a <b>redirect</b> whenever you delete a page", "and whenever you move one to a new URL"])}`, "hi")}</div>` },
+
+/* 5 */ { f: "05-section-5xx.md", cmd: "tail -f /var/log/nginx/error.log", interlude: true, h: `
+  <p class="title" style="font-size:96px;max-width:22ch">5xx errors<span class="cursor"></span></p>
+  <p class="step hi" style="font-size:27px;max-width:46ch;margin-top:20px">Something broke on your server. These cost you search rankings.</p>` },
+
+/* 6 */ { f: "06-500-internal-server-error.md", cmd: "grep WP_DEBUG wp-config.php", h: `
+  ${ERR("500 Internal Server Error", "The server broke while trying to answer.")}
+  <p class="lead">Your users see nothing, and if you leave it, your <b class="hi">SEO takes the hit</b> too.</p>
+  <div class="step">${panel("the awkward part", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">A 500 has <b>many possible causes</b> and many possible fixes. That is what makes it so hard to troubleshoot.</p>`, "on")}</div>
+  ${say("Start with a cache clear and a reload. If that doesn't do it, you are into real debugging now.", true)}` },
+
+/* 7 */ { f: "07-502-bad-gateway.md", cmd: "curl -I https://example.com", h: `
+  ${ERR("502 Bad Gateway", "The server got an invalid answer from another server.")}
+  <p class="lead">You see this when one server acts as a <b class="ok">proxy</b> or gateway for another, and the inbound server answers with something unusable.</p>
+  <div class="step">${flow(["reload", "clear cache", "*check DNS", "disable CDN", "!contact host"], { nowrap: true })}</div>
+  <div class="step">${foot("A 502 hurts your SEO too — clear it up fast.")}</div>` },
+
+/* 8 */ { f: "08-503-service-unavailable.md", cmd: "wp plugin list --status=active", h: `
+  ${ERR("503 Service Unavailable", "Your site is up. It just cannot be reached.")}
+  <p class="lead">Routine maintenance, a traffic spike, or something more serious. Good news: a 503 will <b class="ok">not</b> hurt your rankings.</p>
+  <div class="step">${grid(["deactivate plugins", "switch to default theme", "disable CDN", "limit Heartbeat API", "increase resources", "enable WP_DEBUG"], 3, true)}</div>
+  ${say("None of those? Your host's support team is the next step.", true)}` },
+
+/* 9 */ { f: "09-section-server.md", cmd: "php -i | grep memory_limit", interlude: true, h: `
+  <p class="title" style="font-size:84px;max-width:26ch">Server related errors<span class="cursor"></span></p>` },
+
+/* 10 */ { f: "10-memory-limit.md", cmd: "grep WP_MEMORY_LIMIT wp-config.php", h: `
+  ${ERR("Fatal error: allowed memory size has been exhausted", "WordPress asked for more memory than your host allows.")}
+  <p class="lead">Your host allocates a fixed slice of memory. Hit it and you cannot install a plugin or theme, or upload media.</p>
+  <div class="step">${panel("how to fix", `${list(["raise the PHP memory limit in <b>wp-config.php</b>", "check how much <b>disk space</b> you are using", "upgrade to a plan with more room"])}`, "hi")}</div>` },
+
+/* 11 */ { f: "11-max-execution-time.md", cmd: "php -i | grep max_execution_time", h: `
+  ${ERR("Fatal error: maximum execution time exceeded", "A PHP script ran longer than your host allows.")}
+  <p class="lead">Servers put a time limit on how long a script may run. Go past it and WordPress stops mid-request.</p>
+  <div class="step">${numbered(1, ["Raise your site's <b>execution time limit</b>", "Find the script that is running too long", "It is nearly always part of a <b>plugin</b> or <b>theme</b>", "Remove it"])}</div>` },
+
+/* 12 */ { f: "12-upload-failed-write-disk.md", cmd: "ls -la wp-content/uploads", h: `
+  ${ERR("Upload: Failed to write file to disk", "WordPress cannot save your media to the server.")}
+  <div class="step">${panel("how uploads actually work", `${list(["files land in a <b>temporary folder</b> on your server", "then get moved into the <b>WordPress directory</b>"])}`, "on")}</div>
+  <div class="step">${panel("so check these", `${list(["<b>file permissions</b>, changed over FTP", "or ask your host to <b>empty the temp directory</b>"])}`, "hi")}</div>
+  ${say("That second one catches people — the temp folder fills up and nothing tells you.", true)}` },
+
+/* 13 */ { f: "13-section-security.md", cmd: "grep -rn ALLOW_UNFILTERED_UPLOADS wp-config.php", interlude: true, h: `
+  <p class="title" style="font-size:84px;max-width:26ch">Security related errors<span class="cursor"></span></p>` },
+
+/* 14 */ { f: "14-cloudflare-521.md", cmd: "curl -sI https://example.com | head -1", h: `
+  ${ERR("Error 521: Web server is down", "Cloudflare cannot reach your origin server.")}
+  <div class="row step" style="flex:1;gap:22px;align-items:stretch">
+    <div style="flex:1">${panel("what Cloudflare is", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">A popular <b>CDN</b>, plus protection against DDoS and other attacks. Your site sits behind it.</p>`, "on")}</div>
+    <div style="flex:1">${panel("what a 521 means", `${list(["your server is <b>down</b>", "or it is <b>blocking Cloudflare</b>", "for no reason you control"])}`, "hi")}</div>
+  </div>
+  ${say("Confirm your server is up, and that your firewall whitelists all of Cloudflare's IP ranges.", true)}` },
+
+/* 15 */ { f: "15-file-type-not-permitted.md", cmd: "grep ALLOW_UNFILTERED_UPLOADS wp-config.php", h: `
+  ${ERR("Sorry, this file type is not permitted for security reasons", "WordPress blocked your upload.")}
+  <p class="lead">WordPress keeps a default list of permitted file types so nobody can drop an executable on your site.</p>
+  <div class="step">${code(`<span class="c">// wp-config.php — let the upload through</span>\ndefine( '<span class="ok">ALLOW_UNFILTERED_UPLOADS</span>', <span class="hi">true</span> );`)}</div>
+  ${say("Think about why you need it before you turn it on.", true)}` },
+
+/* 16 */ { f: "16-not-allowed-to-access.md", cmd: "wp user get 1 --field=roles", h: `
+  ${ERR("Sorry, you are not allowed to access this page", "WordPress refused your session.")}
+  <p class="lead">File permissions decide who can edit what. Set wrong, they lock out well-meaning users.</p>
+  <div class="step">${panel("try these", `${list(["reset file permissions via <b>SFTP</b>", "check your <b>user role</b> in phpMyAdmin", "confirm your <b>database prefix</b> is correct", "rule out <b>plugin</b> and <b>theme</b> conflicts"])}`)}</div>
+  ${foot("Worst case: restore a backup, or reset WordPress.")}` },
+
+/* 17 */ { f: "17-could-not-create-directory.md", cmd: "ls -ld wp-admin wp-content wp-includes", h: `
+  ${ERR("Installation failed: Could not create directory", "WordPress could not put the files on your server.")}
+  <p class="lead">Installing a plugin or theme writes files to your server. This is a <b class="hi">file permissions</b> error — and updates fail the same way.</p>
+  <div class="step">${flow(["wp-admin", "wp-content", "wp-includes"], { nowrap: true })}</div>
+  ${say("Over FTP, make sure you are allowed to Write in all three.", true)}` },
+
+/* 18 */ { f: "18-incorrect-file-permissions.md", cmd: "find . -type d -exec chmod 755 {} \;", t: "Incorrect file permissions", h: `
+  <pre class="ascii" style="font-size:30px;line-height:1.45;margin:0">
+<b>755</b>   drwxr-xr-x   <span class="muted">folders</span>
+<b>644</b>   -rw-r--r--   <span class="muted">files</span></pre>
+  <div class="row step" style="flex:1;gap:20px;align-items:stretch">
+    <div style="flex:1">${panel("too strict and you cannot", `${list(["update or install <b>plugins and themes</b>", "publish or update <b>posts and pages</b>", "upload <b>images</b>"])}`, "hi")}</div>
+    <div style="flex:1">${panel("too loose and hackers can", `${list(["<b>delete</b> your content", "<b>steal</b> your data", "add their own <b>malicious code</b>"])}`)}</div>
+  </div>
+  ${say("Those two numbers are the WordPress defaults. Verify them over SFTP.", true)}` },
+
+/* 19 */ { f: "19-ssl-protocol-error.md", cmd: "curl -vI https://example.com 2>&1 | grep -i ssl", h: `
+  ${ERR("ERR_SSL_PROTOCOL_ERROR", "The server could not open a secure connection.")}
+  <p class="lead">An SSL certificate encrypts data in transit — that is how hackers are stopped stealing card numbers in transit. A 521-style handshake failure usually follows a host change or a new certificate.</p>
+  <div class="step">${panel("how to resolve it", `${list(["update your <b>browser</b> and <b>OS</b>", "verify your <b>certificate</b>", "disable browser <b>extensions</b>", "clear <b>cache and cookies</b>"])}`, "hi")}</div>` },
+
+/* 20 */ { f: "20-mixed-content.md", cmd: "curl -s https://example.com | grep 'src=\"http://'", h: `
+  ${ERR("This site is not fully secure", "You are loading HTTP and HTTPS at the same time.")}
+  <p class="lead">The moment you add an SSL certificate the site runs HTTPS. Any HTTP resource still being pulled in drags it back down.</p>
+  <div class="step">${flow(["HTTP page", "HTTP script", "HTTPS image", "HTTP frame"], { nowrap: true, start: true })}</div>
+  ${say("Find which HTTP resources are loading, then remove them or swap them for HTTPS.", true)}` },
+
+/* 21 */ { f: "21-section-database.md", cmd: "wp db check", interlude: true, h: `
+  <p class="title" style="font-size:88px;max-width:24ch">Database related errors<span class="cursor"></span></p>` },
+
+/* 22 */ { f: "22-error-establishing-db.md", cmd: "grep DB_NAME wp-config.php", h: `
+  ${ERR("Error establishing a database connection", "WordPress cannot reach MySQL.")}
+  <p class="lead">No data means no front end — and it locks you out of the dashboard too.</p>
+  <div class="step">${panel("the usual cause", `<p class="small" style="margin:0;font-size:21px;color:var(--fg)">Incorrect <b class="hi">database credentials</b>. By far the most common reason.</p>`, "on")}</div>
+  ${say("You change them in wp-config.php. DB_NAME, DB_USER, DB_PASSWORD, DB_HOST.", true)}` },
+
+/* 23 */ { f: "23-database-is-corrupt.md", cmd: "wp db repair", h: `
+  ${ERR("The WordPress database is corrupt", "Or at least, it has stopped being usable.")}
+  <p class="lead">Corruption means compromised or unusable. It very often shows up as the connection error on the previous slide.</p>
+  <div class="step">${code(`<span class="c">// wp-config.php — let WordPress offer to repair</span>\ndefine( '<span class="ok">WP_ALLOW_REPAIR</span>', <span class="hi">true</span> );`)}</div>
+  <div class="step">${panel("in order of preference", `${list(["restore a <b>backup</b> of your database", "let WordPress <b>repair</b> it", "or try a free <b>database plugin</b>"])}`, "hi")}</div>` },
+
+/* 24 */ { f: "24-section-files.md", cmd: "ls -R wp-content | head", interlude: true, h: `
+  <p class="title" style="font-size:82px;max-width:26ch">WordPress file related errors<span class="cursor"></span></p>` },
+
+/* 25 */ { f: "25-destination-folder-exists.md", cmd: "ls wp-content/plugins", h: `
+  ${ERR("Destination folder already exists: Plugin installation failed", "A folder with that name is already on your server.")}
+  <div class="step">${numbered(1, ["Check whether it is <b>already installed</b>", "If not, open your server over <b>FTP</b>", "Go to <b>wp-content</b>, then <b>plugins</b> or <b>themes</b>", "Delete the folder with the matching name", "Run the install again"])}</div>` },
+
+/* 26 */ { f: "26-theme-stylesheet-missing.md", cmd: "ls wp-content/themes/yourtheme/style.css", h: `
+  ${ERR("The WordPress theme stylesheet is missing", "Your theme cannot load properly.")}
+  <p class="lead">CSS decides how your site <i>looks</i> — colors, fonts, everything that makes it worth looking at. A theme keeps all of it in one file: <b class="ok">style.css</b>.</p>
+  <div class="step">${panel("why it is missing", `${list(["it was never <b>uploaded</b> to your server", "or it is <b>named incorrectly</b>, so nothing can find it"])}`, "hi")}</div>
+  ${say("FTP into the theme's folder, and put it back. It must be named style.css, in the right theme folder.", true)}` },
+
+/* 27 */ { f: "27-section-browser.md", cmd: "curl -sI https://example.com | head -1", interlude: true, h: `
+  <p class="title" style="font-size:96px;max-width:22ch">Browser errors<span class="cursor"></span></p>
+  <p class="step hi" style="font-size:27px;max-width:46ch;margin-top:20px">Nothing is wrong with your server. The browser is complaining anyway.</p>` },
+
+/* 28 */ { f: "28-not-secure-warning.md", cmd: "echo | openssl s_client -connect example.com:443", h: `
+  ${ERR("Not secure", "Chrome is telling visitors your site has no certificate.")}
+  <p class="lead">If your pages trigger this, it hurts your <b class="hi">credibility</b>, your traffic, your SEO and your conversion rates.</p>
+  <div class="step">${panel("the fix, and the newer complaint", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">Install an <b class="ok\">SSL certificate</b>. Newer Chrome also raises <b class=\"hi\">ERR_SSL_OBSOLETE_VERSION</b> for sites not on TLS 1.2 or 1.3.</p>`, "on")}</div>` },
+
+/* 29 */ { f: "29-too-many-redirects.md", cmd: "curl -sIL --max-redirs 10 https://example.com", h: `
+  ${ERR("ERR_TOO_MANY_REDIRECTS", "Your redirects point at each other.")}
+  <pre class="ascii" style="font-size:26px;line-height:1.5;margin:0 0 12px">
+<b>URL 1</b>  ──▶  <b>URL 2</b>
+  <span class="muted">▲         │</span>
+  <span class="muted">└─────────┘</span></pre>
+  <div class="step">${panel("what to do", `${list(["delete your site's <b>cookies</b>", "clear your <b>browser cache</b>", "work out the <b>nature of the loop</b> first"])}`, "hi")}</div>` },
+
+/* 30 */ { f: "30-section-misc.md", cmd: "ls -la .maintenance", interlude: true, h: `
+  <p class="title" style="font-size:78px;max-width:26ch">Miscellaneous WordPress errors<span class="cursor"></span></p>` },
+
+/* 31 */ { f: "31-white-screen-of-death.md", cmd: "wp plugin deactivate --all", h: `
+  ${ERR("(no output at all)", "A blank white page. Possibly also a locked dashboard.")}
+  <p class="lead">One of the most famous WordPress errors there is. Usually a <b class="hi">plugin compatibility</b> issue.</p>
+  <div class="step">${panel("the fix, and the other suspects", `${list(["find and remove the <b>conflicting plugin</b>", "syntax errors", "your <b>memory limit</b>", "file permissions"])}`, "hi")}</div>` },
+
+/* 32 */ { f: "32-scheduled-maintenance.md", cmd: "cat .maintenance", h: `
+  ${ERR("Briefly unavailable for scheduled maintenance", "Check back in a minute.")}
+  <p class="lead">This one is <b class="ok">not an error</b>. Running updates puts WordPress into maintenance mode on purpose.</p>
+  <div class="row step" style="flex:1;gap:22px;align-items:stretch">
+    <div style="flex:1">${panel("a visitor sees it", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">They will not know you are updating. Tell them to <b class="ok\">reload</b>.</p>`, "on")}</div>
+    <div style="flex:1">${panel("you see it", `<p class="small" style="margin:0;font-size:20px;color:var(--fg)">If you are not running updates, your site has <b class="hi\">stuck in maintenance mode</b>.</p>`, "hi")}</div>
+  </div>` },
+
+/* 33 */ { f: "33-stuck-maintenance-mode.md", cmd: "rm .maintenance", h: `
+  ${ERR("Briefly unavailable for scheduled maintenance", "And nobody is running an update.")}
+  <p class="lead">You get here by closing your browser mid-update, or by running bulk plugin updates.</p>
+  <div class="step">${code(`<span class="c"># over FTP, in the WordPress root</span>\nrm <span class="hi">.maintenance</span>`)}</div>
+  ${say("That is genuinely the whole fix. One file, one delete.", true)}` },
+
+/* 34 */ { f: "34-not-sending-emails.md", cmd: "wp eval 'mail(\"you@example.com\",\"test\",\"hello\");'", h: `
+  ${ERR("Email not sent", "Your subscribers got nothing.")}
+  <div class="step">${panel("three things it usually is", `${list(["your <b>host's</b> resource limits — contact them", "the <b>plugin</b> — check its forums and docs", "your users' <b>junk folder</b>"])}`, "hi")}</div>
+  ${say("If your host caps the resources your site can use, emails will not leave. That is a plan upgrade, not a plugin fix.", true)}` },
+
+/* 35 */ { f: "35-login-page-refreshing.md", cmd: "cat .htaccess", h: `
+  ${ERR("click Log In → page refreshes", "You never reach the dashboard.")}
+  <div class="step">${panel("three suspects", `${numbered(1, ["a <b>plugin</b> conflict", "<b>wrong</b> WordPress addresses", "a corrupted <b>.htaccess</b> file"])}`, "hi")}</div>
+  ${say("Start by looking at .htaccess. It is one file you can read in ten seconds.", true)}` },
+
+/* 36 */ { f: "36-keeps-logging-you-out.md", cmd: "wp option get siteurl && wp option get home", h: `
+  ${ERR("you get in, then you get logged out", "A few seconds of dashboard, then gone.")}
+  <pre class="ascii" style="font-size:24px;line-height:1.5;margin:0 0 12px">
+<span class="muted">WordPress Address (URL)</span>  https://<span class="bad">www</span>.example.com
+<span class="muted">Site Address (URL)</span>        https://example.com</pre>
+  <p class="lead">These two have to match. A stray <b class="hi">www</b> is enough to break it.</p>
+  ${say("If WordPress logs you out too fast to fix it in Settings, edit wp-config.php instead.", true)}` },
+
+/* 37 */ { f: "37-thanks.md", cmd: "exit 0", interlude: true, h: `
+  <p class="title" style="font-size:64px;max-width:30ch;margin-top:10px">Every one of these was a permission, a plugin, or a server that needed a bigger box.<span class="cursor"></span></p>
+  <p class="step hi" style="font-size:26px;margin-top:20px">Thank you · Questions?</p>` },
+/* 38 */ { maxZoom: 1, f: "38-connect.md", cmd: "cat contact.txt", t: "Let's connect", h: `
+  <div class="row contact" style="flex:1;align-items:center;gap:48px">
+    <div id="contactInfo" style="flex:1;display:flex;flex-direction:column;gap:22px">
+      <div><p class="small" style="margin:0 0 4px">website</p><p class="big" style="font-size:56px"><a href="https://jhimross.com" target="_blank" rel="noopener">jhimross.com</a></p></div>
+      <div><p class="small" style="margin:0 0 4px">email</p><p class="big" style="font-size:48px"><a href="mailto:hi@jhimross.com">hi@jhimross.com</a></p></div>
+      <div><style>.socials{display:flex;gap:12px;margin-top:16px}.socials .key{width:72px;height:72px;display:grid;place-items:center;border:2px solid var(--line);background:var(--bg2);box-shadow:0 3px 0 var(--line);color:var(--fg);text-decoration:none;font-size:32px}.socials .key svg{width:1em;height:1em}.socials .key .alt{font-size:24px;font-weight:800;color:var(--ok)}.socials .key svg ~ .alt{display:none}.socials a.key:hover{border-color:var(--ok);color:var(--ok);transform:translateY(2px);box-shadow:0 1px 0 var(--ok)}</style><p class="big" style="font-size:56px;color:var(--hi)">@jhimross</p><div class="socials"><a class="key" href="https://github.com/jhimross" target="_blank" rel="noopener" aria-label="GitHub @jhimross" title="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="alt" aria-hidden="true">gh</span></a><a class="key" href="https://profiles.wordpress.org/jhimross/" target="_blank" rel="noopener" aria-label="WordPress @jhimross" title="WordPress"><i class="fa-brands fa-wordpress-simple" aria-hidden="true"></i><span class="alt" aria-hidden="true">wp</span></a><a class="key" href="https://x.com/jhimross" target="_blank" rel="noopener" aria-label="X (Twitter) @jhimross" title="X (Twitter)"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i><span class="alt" aria-hidden="true">x</span></a><a class="key" href="https://www.youtube.com/@jhimross" target="_blank" rel="noopener" aria-label="YouTube @jhimross" title="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i><span class="alt" aria-hidden="true">yt</span></a><a class="key" href="https://www.facebook.com/jhimross" target="_blank" rel="noopener" aria-label="Facebook @jhimross" title="Facebook"><i class="fa-brands fa-facebook" aria-hidden="true"></i><span class="alt" aria-hidden="true">fb</span></a><span class="key" role="img" aria-label="Strava @jhimross" title="Strava"><i class="fa-brands fa-strava" aria-hidden="true"></i><span class="alt" aria-hidden="true">st</span></span></div></div>
+    </div>
+    <figure style="margin:0;flex:0 1 auto;min-width:0;align-self:stretch;display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <pre id="catArt" aria-hidden="true" style="margin:0;font:600 9px/1.06 var(--mono);white-space:pre;font-variant-ligatures:none"></pre>
+    </figure>
+  </div>`,
+  enter(el) { asciiHero(el, CAT_ART2, ".row.contact", "#contactInfo"); } },
+];
+
+const NOTES = ["Welcome. This is the one deck I keep on my own machine, because everyone eventually hits at least one of these. We are going to go through the common ones, what they actually mean, and how to fix them. Nothing here needs a developer. Almost everything is a permission, a plugin, or a server that needs a bigger box.", "Before we start, four things to try in order, because they resolve a surprising share of all WordPress problems. One: clear the cache and hard reload. Boring, but it is the single most common fix. Two: deactivate your plugins — half of all mystery errors are a plugin conflict. Three: turn on WP_DEBUG so you can read the real error instead of staring at a blank page. Four: contact your host, because memory, CPU and disk limits are not yours to fix. Everything else in this talk is the long tail after those four.", "First family: the 4xx errors. The request reached the server. The server understood it perfectly and said no. These are about permissions and about pages that are not where the link thinks they are.", "403 Forbidden. WordPress uses permissions to keep people who should not have access out of the site, and that works well until the permissions are set slightly too strictly. Then it locks out people who genuinely should be in. To fix it you reset your file permissions or generate a new .htaccess file. But it is also often a plugin, your CDN, or hotlink protection getting in the way, so check those too.", "404 Not found. Somebody asked for a page that does not exist. Relatively harmless, but frustrating for whoever clicked the link. The fix is hygiene rather than emergency: fix broken links on your site periodically, and always add a redirect when you delete a page or move one to a new URL.", "Second family: the 5xx errors. Something broke on the server. These matter more than the 4xx ones because they cost you search rankings while they last. If you have a tail command on your host's error log, this is the section to have open.", "500 Internal Server Error. Your users see nothing, and if you leave it, your SEO takes the hit too. The awkward part is that a 500 has many possible causes and many possible fixes, which is exactly what makes it so hard to troubleshoot. Start with a cache clear and a reload. If that does not do it, you are into real debugging: WP_DEBUG, and the host's error log.", "502 Bad Gateway. You see this when one server is acting as a proxy or gateway for another, and the inbound server answers with something invalid. Reload and clear the cache first. If those do not work, check for DNS issues, try disabling your CDN or firewall, or contact your host. This one also affects SEO, so do not sit on it.", "503 Service Unavailable. Your site is up, but for some reason it cannot be reached. It might be routine maintenance, a traffic spike, or something more serious. The good news is a 503 will not hurt your search rankings — though it is still highly annoying to visitors. Try deactivating your plugins, switching to a default theme, disabling your CDN, limiting the WordPress Heartbeat API, increasing your server's resources, and enabling WP_DEBUG. If none of those work, your host's support team is the next call.", "Third family: errors that come from the server itself rather than from HTTP. These are the ones where your host's limits are the actual cause.", "WordPress memory limit. Your host allocates a fixed slice of memory to your site. Hit the ceiling and you will not be able to install a new plugin or theme, or upload media files. Instead of a helpful message you get a fatal error: allowed memory size has been exhausted. Raise your PHP memory limit in wp-config.php. While you are in there, check how much disk space you are using, and consider upgrading to a plan with more room.", "Maximum execution time exceeded. Servers put a time limit on how long any script may run, and when a PHP script on your site goes past it you get a fatal error: maximum execution time exceeded. Raise your site's execution time limit, but also find the script that is running too long — it is nearly always part of a plugin or a theme — and remove it. Raising the limit without removing the culprit just makes the page slow instead of broken.", "Upload failed to write file to disk. You are adding images to posts and you get this instead. It is usually incorrect file permissions, which you change over FTP. But it can also be your server: uploads land in a temporary folder first and then get moved into the WordPress directory. If permissions are not the problem, ask your host to empty that temporary files directory. It may simply be full, and nothing will tell you that.", "Fourth family, and the one that makes people nervous: security related errors. Almost all of these are the security system working exactly as designed.", "Cloudflare error 521. Although this is a 500-family error like the ones earlier, it is specific to Cloudflare — the popular CDN that also protects against DDoS and other attacks. Seeing a 521 means Cloudflare cannot connect to your server: either it is down, or it is blocking the service for some reason. Check that your server is actually up, and that your firewall has all of Cloudflare's IP ranges whitelisted. That will tell you which of the two it is, and then you work with your host.", "Sorry, this file type is not permitted for security reasons. WordPress keeps a standard list of permitted file types so that malicious parties cannot add executable files that compromise sensitive information. If you genuinely need to upload something outside that list, you can enable it in wp-config.php with define, ALLOW_UNFILTERED_UPLOADS, set to true. Think hard about why you need it before you switch that on.", "Sorry, you are not allowed to access this page. We touched on file permissions earlier — they decide who can edit which files, which keeps the site safe from hackers. But if they are set incorrectly, they can block you, or well-meaning users, from the site. Try resetting file permissions via SFTP. Check that your account has the correct user role, via phpMyAdmin. Make sure your database prefix is right. And rule out plugin and theme conflicts. In the worst case you can restore a backup or reset WordPress.", "Installation failed: could not create directory. Whenever you install a plugin or theme, its files are added to your server. If you get this, WordPress could not write those files. Updates fail the same way. This is another file permissions error: make sure you are allowed to Write in your wp-admin, wp-content and wp-includes directories, checked over FTP.", "Incorrect file permissions — and this is the slide worth photographing. Too strict, and you cannot update or install plugins and themes, you cannot publish or update posts and pages, and you cannot upload images. Too loose, and you leave the site vulnerable: hackers can delete your content, steal your data, or add their own malicious code. The WordPress defaults are 755 for folders and 644 for files. Verify yours over SFTP.", "ERR_SSL_PROTOCOL_ERROR. SSL certificates encrypt data as it moves between servers, which is how hackers are stopped stealing credit card numbers in transit. If you have recently switched hosting providers or installed a new certificate, you may see this. It means the server could not establish a secure connection. Update your browser and operating system, verify your certificate, disable browser extensions, and clear your cache and cookies.", "Mixed content warnings. The moment you add an SSL certificate the site runs HTTPS. If it is then trying to load HTTP and HTTPS content simultaneously, you get a mixed content warning — some variation of 'this site is not fully secure'. To resolve it, find out which HTTP resources are loading, and remove them or replace them with HTTPS versions.", "Fifth family: database errors. These are the ones that take the whole site down, front end and dashboard both.", "Error establishing a database connection. WordPress cannot reach MySQL, so it cannot retrieve the data it needs to display your content. Users cannot see the front end, and you are locked out of the dashboard. The most common cause by far is that your database credentials are incorrect, and you change them in wp-config.php — DB_NAME, DB_USER, DB_PASSWORD, DB_HOST.", "The WordPress database is corrupt. Corruption is the general term for a database that has become compromised or unusable, and it very often shows up as the connection error from the previous slide. Ideally you restore a backup of your database to replace the corrupt version. If you cannot, add the WP_ALLOW_REPAIR constant, set to true, in wp-config.php. There is also a suggested guide on troubleshooting and repairing database issues, and free WordPress database plugins that handle a lot of this.", "Sixth family: file related errors, where something simple is missing or already there.", "Destination folder already exists. When you install a theme or plugin, a folder is created on your server to hold the files. If a folder with that name is already there, the install fails. First, check whether it is actually already installed. If it is not, go in over FTP, navigate to wp-content, look through plugins or themes for the folder with the matching name, delete it, and run the install again.", "The theme stylesheet is missing. CSS decides your site's styling — colors, fonts, all the things that make it interesting. In a WordPress theme all of that lives in a single file called a stylesheet. If it is unavailable, your site cannot load properly. Either it was never uploaded to your server, or it is named incorrectly so nothing can find it. FTP into your theme's subdirectory and upload it, and make sure it is named style.css and is in the correct theme folder.", "Seventh family: browser errors. Nothing is wrong with your server — the browser is complaining anyway.", "The not secure warning in Chrome. If you have browsed with Chrome you have seen some pages marked not secure. The browser shows it when a site is not using an SSL certificate. If your pages trigger this for users, it hurts credibility, traffic, SEO and conversion rates. Install an SSL certificate. More recently Chrome has also started raising ERR_SSL_OBSOLETE_VERSION for any site not using TLS 1.2 or 1.3.", "ERR_TOO_MANY_REDIRECTS. This is a redirect loop, and it happens when redirects on your server are misconfigured — URL 1 points to URL 2, and URL 2 points back to URL 1. Users can try deleting their cookies and clearing their browser cache. You can also work out the nature of the loop, so you can find the source of the problem rather than guessing.", "Last family: the miscellaneous ones, which is really a grab bag of things people lose an afternoon to.", "The White Screen of Death. One of the most famous WordPress errors: your site displays as a blank white page. It may also lock you out of the dashboard. It is usually caused by a plugin compatibility issue, and the best course of action is to find the plugin causing the conflict and remove it. Other possible causes are syntax errors, reaching your memory limit, and file permissions.", "Briefly unavailable for scheduled maintenance. This is not truly an error — whenever you run updates, WordPress goes into maintenance mode on purpose and anyone visiting sees this message. The problem is that users do not know that. If someone contacts you about it and you are not having trouble yourself, tell them to reload the page. If you are seeing it while running updates in WordPress, then your site may have gotten stuck.", "WordPress stuck in maintenance mode. Closing your browser in the middle of an update, or running bulk plugin updates, can leave your site stuck. In that case you see the same message users would see. Fortunately the fix is simple: go into your site's files over FTP and delete the one named .maintenance. That is genuinely the whole fix.", "WordPress is not sending emails. Email marketing is a key strategy for many WordPress sites, and several plugins let you send email straight from the dashboard. If your subscribers are not getting mail, it is often your server's configuration: your host may cap the resources your site can use, which stops email getting out. Contact them — you may need a bigger plan. Alternatively the plugin is the problem, so check its support forums and documentation. And finally, email from WordPress gets marked as spam all the time, so if someone reports a missing email, have them check their junk folder.", "The login page keeps refreshing. If clicking Log In simply refreshes the page instead of taking you to the dashboard, something is wrong. This one is usually down to a plugin conflict, wrong WordPress addresses, or a corrupted .htaccess file. Start by looking at that .htaccess file — it is one file you can read in ten seconds.", "WordPress keeps logging you out. Unlike the login page refreshing, this one lets you briefly reach the dashboard and then suddenly logs you back out. It is usually a settings issue: the WordPress Address and Site Address in your General settings do not match. That can be a seemingly small difference, like whether one of them includes www and the other does not. Make them match and it is fixed. If WordPress logs you out too fast to do that from the dashboard, edit wp-config.php instead.", "To close. Every error in this deck was one of three things: a permission, a plugin, or a server that needed a bigger box. Once you know that, you are no longer guessing — you are checking a short list. Thank you.", "Leave this slide up during Q&A. Mention that you are @jhimross on every social platform. jhimross.com and hi@jhimross.com are both on screen, so drop the short URL in the chat for anyone who wants to follow along."];
+
+
+/* ---------- engine ---------- */
+const $ = (s) => document.querySelector(s);
+const screen = $("#screen"), stage = $("#stage");
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+let cur = 0, curEl = null, typing = null;
+
+function fit() {
+  const vw = window.innerWidth, vh = window.innerHeight;
+  const s = Math.min(vw / 1280, vh / 720) * (vw < 700 ? 1 : 0.98);
+  stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+  stage.style.transformOrigin = "center center";
+  stage.style.left = "50%"; stage.style.top = "50%";
+}
+addEventListener("resize", fit);
+
+function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove("on"), 1600); }
+
+function bootLog(pre) {
+  const L = ["[ ok ] mounting /wp-content", "[ ok ] loading wp-settings.php", "[ ok ] registering abilities", "[ ok ] connecting AI providers", "[ ok ] starting talk…"];
+  pre.classList.add("shown"); pre.textContent = "";
+  if (reduce) { pre.textContent = L.join("\n"); return; }
+  L.forEach((l, i) => setTimeout(() => { if (pre.isConnected) pre.textContent += (i ? "\n" : "") + l; }, 180 + i * 170));
+}
+
+function sectionOf(i) { let s = 0; SECTIONS.forEach(([, start], k) => { if (i >= start) s = k; }); return s; }
+
+function drawTabs() {
+  const tabs = $("#tabs");
+  tabs.innerHTML = `<span class="sess">[WP]</span>` + SECTIONS.map(([n, start], k) => `<button data-go="${start}" aria-current="${sectionOf(cur) === k}">${k}:${n}</button>`).join("") + `<span class="spacer"></span><span class="clock" id="clock"></span>`;
+  tabs.querySelectorAll("button").forEach((b) => b.onclick = () => go(+b.dataset.go));
+  tickClock();
+}
+function tickClock() { const c = $("#clock"); if (c) c.textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); }
+setInterval(tickClock, 15000);
+
+function render(i, dir = 1) {
+  zoomState = null;
+  if (curEl && curEl._cleanup) curEl._cleanup();
+  clearInterval(typing);
+  const S = SLIDES[i];
+  const el = document.createElement("section");
+  el.className = "slide" + (S.interlude ? " interlude" : "");
+  el.setAttribute("aria-label", `Slide ${i + 1} of ${SLIDES.length}`);
+  el.innerHTML = `<p class="prompt"><span class="path">~/wp-content</span> $ <span class="cmd"></span><span class="cursor"></span></p>${S.t ? `<h2 class="title">${S.t}</h2>` : ""}<div class="out">${S.h}</div>${S.p != null ? pipe(S.p) : ""}`;
+  const rc = document.getElementById("rain"); screen.innerHTML = ""; if (rc) screen.appendChild(rc); screen.appendChild(el); curEl = el;
+  const cmd = el.querySelector(".cmd"), out = el.querySelector(".out"), title = el.querySelector(".title");
+  if (reduce) { cmd.textContent = S.cmd; }
+  else {
+    out.style.visibility = "hidden"; if (title) title.style.visibility = "hidden";
+    let k = 0; const full = S.cmd, speed = Math.max(8, Math.min(28, 700 / full.length));
+    typing = setInterval(() => { k++; cmd.textContent = full.slice(0, k); if (k >= full.length) { clearInterval(typing); if (title) title.style.visibility = ""; out.style.visibility = ""; out.classList.add("printing"); } }, speed);
+  }
+  if (S.enter) S.enter(el);
+  autoFit(el, S);
+  if (dir < 0) el.querySelectorAll(".step").forEach((s) => s.classList.add("shown"));
+  $("#file").textContent = `slides/${S.f}`;
+  $("#pos").textContent = `${i + 1}/${SLIDES.length}`;
+  $("#progress").style.width = `${((i + 1) / SLIDES.length) * 100}%`;
+  $("#notesBody").innerHTML = (NOTES[i] || "No notes for this slide.").split("\n").map((p) => `<p>${p.replace(/[<>&]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;" })[c])}</p>`).join("");
+  document.querySelectorAll("#indexList button").forEach((b, k) => b.classList.toggle("cur", k === i));
+  drawTabs();
+  store.set("wordpress-common-issues-slide", String(i));
+  if (location.hash !== "#" + (i + 1)) history.replaceState(null, "", "#" + (i + 1));
+}
+
+/* make text as large as the slide allows (for the back of the room) */
+function overflowing(out) {
+  const ob = out.getBoundingClientRect(); const tol = 2;
+  for (const e of out.querySelectorAll("*")) {
+    const r = e.getBoundingClientRect();
+    if (!r.width && !r.height) continue;
+    if (r.bottom > ob.bottom + tol || r.right > ob.right + tol) return true;
+    if (e.tagName !== "INPUT" && e.clientHeight && (e.scrollHeight > e.clientHeight + tol || e.scrollWidth > e.clientWidth + tol)) { if (!e.closest(".win") && !e.matches("#audChips")) return true; }
+  }
+  return false;
+}
+function autoFit(el, S) {
+  const out = el.querySelector(".out"); if (!out) return;
+  const max = S.maxZoom ?? (el.querySelector(".win") ? 1 : 1.45);
+  out.style.zoom = 1;
+  if (max <= 1) return;
+  out.classList.add("fitting");
+  let best = 1;
+  for (let z = max; z > 1.001; z -= 0.05) { out.style.zoom = z.toFixed(2); if (!overflowing(out)) { best = z; break; } }
+  out.style.zoom = best.toFixed(2);
+  out.classList.remove("fitting");
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (curEl) autoFit(curEl, SLIDES[cur]); });
+
+/* ascii QR: a grid of text cells. In "white" mode the modules are white █ blocks on a transparent
+   background (an inverted code); click it to switch to the classic dark-on-light version. Each cell is an
+   exact square with its own background, so it scans no matter which font loads. */
+function fitAsciiQR(el) {
+  const box = el.querySelector("#qrBox"); if (!box) return;
+  const rows = box.dataset.bits.split(","), n = rows.length, cell = 8;
+  const draw = () => {
+    const inv = (store.get("wp-deck-qr") || "white") === "white";
+    const ink = inv ? "#ffffff" : "#04140a", paper = inv ? "transparent" : "#e9fbe9", dot = inv ? "rgba(255,255,255,.18)" : "#c4e2c7";
+    box.style.background = paper;
+    box.innerHTML = `<div aria-hidden="true" style="display:grid;grid-template-columns:repeat(${n},${cell}px);grid-auto-rows:${cell}px;font:600 ${cell}px/${cell}px var(--mono);text-align:center">${rows.map((r) => [...r].map((b) => b === "1" ? `<span style="background:${ink};color:${ink};overflow:hidden;box-shadow:0 0 0 .6px ${ink}">█</span>` : `<span style="color:${dot};overflow:hidden">·</span>`).join("")).join("")}</div>`;
+  };
+  draw();
+  box.onclick = () => { store.set("wp-deck-qr", (store.get("wp-deck-qr") || "white") === "white" ? "dark" : "white"); draw(); };
+}
+
+/* ascii cats: a chubby cat holding the QR code (blinks, winks, purrs, sends hearts, swishes its tail),
+   a kitten next to the caption, and a sleepy cat dreaming beside the code */
+function asciiCat(el) {
+  const head = el.querySelector("#catHead"), tail = el.querySelector("#catTail"), heart = el.querySelector("#catHeart"),
+    kit = el.querySelector("#kitten"), zz = el.querySelector("#catSleep");
+  if (!head) return;
+  const face = (eyes, mouth, ears = "/\\_____/\\", cheeks = "'") => [
+    `         ${ears}         `,
+    `        /  ${eyes}  \\        `,
+    `       ( =${cheeks}  ${mouth}  ${cheeks}= )       `,
+    `        \\         /        `,
+    `   .-----'       '-----.   `,
+    ` ("")                 ("") `].join("\n");
+  const F = {
+    open: face("o   o", "ω"), blink: face("-   -", "ω"), happy: face("^   ^", "ω"),
+    wink: face("o   ^", "ω"), purr: face("^   ^", "w"), twitch: face("o   o", "ω", "/'_____/\\"), love: face("*   *", "ω"),
+  };
+  const seq = ["open", "open", "open", "blink", "open", "open", "happy", "purr", "happy", "open", "twitch", "twitch", "open", "wink", "open", "open", "love", "love", "open", "blink"];
+  const T = [["(", " )", "(", " )", "(_ "], [" )", "(", " )", "(", " (_"], ["(", " (", "  )", " (", "(_ "]].map((t) => t.join("\n"));
+  const H = ["", "", " <3", "  <3", "   <3", "", "", "", "", "", "", "", "", "", "", "", " <3", "<3 <3", " <3", ""];
+  const K = [[" /\\_/\\ ", "( o.o )", " > ^ < "], [" /\\_/\\ ", "( o.o )", " > ^ < "], [" /\\_/\\ ", "( -.- )", " > ^ < "], [" /\\_/\\ ", "(o.o  )", " > ^ < "], [" /\\_/\\ ", "(  o.o)", " > ^ < "], [" /\\_/\\ ", "( ^.^ )", "  > <  "]].map((k) => k.join("\n"));
+  const Z = [["      z  ", "         ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"], ["     z   ", "      Z  ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"], ["    z    ", "     z   ", "  |\\_/| Z", "  (-.-)__", "  (__,,)_)"], ["         ", "         ", "  |\\_/|  ", "  (-.-)__", "  (__,,)_)"]].map((z) => z.join("\n"));
+  let k = 0;
+  const step = () => {
+    head.textContent = F[seq[k % seq.length]];
+    tail.textContent = T[k % T.length];
+    heart.textContent = H[k % H.length];
+    kit.textContent = K[Math.floor(k / 2) % K.length];
+    zz.textContent = Z[Math.floor(k / 2) % Z.length];
+    k++;
+  };
+  step();
+  if (reduce) return;
+  const iv = setInterval(step, 420);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+/* title slide: a page assembling itself, block by block */
+function heroBlocks(el) {
+  const art = el.querySelector("#heroArt"), log = el.querySelector("#heroLog"); if (!art) return;
+  const W = 30;
+  const pad = (t) => "| " + t.padEnd(W - 4) + " |";
+  const top = "+" + "-".repeat(W - 2) + "+", bot = "+" + "-".repeat(W - 2) + "+";
+  const BLOCKS = [
+    { name: "core/site-title", lines: ["== Meetup Site ==========="] },
+    { name: "core/heading", lines: ["", "# What's new in WordPress?"] },
+    { name: "core/paragraph", lines: ["~~~~~~~~~~~~~~~~~~~~~~~~~~", "~~~~~~~~~~~~~~~~~~~~~"] },
+    { name: "core/image", lines: ["", "+--------+ ~~~~~~~~~~~~~~~", "|  /\\/\\  | ~~~~~~~~~~~~~~~", "+--------+ ~~~~~~~~~~"] },
+    { name: "core/buttons", lines: ["", "[ Join the meetup ]"] },
+  ];
+  const ROWS = BLOCKS.reduce((n, b) => n + b.lines.length, 0);
+  let stage = 0, drop = 0, iv;
+  const draw = () => {
+    const shown = BLOCKS.slice(0, stage).flatMap((b) => b.lines);
+    const falling = stage < BLOCKS.length ? BLOCKS[stage] : null;
+    const body = [...shown];
+    if (falling) {
+      const free = ROWS - shown.length, y = Math.min(drop, free - falling.lines.length);
+      for (let i = 0; i < y; i++) body.push("");
+      falling.lines.forEach((l) => body.push(l));
+    }
+    while (body.length < ROWS) body.push("");
+    art.textContent = [top, ...body.slice(0, ROWS).map(pad), bot].join("\n");
+  };
+  const tick = () => {
+    if (stage >= BLOCKS.length) { stage = 0; drop = 0; log.textContent = "$ wp post create --blocks   ok: page published"; draw(); return; }
+    const free = ROWS - BLOCKS.slice(0, stage).flatMap((b) => b.lines).length - BLOCKS[stage].lines.length;
+    if (drop >= free) { log.textContent = `$ wp block insert ${BLOCKS[stage].name}`; stage++; drop = 0; }
+    else drop++;
+    draw();
+  };
+  draw();
+  if (reduce) { stage = BLOCKS.length; draw(); return; }
+  iv = setInterval(tick, 180);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+/* ---------- Wapuu: the two shaded ASCII cats -------------------------------------
+   CAT_ART  46 rows x 77 cols - curled around the terminal, used on the hero.
+   CAT_ART2 48 rows x 100 cols - sitting cat in profile with a collar and tail,
+                          used on the "let's connect" slide.
+   Both are drawn from the "@ % # * = : - + ." shading ramp. Keep every glyph exactly
+   as-is (trailing spaces included) and never use ` , ${ or \ inside them. */
+const CAT_ART = `
+                                @@@@@@@@@@@@@@@@@@                           
+                           @@@@@@@@@%#******#%@@@@@@@@                       
+                        @@@@@@#=:::::::::::::::::=%@@@@@@@@@@@@@@@@@@@@@@@@@ 
+                      @@@@%=::::::::::::::::::::::::@@@@@@@@@@@@@@@@@@@@@@@@@
+                    @@@@+::::::::::::=%%::::::::::::=@%==================+@@@
+                  @@@@*::::::::::::::=%#::::::::::::::+@%*==============*@@@@
+                 @@@%=%*:::=*@@-::::::::::::::::::::::::-#@%*========+*@@@@@ 
+              @@@@@#:=@%-:=@@@=::::::::::::::::::::::::::::-@@@@@@@@@@@@@    
+          @@@@@@@@#:::::::::*-::::::::::=-::::::::::::::::::-@@@@@@@@@@      
+         @@@@%*==@=:::::::+@@%@@@%%@@@@@@@@@@%**-::::::::::::=@@@            
+         @@@@@@@@@%-::-=%@@%###%%@%#=::::::::::=*:::::::::::::*@@@           
+           @@@@@@@@@@@@%#####%@@=::::::::::::::::::::::::::::::@@@           
+          @@@%=::+@*-: .:  .=@*::::::::::::::::::::::::::::::::*@@@          
+          @@@::::#@*########%@=::::::::-=+***+=::::::::::::::::=@@@          
+          @@@%+%@@%##########=%@@%@@@@@@%%%%%%%@@@=-::::::::::::@@@@         
+         @@@#-*%########**##=      .*############%%@@=::::::::::%@@@         
+        @@@#.:.:#*=:   :#####-    -..###############%@@+::::::::+@@@         
+       @@@#:  -####+   .*#####-   =#.:################%@@*::::::-@@@         
+       @@%=-  .####*.   =######:  +#= *################%@@%:::::-@@@         
+       @@#:*   #####=    *#####= .##+ =#################%@:::::::@@@         
+      @@@+=#   =####=    :#####: *##+ =#################%@::::::-@@@         
+      @@@==#=  :####:-.   =###* :###= +#################%@-:::::=@@@         
+      @@@+:##:  =##* #=    *##-.*###:.##################%@-:::::*@@@         
+    @@@@@# *#*   +#+-##=   :#*.:###- *##################%@::::::%@@@         
+ @@@@@@@@%*-##+  .*=*###:   -=.#%@@##%###########%%%%%%#@#:::::=@@@          
+@@@%-::-#@%=:##=   :*####:    +@%=-+%@@%####%%@@%%***#%@@*-::::*@@@          
+@@%::::::-@@*.*#+   *####*:  .@@-::::-@@%#%@@*:::::::::::+@=:::%@@           
+@@%-:::::::#@%=.=+  *######. :@%::::::-%@%@*::::::::::::::::::*@@@           
+@@@*::::::::*@%#*:  :====:. :+@@-:::::::%@*::::::::::::::::::+@@@            
+ @@@%-:::::::*@%#####+==+*####%@+:::::::=@%:::::::::::::::::=@@@             
+  @@@@-:::::::%@%#############%@%::::::::%@-:::::::::::::::*@@@              
+   @@@@%-::::::#@%#############@@-:::::::#@=:::::::::::::=%@@@               
+     @@@@%*::::*@@@%%##########@@-:::::::%@-:::::::::::+@@@@@                
+       @@@@@@%*@@@@@@@%%%######@@-::::::=@%::::::::=+@@@@@@                  
+           @@@@@@    @@@@@@@%##@@-::::::#@+:::-#@@@%==*@@@                   
+                        @@@@@@@@@+::::=%@@@@@@@@@@*==*@@@                    
+           @@@@@@@@           @@@@@@@@@@@@@@@@@@@+==*@@@                     
+         @@@@@%%@@@@@@          @@@@@@@@  @@@@@*===%@@@                      
+         @@@======+@@@@                 @@@@@*===*@@@@                       
+        @@@%========%@@@@           @@@@@@%+===*@@@@                         
+         @@@*========*@@@@@@@@@@@@@@@@@%*====*@@@@@                          
+          @@@@+========+%@@@@@@@@@@%*======#@@@@@                            
+           @@@@@*=======================%@@@@@                               
+             @@@@@@#+==============+#%@@@@@@                                 
+                @@@@@@@@%#****#%@@@@@@@@                                     
+                    @@@@@@@@@@@@@@@@                                         
+`;
+const CAT_ART2 = `
+                                                                                                    
+                                               @@@@@@@@@@@@@@@@@@@                                  
+                                          @@@@%#*=-::::::::::::=*#%@@@                              
+                                       @@%%*::::::::::::::::::::::::=%@@@@@@@@@@@@@@@@@@@@@@@@@@    
+                                    @@@%=::::::::::::::::::::::::::::*@%%%@@@@@@@@@@@@@@@@@@@@@@@@  
+                                  @@%*-:::::::::::::=%@#::::::::::::::+@%+====================+@@   
+                                 @%*::::::::::::::::-%@*::::::::::::::::*@@*=================#@@    
+                               @@%=++-:::-=*#+::::::::::::::::::::::::::::=%@@*===========+#@@@     
+                              @@#:*@@*::*@@@@=:::::::::::::::::::::::::::::::-%@@@%**+*%@@@@        
+                           @@@@*:::--::::---:::::::::::::::::::::::::::::::::::#@@@@@@@@@           
+                       @@@@%*%%-:::::::::+@%*=-::::-=+*%@+::::::::::::::::::::::#@@%@@@@@           
+                      @@%+==+%%-:::::::=%%+:*#%%%%%%#*+:::::::::::::::::::::::::-%%%%%%%%%@@@@      
+                       @@@@@@@@*:::-+%@%=:::::::::::::::::::::-------::::::::::::=@%%%%%%%%%%@@@@   
+                              @@@@@@%=:::::::::::::::=*%%%@@@@%@%%%%@@@@@@@@@@%%%%@@%%%%@@%@%%%%@@  
+                               @%%%%%%@%+:::::::-*%@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@ 
+                              @@%%%%@%+%@@@@@@@@@%@*#@%%%%%%%%%%%%%%%%@@%%%%%%%%%%%%%%%%%%%%%%%%%@@ 
+                        @@@@@@@@@@@%%*:#%%#+-#%%%%%#=#%%%%%%%%%%%%%%%%%%%%%%%@@%%%%%%%%%%%%%%%%@@@  
+                      @@@%%%%%%%%%%%%-:#%%*==%%%@*:::#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@%%%%@@@@@@     
+                    @@*==%@%%%%%%%%%-:#%%%*:+%%%%-:::*@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+ @@@@@@@@@@@@@@@@@@@%%##**%@%%%%%%%*+%%%%%+:*%%%%%*=:-@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+@@%:::::::::::::::::::::::::::=====+*%%%%%=:#%%%%%%%%%@@@%@@%@@%@@%%%%%%%%%%%%%%%%%%%@              
+@@#::::::::::::::::::::::::::::::::::-@%%%::%%%%%%%%*.%%%%%%%%%%%%%%%%%@%%%%%%%%%%%%%@              
+@@#:::::::::::::::::::::::::::::::::::@%%%:=%%%%%%%%:+%%%%%%%%%%%%%%%%%%%%@%%%%%%%%%%@              
+@@%:::::::::::::::::::::::::::::::::::@%%*:=%%%%%%#:=%%%%%%%%%%%%%%%%%%%%%%@%%%%%%%%%@              
+@@%-:::::::::::::.    .:::::::::::::::%%%+:*%%%%%%=*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@              
+ @%-:::::::::::::: .:..:::::::::::::::%%%=-*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@              
+ @%-::::::::::::.:. :: :.:::::::::::::%%%--*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+ @%-::::::::::::..:..:...:::::::::::::%%%:-*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+ @%-:::::::::::::.:. .:::::::::-===-::#%#--#%%%%%@@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@              
+ @%-::::::::::::::::::::::::::--=+-=::#%#--#%%%@@*:::=@@%%%%%%%%%@%%%%%%@%%%%%%%%%%@@               
+ @%-::::::::::::::::::::::::::+-=**-::*@@%%%%%%@+::::::#@%%%%@@*::::::::::+%@@%#=-*@@               
+ @%=::::::::::::::::::::::::::=+**-:::*@--====%@::::::::*@@%%=:::::::::::::::::::=@@@@@@@           
+ @%*++++++++========----::::::::::::::*@-:::::%%::::::::-%@=::::::::::::::::::-#@%*++++++*%@@       
+  @@@%#*####################%%%%%%%%%%%@#=::::%@:::::::::+@+::::::::::::::::::%#.*%%%%%%%%*:@@@     
+     @@%+::::::::::=%%@@@%%=::::::::::::*%%*::#@::::::::::@#:::::::::::::::::-@*          =: .+%@   
+       @@@%-:::::*@#+=====+#@%::::::::::::-#@%%@::::::::::@%:::::::::::::::::=@*  :---    .**:  =@@ 
+          @@%*+==%#=========+%*::::::::::::::=@%:::::::::-@*:::::::::::::::-#%@*.=***#::    @@+ .#@ 
+             @@@@@#==========%@@@@@@@@@@@@@@@@@+:::::::::+@=:::::::::::::=#@@%@*=-=#:*+=:   @@*  #@ 
+                 @%==========#%*-::::::::::::%%-::::::::-%%-::::::::::-*@@@@ @@*=*:++=++:   @@* .#@ 
+                  @%==========%@@@@%=:::::::=@%:::::::::%@-:::::::=#%@%*%@%  @@* =-*#:=.  .#*:  =@@ 
+                  @@%+=========#@@@@@@@@@@%%%@#:::::::-%@***#%%%@@%*==+%@@    @*    .     -- :+%@@  
+                    @@%=========+%@@@      @@@@+-:::=#@@@@@@@@@@%*===#@@      @@#=:.    .:=%@@@     
+                      @@%==========#%@@@      @@@@@@@@    @@@%%+===*%@@         @@@@@@@@@@@@        
+                        @@%+==========*%@@@@@%      @@@@@@%#=====*@@@                               
+                          @@@%*============+**#%%%%#**+=======*%@@@                                 
+                             @@@@%*+======================*#%@@@                                    
+                                 @@@@@@%#***+++++***#%%@@@@@                                        
+                                         @@@@@@@@@@@@                                               
+`;
+const CAT_LUM = { "@": 5, "%": 4, "#": 3, "*": 2, "=": 1, ":": 0, "-": 0, "+": 0, ".": 0 };
+
+/* shrink the art until it fits the box it was handed. When the row and the neighbouring
+   text column are passed, fit into what is left of the row so the text is never squeezed
+   (the connect slide needs this or the social buttons wrap). */
+function fitArt(pre, row, sib) {
+  const box = pre.parentElement; if (!box) return;
+  let aw = box.clientWidth, ah = box.clientHeight;
+  if (row && sib) {
+    const cs = getComputedStyle(row), gap = parseFloat(cs.columnGap || cs.gap) || 0;
+    aw = Math.max(140, row.clientWidth - sib.offsetWidth - gap);
+  }
+  if (!aw || !ah) return;
+  let fs = parseFloat(getComputedStyle(pre).fontSize) || 11, guard = 0;
+  while ((pre.scrollWidth > aw - 3 || pre.scrollHeight > ah - 2) && fs > 5 && guard++ < 400) {
+    fs -= 0.25; pre.style.fontSize = fs.toFixed(2) + "px";
+  }
+}
+
+/* paints the ramp one glyph per span, then sends a band of light down the body, breathes
+   the whole shape, and sparks a few characters like live terminal output. Timers are
+   registered on el._cleanup, which render() calls when the slide goes away. */
+function asciiHero(el, art, rowSel, sibSel) {
+  const pre = el.querySelector("#catArt"); if (!pre || !art) return;
+  const row = rowSel ? el.querySelector(rowSel) : null;
+  const sib = sibSel ? el.querySelector(sibSel) : null;
+  const rows = art.replace(/^\n/, "").replace(/\n$/, "").split("\n");
+  const lineEls = rows.map(() => []);
+  const frag = document.createDocumentFragment();
+  rows.forEach((row, ri) => {
+    const line = document.createElement("span");
+    line.className = "l";
+    for (const ch of row) {
+      if (ch === " ") { line.appendChild(document.createTextNode(" ")); continue; }
+      const s = document.createElement("span");
+      s.className = "c a" + (CAT_LUM[ch] != null ? CAT_LUM[ch] : 1);
+      s.textContent = ch;
+      line.appendChild(s); lineEls[ri].push(s);
+    }
+    frag.appendChild(line);
+  });
+  pre.textContent = ""; pre.appendChild(frag);
+  const refit = () => { if (pre.isConnected) fitArt(pre, row, sib); };
+  refit();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refit);
+  if (reduce) return;
+
+  const HL = 5, STEP = 55, PAUSE = 900;
+  const hot = new Set();
+  let head = -HL - 1, wait = 0, down = true;
+  const sweep = () => {
+    if (down) { head++; if (head > rows.length - 1) { down = false; wait = 0; } }
+    else { wait += STEP; if (wait > PAUSE) { down = true; head = -HL - 1; } }
+    const want = new Set();
+    if (down) for (let i = head - HL + 1; i <= head; i++) if (i >= 0 && i < rows.length) want.add(i);
+    for (const i of [...hot]) if (!want.has(i)) { lineEls[i].forEach((s) => s.classList.remove("hot")); hot.delete(i); }
+    for (const i of want) if (!hot.has(i)) { lineEls[i].forEach((s) => s.classList.add("hot")); hot.add(i); }
+  };
+  const spark = () => {
+    const L = lineEls[Math.floor(Math.random() * rows.length)]; if (!L.length) return;
+    for (let k = 0; k < 4; k++) {
+      const s = L[Math.floor(Math.random() * L.length)];
+      if (s.classList.contains("a0") || s.classList.contains("a1")) continue;
+      s.classList.add("spark");
+      setTimeout(() => s.classList.remove("spark"), 460);
+    }
+  };
+  const a = setInterval(sweep, STEP), b = setInterval(spark, 900);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(a); clearInterval(b); if (prev) prev(); };
+}
+
+/* Legacy alternate hero: a cat typing on a laptop (blinks, twitches an ear, swishes its
+   tail, types commands). Kept for decks that prefer it; needs #laptopCat and #mug and the
+   cat_script lines from deck.json. */
+/* title slide: a cat typing on a laptop (blinks, twitches an ear, swishes its tail, types commands) */
+function laptopCat(el) {
+  const pre = el.querySelector("#laptopCat"); if (!pre) return;
+  const mug = el.querySelector("#mug");
+  const STEAM = [["  (  (  ", "   )  ) ", "  (  (  "], ["   )  ) ", "  (  (  ", "   )  ) "], ["  ( )   ", "   ) (  ", "  ( )   "], ["        ", "  (  (  ", "   )  ) "]];
+  const drawMug = (t) => {
+    if (!mug) return;
+    const st = STEAM[Math.floor(t / 3) % STEAM.length].map((l) => `<span style="color:var(--dim)">${l}</span>`);
+    mug.innerHTML = [...st, " .______.  ", " |~~~~~~|] ", " |      |] ", " |  <3  |  ", " `------'  "].join("\n");
+  };
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const SCRIPT = [["$ ./talk.sh", "starting..."], ["$ meow --help", "purr purr ok"], ["$ git push", "slides shipped"]];
+  const W = 20;
+  let buf = [], typed = "", si = 0, ci = 0, wait = 0, tick = 0;
+  const frame = () => {
+    drawMug(tick);
+    const blink = tick % 14 === 0, twitch = tick % 23 < 2, happy = tick % 37 < 3;
+    const eyes = blink ? "-.-" : happy ? "^.^" : "o.o";
+    const ears = twitch ? "/'_/\\" : "/\\_/\\";
+    const tail = ["  )", " (", "  )"][Math.floor(tick / 3) % 3];
+    const typing = ci > 0 && ci <= SCRIPT[si % SCRIPT.length][0].length && wait === 0;
+    const pawL = typing && tick % 2 ? "(,)" : '(")', pawR = typing && !(tick % 2) ? "(,)" : '(")';
+    const lines = [...buf.slice(-2), typed + (tick % 4 < 2 ? "_" : " ")];
+    while (lines.length < 3) lines.unshift("");
+    const scr = lines.map((l) => esc(l.slice(-W).padEnd(W)));
+    pre.innerHTML = [
+      `               ${ears}`,
+      `             =( ${eyes} )=`,
+      `     .${"-".repeat(W + 2)}.`,
+      `     | <span style="color:var(--ok)">${scr[0]}</span> |`,
+      `     | <span style="color:var(--ok)">${scr[1]}</span> |`,
+      `     | <span style="color:var(--ok)">${scr[2]}</span> |${tail}`,
+      `     '${"-".repeat(W + 2)}' (`,
+      `    __${pawL}${"_".repeat(W - 2)}${pawR}_)`,
+      `   /${"_".repeat(W + 8)}\\`].join("\n");
+  };
+  const step = () => {
+    tick++;
+    const [cmd, out] = SCRIPT[si % SCRIPT.length];
+    if (wait > 0) { wait--; }
+    else if (ci < cmd.length) { ci++; typed = cmd.slice(0, ci); }
+    else { buf.push(typed, out); typed = ""; ci = 0; si++; wait = 6; }
+    frame();
+  };
+  frame();
+  if (reduce) { buf = [["$ ./talk.sh", "starting..."], ["$ meow --help", "purr purr ok"], ["$ git push", "slides shipped"]][0]; frame(); return; }
+  const iv = setInterval(step, 150);
+  const prev = el._cleanup; el._cleanup = () => { clearInterval(iv); if (prev) prev(); };
+}
+
+function go(i, dir) { i = Math.max(0, Math.min(SLIDES.length - 1, i)); const d = dir ?? (i >= cur ? 1 : -1); cur = i; render(cur, d); }
+function next() {
+  const hidden = curEl && curEl.querySelector(".step:not(.shown)");
+  if (hidden) { hidden.classList.add("shown"); return; }
+  if (cur < SLIDES.length - 1) go(cur + 1, 1);
+}
+function prev() {
+  const shown = curEl ? [...curEl.querySelectorAll(".step.shown")] : [];
+  if (shown.length && cur !== 0) { shown[shown.length - 1].classList.remove("shown"); return; }
+  if (cur > 0) go(cur - 1, -1);
+}
+
+/* zoom illustrations */
+let zoomState = null;
+function zoomWin(win) {
+  if (zoomState) { const { win: w, ph, css } = zoomState; ph.replaceWith(w); w.style.cssText = css; zoomState.ov.remove(); zoomState = null; if (!win || win === w) return; }
+  if (!win) return;
+  const w0 = win.offsetWidth, h0 = win.offsetHeight, css = win.style.cssText;
+  const ph = document.createElement("div"); ph.style.cssText = `width:${w0}px;height:${h0}px;flex:${win.style.flex || "none"}`;
+  win.replaceWith(ph);
+  const ov = document.createElement("div"); ov.className = "zoomer";
+  const holder = document.createElement("div"); holder.className = "holder"; holder.style.cssText = `width:${w0}px;height:${h0}px;display:flex`;
+  win.style.flex = "1"; holder.appendChild(win); ov.appendChild(holder);
+  ov.insertAdjacentHTML("beforeend", `<p class="hint">press z or esc to return · it still works when enlarged</p>`);
+  screen.appendChild(ov);
+  const s = Math.min((screen.clientWidth - 60) / w0, (screen.clientHeight - 100) / h0);
+  holder.style.transform = `scale(${s})`;
+  ov.addEventListener("click", (e) => { if (e.target === ov) zoomWin(null); });
+  zoomState = { win, ph, css, ov };
+}
+screen.addEventListener("click", (e) => { const b = e.target.closest(".zoomBtn"); if (b) { e.stopPropagation(); zoomWin(b.closest(".win")); } });
+
+/* themes + matrix code rain */
+function setTheme(t) { document.documentElement.dataset.phosphor = t === "green" ? "" : t; store.set("wp-deck-phosphor", t); rain(t === "matrix"); const nt = document.getElementById("nfTheme"); if (nt) nt.textContent = t; }
+let rainIv = null;
+function rain(on) {
+  let cv = document.getElementById("rain");
+  if (!on || reduce) { clearInterval(rainIv); rainIv = null; return; }
+  if (!cv) { cv = document.createElement("canvas"); cv.id = "rain"; cv.setAttribute("aria-hidden", "true"); screen.prepend(cv); }
+  if (rainIv) return;
+  const ctx = cv.getContext("2d"), fs = 18, chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789<>/{}=WP$#";
+  const size = () => { cv.width = screen.clientWidth; cv.height = screen.clientHeight; };
+  size(); let drops = Array.from({ length: Math.ceil(cv.width / fs) }, () => Math.random() * -40);
+  rainIv = setInterval(() => {
+    if (!cv.isConnected) screen.prepend(cv);
+    ctx.fillStyle = "rgba(1, 10, 3, .14)"; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = "#00ff41"; ctx.font = `${fs}px monospace`;
+    drops.forEach((y, i) => { ctx.fillText(chars[(Math.random() * chars.length) | 0], i * fs, y * fs); drops[i] = y * fs > cv.height && Math.random() > 0.975 ? 0 : y + 1; });
+  }, 70);
+}
+
+/* index */
+$("#indexList").innerHTML = SLIDES.map((s, i) => `<button data-i="${i}"><span>${String(i + 1).padStart(2, "0")}</span>${s.f}</button>`).join("");
+$("#indexList").querySelectorAll("button").forEach((b) => b.onclick = () => { toggleIndex(false); go(+b.dataset.i); });
+function toggleIndex(force) { const x = $("#index"); const on = force ?? !x.classList.contains("open"); x.classList.toggle("open", on); $("#mode").textContent = on ? "LS" : "NORMAL"; }
+function toggleNotes(force) { const x = $("#notes"); x.classList.toggle("open", force ?? !x.classList.contains("open")); }
+function toggleBlank() { $("#blank").classList.toggle("on"); }
+
+/* timer */
+let tLeft = 30 * 60, tRun = null;
+function drawTimer() { const t = $("#timer"); const a = Math.abs(tLeft); t.textContent = `${tLeft < 0 ? "+" : ""}${String(Math.floor(a / 60)).padStart(2, "0")}:${String(a % 60).padStart(2, "0")}`; t.className = tLeft < 0 ? "over" : tLeft < 300 ? "warn" : ""; }
+function toggleTimer() { if (tRun) { clearInterval(tRun); tRun = null; toast("timer paused"); } else { tRun = setInterval(() => { tLeft--; drawTimer(); }, 1000); toast("timer running · 30 minutes"); } }
+function setTimer(min) { tLeft = Math.round(min * 60); drawTimer(); }
+
+/* command line */
+const cmdBox = $("#cmd"), cmdIn = $("#cmdIn"), cmdOut = $("#cmdOut");
+const HELP = `keys      → space  next     ← back     o  slide list     n  notes     z  zoom illustration     c  cycle themes
+          t  timer        b  blank   f  fullscreen    :  command line   ?  help
+commands  goto N · ls · notes · timer [min] · theme green|amber|blue|obsidian|matrix|github|dracula|houston|mono
+          crt on|off · blank · top · end · whoami · wp --version · clear`;
+function openCmd(prefill = "") { cmdBox.classList.add("open"); cmdIn.value = prefill; cmdIn.focus(); $("#mode").textContent = "COMMAND"; }
+function closeCmd() { cmdBox.classList.remove("open"); cmdOut.textContent = ""; cmdIn.blur(); $("#mode").textContent = "NORMAL"; }
+function run(line) {
+  const [c, ...a] = line.trim().split(/\s+/); const arg = a.join(" ");
+  const say = (t) => { cmdOut.textContent = t; };
+  if (!c) return closeCmd();
+  if (/^\d+$/.test(c)) { go(+c - 1); return closeCmd(); }
+  switch (c) {
+    case "help": case "?": return say(HELP);
+    case "goto": case "g": go((+a[0] || 1) - 1); return closeCmd();
+    case "ls": closeCmd(); return toggleIndex(true);
+    case "notes": closeCmd(); return toggleNotes();
+    case "timer": if (a[0]) { setTimer(+a[0]); say(`timer set to ${a[0]} minutes`); } else { toggleTimer(); closeCmd(); } return;
+    case "theme": if (["green", "amber", "blue", "obsidian", "matrix", "github", "dracula", "houston", "mono"].includes(a[0])) { setTheme(a[0]); return say(`theme: ${a[0]}`); } return say("usage: theme green|amber|blue|obsidian|matrix|github|dracula|houston|mono");
+    case "crt": document.documentElement.dataset.crt = a[0] === "off" ? "off" : "on"; store.set("wp-deck-crt", a[0] === "off" ? "off" : "on"); return say(`crt effect ${a[0] === "off" ? "off" : "on"}`);
+    case "blank": closeCmd(); return toggleBlank();
+    case "top": go(0); return closeCmd();
+    case "end": case "exit": go(SLIDES.length - 1); return closeCmd();
+    case "clear": return say("");
+    case "whoami": return say("a WordPress site owner. something is broken and you want it fixed.");
+    case "wp": return say(arg.includes("version") ? "Common Issues · try: goto 12" : "usage: wp --version");
+    case "sudo": return say("Permission denied: try SFTP before you try sudo.");
+    case "rm": return say("Nice try. That file is load-bearing.");
+    case "coffee": case "make": return say("☕ brewing… the next slide will be ready in 0.3 seconds.");
+    default: return say(`command not found: ${c}. type help`);
+  }
+}
+cmdIn.addEventListener("keydown", (e) => { e.stopPropagation(); if (e.key === "Enter") run(cmdIn.value); if (e.key === "Escape") closeCmd(); });
+
+/* keyboard */
+addEventListener("keydown", (e) => {
+  if (e.target.matches("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key;
+  if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(k)) { e.preventDefault(); if (!$("#index").classList.contains("open")) next(); }
+  else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(k)) { e.preventDefault(); prev(); }
+  else if (k === "Home") go(0); else if (k === "End") go(SLIDES.length - 1);
+  else if (k === "c") { const T = ["green", "amber", "blue", "obsidian", "matrix", "github", "dracula", "houston", "mono"]; const now = document.documentElement.dataset.phosphor || "green"; const nx = T[(T.indexOf(now) + 1) % T.length]; setTheme(nx); toast(`theme: ${nx}`); }
+  else if (k === "o") toggleIndex(); else if (k === "n") toggleNotes(); else if (k === "t") toggleTimer(); else if (k === "b" || k === ".") toggleBlank();
+  else if (k === "f") { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.().catch(() => toast("fullscreen isn't available here")); }
+  else if (k === ":" || k === "/") { e.preventDefault(); openCmd(); }
+  else if (k === "?") { openCmd(); run("help"); }
+  else if (k === "z") { const wins = curEl ? [...curEl.querySelectorAll(".win")] : []; if (!wins.length) return; if (zoomState) { const i = wins.indexOf(zoomState.win); zoomWin(null); if (i < wins.length - 1) zoomWin(wins[i + 1]); } else zoomWin(wins[0]); }
+  else if (k === "Escape") { if (zoomState) return zoomWin(null); toggleIndex(false); toggleNotes(false); $("#blank").classList.remove("on"); }
+});
+
+/* buttons and touch */
+$("#nextBtn").onclick = next; $("#prevBtn").onclick = prev;
+$("#notesBtn").onclick = () => toggleNotes(); $("#indexBtn").onclick = () => toggleIndex(); $("#helpBtn").onclick = () => { openCmd(); run("help"); }; $("#timerBtn").onclick = toggleTimer;
+$("#blank").onclick = toggleBlank;
+let tx = null; stage.addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; }, { passive: true });
+stage.addEventListener("touchend", (e) => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) (dx < 0 ? next : prev)(); tx = null; });
+
+/* start */
+(function init() {
+  setTheme(store.get("wp-deck-phosphor") || "github");
+  const crt = store.get("wp-deck-crt"); if (crt) document.documentElement.dataset.crt = crt;
+  const h = parseInt(location.hash.slice(1), 10);
+  fit(); drawTimer();
+  go(Number.isFinite(h) ? h - 1 : 0, 1);
+})();
+</script>
+</body>
+</html>
