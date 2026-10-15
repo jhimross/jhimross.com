@@ -249,7 +249,7 @@ pre.term.code .hi { color: var(--hi); } pre.term.code .ok { color: var(--ok); }
     <nav id="tabs" aria-label="Sections"></nav>
     <main id="screen" aria-live="polite"></main>
     <aside id="notes" aria-label="Speaker notes"><h4>speaker notes</h4><div id="notesBody"></div></aside>
-    <section id="index" aria-label="All slides"><p class="prompt"><span class="path">~/wp-content</span> $ <span class="cmd">ls slides/</span></p><div class="ls" id="indexList"></div></section>
+    <section id="index" aria-label="All slides"><p class="prompt"><span class="path">~/debugging common issues</span> $ <span class="cmd">ls slides/</span></p><div class="ls" id="indexList"></div></section>
     <div id="cmd"><pre id="cmdOut"></pre><div class="row1"><span class="ok">:</span><input id="cmdIn" autocomplete="off" spellcheck="false" aria-label="Command"></div></div>
     <footer id="status">
       <span class="mode" id="mode">NORMAL</span>
@@ -619,7 +619,7 @@ function render(i, dir = 1) {
   const el = document.createElement("section");
   el.className = "slide" + (S.interlude ? " interlude" : "");
   el.setAttribute("aria-label", `Slide ${i + 1} of ${SLIDES.length}`);
-  el.innerHTML = `<p class="prompt"><span class="path">~/wp-content</span> $ <span class="cmd"></span><span class="cursor"></span></p>${S.t ? `<h2 class="title">${S.t}</h2>` : ""}<div class="out">${S.h}</div>${S.p != null ? pipe(S.p) : ""}`;
+  el.innerHTML = `<p class="prompt"><span class="path">~/debugging common issues</span> $ <span class="cmd"></span><span class="cursor"></span></p>${S.t ? `<h2 class="title">${S.t}</h2>` : ""}<div class="out">${S.h}</div>${S.p != null ? pipe(S.p) : ""}`;
   const rc = document.getElementById("rain"); screen.innerHTML = ""; if (rc) screen.appendChild(rc); screen.appendChild(el); curEl = el;
   const cmd = el.querySelector(".cmd"), out = el.querySelector(".out"), title = el.querySelector(".title");
   if (reduce) { cmd.textContent = S.cmd; }
