@@ -14,6 +14,5 @@ A little corner of the internet sharing random thoughts, faith, things I'm learn
 
 ## Stack
 
-- Static HTML site
+- Static HTML site but working like a CMS
 - Deployed on Cloudflare (Pages/Workers)
-- Posts synced from WordPress via `sync_posts.py` / `convert_posts.py`
