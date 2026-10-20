@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
+  </script>
+  <title>Slides - Jhimross Olinares</title>
+  <meta name="description" content="Talks and terminal-style slide decks by Jhimross Olinares — DNS, WordPress troubleshooting, the WordPress request lifecycle, and what's new in WordPress." />
+  <link rel="canonical" href="https://jhimross.com/slides/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jhimross.com/slides/" />
+  <meta property="og:title" content="Slides - Jhimross Olinares" />
+  <meta property="og:description" content="Talks and terminal-style slide decks by Jhimross Olinares — DNS, WordPress troubleshooting, the WordPress request lifecycle, and what's new in WordPress." />
+  <meta property="og:image" content="https://jhimross.com/assets/about.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://jhimross.com/slides/" />
+  <meta property="twitter:title" content="Slides - Jhimross Olinares" />
+  <meta property="twitter:description" content="Talks and terminal-style slide decks by Jhimross Olinares — DNS, WordPress troubleshooting, the WordPress request lifecycle, and what's new in WordPress." />
+  <meta property="twitter:image" content="https://jhimross.com/assets/about.jpg" />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0b1220;
+      --muted: #5b6473;
+      --border: #e5e8ee;
+      --secondary: #f4f6fa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+    header.nav {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(255, 255, 255, .8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 20px 20px; }
+    .logo { display: inline-flex; width: 40px; height: 40px; transition: transform .2s ease; }
+    .logo:hover { transform: scale(1.1); }
+    .logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: var(--bg);
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      gap: 24px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .nav-links a {
+      transition: opacity .2s
+    }
+
+    .nav-links a:hover {
+      opacity: .6
+    }
+
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--fg);
+      transition: .3s;
+    }
+
+    @media (min-width:768px) {
+      .nav-links {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        width: auto;
+        padding: 0;
+        border: none;
+        gap: 32px;
+        font-size: 14px;
+      }
+      .nav-toggle {
+        display: none;
+      }
+    }
+
+    a { color: inherit; text-decoration: none; transition: opacity .2s; }
+    a:hover { opacity: .6; }
+
+    .page-header { padding: 80px 0 24px; text-align: left; }
+    .page-header h1 { font-size: 48px; font-weight: 700; margin: 0 0 12px; letter-spacing: -.02em; }
+    .page-header p { font-size: 18px; color: var(--muted); max-width: 680px; margin: 16px 0 0; }
+
+    .slides-list {
+      list-style: none;
+      margin: 40px 0 96px;
+      padding: 0;
+      border-top: 1px solid var(--border);
+    }
+    .slide-item { border-bottom: 1px solid var(--border); }
+    .slide-link {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 28px 4px;
+    }
+    .slide-link:hover { opacity: 1; }
+    .slide-link:hover .slide-title {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+    }
+    .slide-link:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; border-radius: 6px; }
+    .slide-title {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -.01em;
+    }
+    .slide-excerpt {
+      margin: 8px 0 0;
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 720px;
+    }
+    .slide-arrow {
+      flex: none;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.3;
+      transition: transform .2s ease;
+    }
+    .slide-link:hover .slide-arrow { transform: translateX(4px); }
+    @media (prefers-reduced-motion: reduce) {
+      .slide-arrow, .logo { transition: none; }
+      .slide-link:hover .slide-arrow { transform: none; }
+    }
+
+    footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--muted); font-size: 14px; text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo" aria-label="Home">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="square"/>
+          <rect x="60" y="28" width="22" height="7" fill="currentColor"/>
+          <circle cx="71" cy="62" r="9" fill="currentColor"/>
+        </svg>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="/about.html">About</a>
+        <a href="/about.html#work">Work</a>
+        <a href="/index.html">Brewing Thoughts</a>
+        <a href="/slides/">Slides</a>
+        <a href="/about.html#testimonials">Testimonials</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+      <div class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Slides</h1>
+      <p>A collection of talks and terminal-style slide decks I've put together — mostly about WordPress, the web, and the things I've learned along the way.</p>
+    </div>
+
+    <ul class="slides-list">
+      <li class="slide-item">
+        <a class="slide-link" href="domain-name-system.html">
+          <div>
+            <h2 class="slide-title">The Domain Name System</h2>
+            <p class="slide-excerpt">A terminal-style walkthrough of how DNS works — domain lookups, record types, where records are stored, propagation, and a short troubleshooting guide.</p>
+          </div>
+          <span class="slide-arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li class="slide-item">
+        <a class="slide-link" href="wordpress-common-issues.html">
+          <div>
+            <h2 class="slide-title">WordPress Common Issues</h2>
+            <p class="slide-excerpt">A field guide to the WordPress errors you'll actually run into — 403s, 404s, 500s, 502s, 503s, and more — with what each one means and how to fix it.</p>
+          </div>
+          <span class="slide-arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li class="slide-item">
+        <a class="slide-link" href="wp-load-sequence.html">
+          <div>
+            <h2 class="slide-title">WordPress Request Lifecycle</h2>
+            <p class="slide-excerpt">Follow a single request from the browser through index.php, wp-load.php, and the template loader to see exactly how WordPress builds a page.</p>
+          </div>
+          <span class="slide-arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+      <li class="slide-item">
+        <a class="slide-link" href="wpcebu.html">
+          <div>
+            <h2 class="slide-title">So… What's New in WordPress?</h2>
+            <p class="slide-excerpt">A tour through WordPress history — from a fork of b2/cafelog to blocks, the Site Editor, and the AI and agent era — and where it might be heading next.</p>
+          </div>
+          <span class="slide-arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+    </ul>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="y"></span> Jhimross Olinares</div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>
