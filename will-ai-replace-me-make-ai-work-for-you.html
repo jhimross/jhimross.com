@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google tag (gtag.js) - loaded off the critical path -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-MT853BBK4F');
+    function loadGtag() {
+      if (window.__gtagLoaded) return;
+      window.__gtagLoaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MT853BBK4F';
+      document.head.appendChild(s);
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(loadGtag, { timeout: 3500 });
+    else window.addEventListener('load', function () { setTimeout(loadGtag, 1500); });
+    ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (ev) {
+      window.addEventListener(ev, loadGtag, { once: true, passive: true });
+    });
+  </script>
+  
+  <title>Will AI Replace Me? Maybe It&#x27;s Time to Ask a Different Question. — Jhimross Olinares</title>
+  <meta name="description" content="AI is changing how we work, and worrying about job security is understandable. Instead of ignoring the shift or fearing every new tool, learn how to use AI to improve your skills, solve problems, and become more effective at what you do." />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://jhimross.com/will-ai-replace-me-make-ai-work-for-you.html" />
+  <meta property="og:title" content="Will AI Replace Me? Maybe It&#x27;s Time to Ask a Different Question. — Jhimross Olinares" />
+  <meta property="og:description" content="AI is changing how we work, and worrying about job security is understandable. Instead of ignoring the shift or fearing every new tool, learn how to use AI to improve your skills, solve problems, and become more effective at what you do." />
+  <meta property="og:image" content="https://jhimross.com/assets/will-ai-replace-me-cover.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://jhimross.com/will-ai-replace-me-make-ai-work-for-you.html" />
+  <meta property="twitter:title" content="Will AI Replace Me? Maybe It&#x27;s Time to Ask a Different Question. — Jhimross Olinares" />
+  <meta property="twitter:description" content="AI is changing how we work, and worrying about job security is understandable. Instead of ignoring the shift or fearing every new tool, learn how to use AI to improve your skills, solve problems, and become more effective at what you do." />
+  <meta property="twitter:image" content="https://jhimross.com/assets/will-ai-replace-me-cover.jpg" />
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0b1220;
+      --muted: #5b6473;
+      --border: #e5e8ee;
+      --secondary: #f4f6fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .narrow {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header.nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 255, 255, .8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 20px;
+    }
+
+    .logo {
+      display: inline-flex;
+      width: 40px;
+      height: 40px;
+      transition: transform .2s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.1);
+    }
+
+    .logo svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: var(--bg);
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      gap: 24px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .nav-links a {
+      transition: opacity .2s
+    }
+
+    .nav-links a:hover {
+      opacity: .6
+    }
+
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--fg);
+      transition: .3s;
+    }
+
+    @media (min-width:768px) {
+      .nav-links {
+        display: flex;
+        flex-direction: row;
+        position: static;
+        width: auto;
+        padding: 0;
+        border: none;
+        gap: 32px;
+        font-size: 14px;
+      }
+
+      .nav-toggle {
+        display: none;
+      }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    a:hover {
+      opacity: .6;
+    }
+
+    .post-header {
+      padding: 80px 0 48px;
+    }
+
+    .post-header h1 {
+      font-size: 40px;
+      font-weight: 700;
+      margin: 0 0 16px;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+    }
+
+    .post-meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .post-categories {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .category-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--secondary);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .content {
+      font-size: 18px;
+      color: #1a202c;
+      padding-bottom: 80px;
+    }
+
+    .content h2,
+    .content h3 {
+      margin-top: 40px;
+      color: var(--fg);
+    }
+
+    .content img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin: 32px 0;
+      height: auto;
+    }
+
+    .content p {
+      margin-bottom: 24px;
+    }
+
+    .content blockquote {
+      border-left: 4px solid var(--fg);
+      margin: 0;
+      padding-left: 24px;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 32px 0;
+    }
+
+    .content th,
+    .content td {
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    .content th {
+      background: var(--secondary);
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .yt-embed {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      margin: 32px 0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .yt-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 12px;
+    }
+
+    .post-nav {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+      padding-bottom: 32px;
+      margin-top: 64px;
+      gap: 24px;
+    }
+
+    .nav-prev,
+    .nav-next {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      width: 50%;
+    }
+
+    .nav-next {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    .nav-label {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .nav-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--fg);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo" aria-label="Home">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="90" height="90" fill="none" stroke="currentColor" stroke-width="4" />
+          <path d="M42 28V62C42 68 38 72 30 72" fill="none" stroke="currentColor" stroke-width="12"
+            stroke-linecap="square" />
+          <rect x="60" y="28" width="22" height="7" fill="currentColor" />
+          <circle cx="71" cy="62" r="9" fill="currentColor" />
+        </svg>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="about.html">About</a>
+        <a href="about.html#work">Work</a>
+        <a href="index.html">Brewing Thoughts</a>
+        <a href="about.html#testimonials">Testimonials</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-toggle" id="navToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <article class="narrow">
+    <div class="post-header">
+      <a href="index.html" class="back">← Back to Journal</a>
+      <h1>Will AI Replace Me? Maybe It&#x27;s Time to Ask a Different Question.</h1>
+      <div class="post-categories"><span class="category-tag">Technology</span><span class="category-tag">Personal Growth</span></div>
+      <div class="post-meta">Published on October 20, 2026</div>
+    </div>
+
+    <div class="content">
+<p><img loading="lazy" decoding="async" alt="A minimalist desk with a laptop showing an abstract AI interface, a notebook, and a cup of coffee" src="assets/will-ai-replace-me-cover.jpg" /></p>
+<p>It's getting harder to ignore how quickly AI is changing the way we work.</p>
+<p>Tools that once seemed experimental can now write content, generate images, analyze spreadsheets, summarize documents, write code, and help automate tasks that used to take hours.</p>
+<p>Things that required specialized knowledge or years of practice are becoming more accessible. And every few months, it seems like there's another tool that can do something we thought only people could do.</p>
+<p>Naturally, that raises a question:</p>
+<p><strong>Will AI eventually replace me?</strong></p>
+<p>It's a reasonable concern. Whether you're a developer, designer, writer, marketer, accountant, customer support representative, or someone working in operations, it's difficult not to wonder what these changes mean for your career.</p>
+<p>What happens when a tool can do part of your job faster than you can? What happens when businesses discover they can automate tasks that previously required an entire team? And how do you stay relevant when the tools keep getting better?</p>
+<p>I don't think there's one simple answer. Some jobs and tasks will change significantly. Some roles may shrink, while others emerge. Many people will need to learn new skills and adapt to different expectations.</p>
+<p>Pretending AI won't affect our work isn't a good strategy.</p>
+<p>But I also don't think the only question worth asking is whether AI will replace us.</p>
+<p>Maybe we should ask something more useful: <strong>How can I use AI to become better at what I do?</strong></p>
+<h2>AI Is Getting Better, and Ignoring It Won't Help</h2>
+<p>I've seen how easy it is to dismiss new technology.</p>
+<p>Sometimes, we assume a tool is just another trend that will eventually disappear. Other times, we avoid it because learning something new feels like extra work when we already have enough on our plate.</p>
+<p>And sometimes, we simply don't want to admit that the way we've always done things might no longer be the most effective way.</p>
+<p>I understand that feeling.</p>
+<p>Learning a new tool takes time. The results aren't always impressive, and the marketing often makes everything sound much easier than it actually is.</p>
+<p>AI can produce inaccurate information, misunderstand instructions, generate mediocre content, and confidently give answers that need to be checked. It isn't a magic button that turns every task into a perfect result.</p>
+<p>But despite those limitations, it can be incredibly useful.</p>
+<p>It can help us get started when we're stuck, explore options we hadn't considered, automate repetitive work, and learn unfamiliar concepts more quickly.</p>
+<p>We don't have to believe that AI is perfect to recognize that it can be valuable.</p>
+<p>The question isn't whether every AI tool deserves our attention. It's whether we're willing to explore the tools that could genuinely help us do our work better.</p>
+<h2>AI Can Do Tasks. But a Job Is More Than a Task.</h2>
+<p>One reason the conversation about AI can be frightening is that we often compare a human being with a machine based on one specific activity.</p>
+<p>AI can write an email in seconds. Does that mean every person who writes emails is replaceable?</p>
+<p>AI can generate code. Does that mean every developer is no longer needed?</p>
+<p>AI can summarize a customer conversation. Does that mean customer support is no longer valuable?</p>
+<p>Not necessarily.</p>
+<p>A job is usually made up of multiple tasks, decisions, relationships, and responsibilities. Completing an individual task is different from understanding the entire situation in which that task exists.</p>
+<p>Writing an email might be easy. Knowing what needs to be communicated, understanding the relationship with the recipient, recognizing the potential consequences, and deciding what should happen next can require much more context.</p>
+<p>AI can help with parts of that process, but someone still needs to evaluate the result and take responsibility for how it's used.</p>
+<p>Of course, this doesn't mean human involvement will always be required in the same way. As AI systems become more capable, some workflows will be automated more extensively.</p>
+<p>That's precisely why we need to understand both the capabilities and the limitations of the tools we're using.</p>
+<p>The goal isn't to convince ourselves that AI can't do our jobs.</p>
+<p>It's to understand which parts of our work can be improved or automated, which parts still require human judgment, and how our roles might evolve as a result.</p>
+<h2>Don't Compete With AI at Being AI</h2>
+<p>Imagine spending hours manually organizing information when an AI tool can help you complete the first draft in minutes.</p>
+<p>Or writing everything from scratch when AI can help you create an outline, identify gaps, and suggest a better structure.</p>
+<p>Or repeatedly performing the same process when parts of it could be automated.</p>
+<p>You could continue doing things the old way and hope that being hardworking will always be enough.</p>
+<p>Or you could learn how to use the available tools to improve your process.</p>
+<p>I'm not suggesting that every task should be handed over to AI. Some work requires a personal touch, specialized expertise, confidentiality, or careful human review. In other cases, using AI might introduce more work than it saves.</p>
+<p>But when a tool can reliably handle a repetitive task, why not explore whether it can free up your time for something more valuable?</p>
+<p>Instead of spending an hour formatting a report, you might use AI to help organize the information and spend more time checking the analysis.</p>
+<p>Instead of staring at a blank page, you might use AI to generate a starting point and then refine it with your own experience.</p>
+<p>Instead of manually researching every unfamiliar concept, you might use AI to build an initial understanding before verifying important details.</p>
+<p>The advantage isn't simply that you finish faster.</p>
+<p>It's that you can redirect your time and attention toward work that benefits from your knowledge, judgment, creativity, and experience.</p>
+<p>You don't have to beat AI at the tasks it's good at. You need to learn how to use it to do better work.</p>
+<h2>Your Experience Becomes More Valuable When You Know How to Apply It</h2>
+<p>AI can give you an answer, but knowing whether that answer is useful is a different skill.</p>
+<p>It can generate a marketing plan, but someone needs to understand the audience, the business goals, the budget, and the practical realities of implementing it.</p>
+<p>It can suggest a technical solution, but someone needs to evaluate whether that solution is secure, maintainable, and appropriate for the situation.</p>
+<p>It can analyze a spreadsheet, but someone needs to understand what the numbers represent and whether the conclusions make sense.</p>
+<p>This is where your existing knowledge matters.</p>
+<p>If you understand your field, you can give AI better context, ask more useful questions, recognize weak results, and improve what it produces.</p>
+<p>If you don't understand the subject at all, you may have difficulty distinguishing a good answer from a convincing mistake.</p>
+<p>That's why I don't think learning AI should mean abandoning the skills you've already developed.</p>
+<p>It should mean combining those skills with new capabilities.</p>
+<p>A developer who understands software engineering and knows how to use AI effectively may approach certain projects differently from someone who only knows how to generate code.</p>
+<p>A marketer who understands customers and can use AI to explore ideas, analyze results, and speed up production may be able to accomplish more.</p>
+<p>An operations professional who understands workflows and knows how to automate repetitive processes can use AI to improve how an entire team works.</p>
+<p>The combination is important.</p>
+<p>AI knowledge without real-world understanding can produce impressive-looking but ineffective results. Expertise without a willingness to adapt can also become a disadvantage when the tools and expectations around it change.</p>
+<p>We need to keep developing both.</p>
+<h2>You Don't Need to Learn Every AI Tool</h2>
+<p>One of the biggest problems with the AI boom is the feeling that we're already behind.</p>
+<p>There's always another tool to try, another model to compare, another workflow to learn, and another person online claiming they've completely transformed their productivity.</p>
+<p>It can become exhausting.</p>
+<p>You don't need to test every new application or become an expert in every AI model.</p>
+<p>Start with the work you already do.</p>
+<p>What tasks consume most of your time? What processes are repetitive? Where do you frequently get stuck? What skills are you trying to develop? Which parts of your work would benefit from better research, clearer writing, faster analysis, or fewer manual steps?</p>
+<p>Those questions can help you identify where AI might be useful.</p>
+<p>Choose one problem and experiment with a tool that addresses it.</p>
+<p>For example:</p>
+<ul>
+<li><strong>Writing:</strong> Use AI to brainstorm, organize your thoughts, or improve a first draft.</li>
+<li><strong>Research:</strong> Use it to explore a topic and identify questions you should investigate further.</li>
+<li><strong>Data analysis:</strong> Use it to help write formulas, summarize data, or identify patterns, then verify the results.</li>
+<li><strong>Development:</strong> Use it to explain unfamiliar code, generate test cases, or explore possible solutions.</li>
+<li><strong>Operations:</strong> Use it to document processes, draft standard operating procedures, or identify automation opportunities.</li>
+<li><strong>Learning:</strong> Use it as a tutor that explains unfamiliar concepts, provides examples, and tests your understanding.</li>
+</ul>
+<p>Measure whether it actually helps.</p>
+<p>Did it save time? Was the output accurate? Did you spend more time correcting it than you would have spent doing the task yourself? Did it improve the final result?</p>
+<p>If it works, refine the process. If it doesn't, try another approach or move on.</p>
+<p>You don't need to adopt AI because everyone else is doing it. Adopt it where it creates genuine value.</p>
+<h2>Learn to Work With AI, Not Just Prompt It</h2>
+<p>There's more to using AI effectively than writing a clever prompt.</p>
+<p>A good workflow starts with understanding the problem. It includes providing relevant context, setting clear expectations, reviewing the output, checking important facts, and improving the result.</p>
+<p>Sometimes, the best use of AI is asking it to challenge your assumptions rather than simply agreeing with you.</p>
+<p>Sometimes, it's asking for several possible approaches and evaluating their trade-offs.</p>
+<p>Sometimes, it's using AI to help you understand a process so you can eventually do it independently.</p>
+<p>And sometimes, the right decision is not to use AI at all.</p>
+<p>You should also understand the rules that apply to your workplace. Confidential information, customer data, company documents, and proprietary code shouldn't be pasted into tools without checking the relevant policies and permissions.</p>
+<p>Efficiency isn't useful if it creates unnecessary risks.</p>
+<p>The real skill is knowing when to use AI, how to guide it, and how to judge the result.</p>
+<p>That takes practice.</p>
+<p>And just like any other skill, you improve by using it to solve actual problems rather than experimenting endlessly without a clear purpose.</p>
+<h2>The Bigger Risk Might Be Refusing to Adapt</h2>
+<p>I can't promise that learning AI will make anyone immune to job displacement.</p>
+<p>No tool, certificate, or new skill can guarantee that a role will remain unchanged. Industries will evolve, companies will make different decisions, and some workers will face genuine disruption.</p>
+<p>We should take those realities seriously rather than telling people that everything will automatically work out.</p>
+<p>But we can still make choices that improve our ability to adapt.</p>
+<p>We can stay curious. We can understand how our industries are changing. We can experiment with useful tools. We can strengthen our fundamentals and develop skills that help us make better decisions.</p>
+<p>We can also share what we learn with colleagues instead of treating every new capability as a personal advantage that must be kept secret.</p>
+<p>The future of work won't be determined by technology alone. It will also depend on how organizations adopt it, how people are trained, and how the benefits and costs of these changes are managed.</p>
+<p>As individuals, we may not control all those decisions.</p>
+<p>But we can take responsibility for our own learning where we're able to.</p>
+<p>We don't have to panic every time a new AI capability appears. We also shouldn't assume that our current way of working will remain sufficient forever.</p>
+<p>We can acknowledge the uncertainty without allowing it to stop us from preparing.</p>
+<h2>Make AI Work for You</h2>
+<p>So, will AI replace me?</p>
+<p>Maybe some of the tasks I do today will eventually be automated. Maybe the skills my job requires will change. Maybe I'll discover better ways to work that I wouldn't have considered before these tools became available.</p>
+<p>I don't know exactly what that will look like.</p>
+<p>But I know I don't want fear to be the only thing shaping how I respond to it.</p>
+<p>I'd rather experiment, learn, and understand what these tools can do. I'd rather use AI to improve my work than dismiss it without giving it a fair chance.</p>
+<p>And I'd rather focus on becoming someone who can solve problems, think critically, adapt to change, and use the tools available to produce better results.</p>
+<p>That doesn't mean blindly trusting AI or believing every new technology is progress. It means being practical enough to recognize an opportunity when one exists and careful enough to understand its limitations.</p>
+<p>You don't need to become an AI engineer to benefit from AI. You don't need to know every model or tool on the market. You just need to start understanding how it can help you in your own field.</p>
+<p>Pick one task. Try one tool. Learn what works. Check the results. Keep improving.</p>
+<p>Then find the next opportunity.</p>
+<p>The goal isn't to prove that AI will never replace you.</p>
+<p>The goal is to become better equipped to navigate a world where AI is increasingly part of how work gets done.</p>
+<p><strong>Don't spend all your time worrying about whether AI will replace you. Start learning how to make AI work for you.</strong></p>
+    </div>
+
+    <div class="post-nav">
+      <a href="5-things-about-friendship-i-think-weve-forgotten.html" class="nav-prev">
+        <span class="nav-label">← Previous</span>
+        <span class="nav-title">5 Things About Friendship I Think We&#x27;ve Forgotten</span>
+      </a>
+    </div>
+  </article>
+
+  <footer>
+    <div class="container">© <span id="y"></span> Jhimross Olinares</div>
+  </footer>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -138,6 +138,7 @@ def sync_posts():
         date_obj = None
         categories = []
         image, image_alt = "", ""
+        excerpt = ""
 
         for line in lines:
             if line.startswith('title:'):
@@ -154,6 +155,10 @@ def sync_posts():
                     categories = ast.literal_eval(cat_text)
                 except Exception:
                     categories = [c.strip() for c in cat_text.split(',')]
+            elif line.startswith('excerpt:'):
+                excerpt = line.replace('excerpt:', '').strip()
+                if excerpt.startswith('"') and excerpt.endswith('"'):
+                    excerpt = excerpt[1:-1].replace('\\"', '"')
             elif line.startswith('image_alt:'):
                 image_alt = line.replace('image_alt:', '').strip()
                 if image_alt.startswith('"') and image_alt.endswith('"'):
@@ -166,7 +171,7 @@ def sync_posts():
         if not (title and date_obj and slug):
             continue
 
-        all_posts.append({
+        post = {
             "title": title,
             "date": date_obj.strftime('%B %d, %Y'),
             "slug": slug,
@@ -174,7 +179,10 @@ def sync_posts():
             "file": filename,
             "image": image or None,
             "image_alt": image_alt or None
-        })
+        }
+        if excerpt:
+            post["excerpt"] = excerpt
+        all_posts.append(post)
 
     all_posts.sort(key=lambda x: (datetime.datetime.strptime(x['date'], '%B %d, %Y'), x['slug']), reverse=True)
 
@@ -198,7 +206,10 @@ def sync_posts():
         p["image"] = featured_image
         p["image_alt"] = featured_image_alt
         image = featured_image or "https://jhimross.com/assets/about.jpg"
-        description = extract_description(raw_content)
+        if p.get("excerpt"):
+            description = html.escape(p["excerpt"], quote=True)
+        else:
+            description = extract_description(raw_content)
         content_html = render_content(raw_content)
         title_esc = html.escape(title, quote=True)
 
