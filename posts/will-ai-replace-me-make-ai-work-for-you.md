@@ -3,12 +3,12 @@ title: "Will AI Replace Me? Maybe It's Time to Ask a Different Question."
 date: October 20, 2026
 slug: will-ai-replace-me-make-ai-work-for-you
 categories: ['Technology', 'Personal Growth']
-image: "https://jhimross.com/assets/will-ai-replace-me-cover.jpg"
-image_alt: "A minimalist desk with a laptop showing an abstract AI interface, a notebook, and a cup of coffee"
+image: "https://jhimross.com/assets/will-ai-replace-me-cover-photo.jpg"
+image_alt: "A laptop displaying code on a wooden table beside a cup of black coffee in a cafe"
 excerpt: "AI is changing how we work, and worrying about job security is understandable. Instead of ignoring the shift or fearing every new tool, learn how to use AI to improve your skills, solve problems, and become more effective at what you do."
 ---
 
-![A minimalist desk with a laptop showing an abstract AI interface, a notebook, and a cup of coffee](assets/will-ai-replace-me-cover.jpg)
+![A laptop displaying code on a wooden table beside a cup of black coffee in a cafe](assets/will-ai-replace-me-cover-photo.jpg)
 
 It's getting harder to ignore how quickly AI is changing the way we work.
 
