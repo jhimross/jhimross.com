@@ -3,6 +3,8 @@ title: "My Zero-Cost Static Blog Migration (Just a fun experiment)"
 date: May 13, 2026
 slug: my-zero-cost-static-blog-migration
 categories: ['Migration', 'Tech', 'GitHub','Web Development']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2026/05/screenshot-2026-05-13-at-10.47.55-pm.png"
+image_alt: "My Zero-Cost Static Blog Migration (Just a fun experiment)"
 ---
 
 I recently had to make an unexpected but interesting shift in my workflow: moving away from a traditional WordPress setup and rebuilding my entire blog as a static site powered by GitHub and Cloudflare Workers.

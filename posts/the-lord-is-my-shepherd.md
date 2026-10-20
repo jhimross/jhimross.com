@@ -3,6 +3,8 @@ title: "The Lord is My Shepherd"
 date: 2023-09-21 14:31:18
 slug: the-lord-is-my-shepherd
 categories: ['Uncategorized']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/ff464-biegun-wschodni-vd3l-rn_qnw-unsplash-1-scaled-1.jpg"
+image_alt: "The Lord is My Shepherd"
 ---
 
 In the hustle and bustle of life, it’s easy to feel lost, overwhelmed, or even fearful. Amid these challenges, Psalm 23 stands as a timeless reminder of God’s faithful provision, protection, and presence. This psalm, written by King David, is more than just beautiful poetry—it’s a lifeline for our faith and a beacon of hope.

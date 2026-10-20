@@ -27,14 +27,38 @@ def parse_date(date_str):
             continue
     return None
 
-def extract_first_image(content):
-    match = re.search(r'!\[.*?\]\((.*?)\)', content)
+def extract_featured_image(content):
+    match = re.search(r'!\[([^\]]*)\]\((.*?)\)', content)
     if match:
-        return match.group(1)
-    match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content, re.IGNORECASE)
+        alt = re.sub(r'[*_`]', '', match.group(1)).strip()
+        return match.group(2).strip(), alt
+    match = re.search(r'<img\b[^>]*>', content, re.IGNORECASE)
     if match:
-        return match.group(1)
-    return "https://jhimross.com/assets/about.jpg"
+        tag = match.group(0)
+        src_match = re.search(r'\bsrc=["\']([^"\']+)["\']', tag, re.IGNORECASE)
+        alt_match = re.search(r'\balt=["\']([^"\']*)["\']', tag, re.IGNORECASE)
+        if src_match:
+            return src_match.group(1), (alt_match.group(1) if alt_match else '').strip()
+    return None, None
+
+def normalize_image_url(url):
+    if url.startswith('http://jhimross.com/'):
+        return 'https://' + url[len('http://'):]
+    return url
+
+def thumbnail_url(url, size=600):
+    if 'wordpress.com/wp-content/uploads/' not in url and 'files.wordpress.com/' not in url:
+        return url
+    if '?' in url:
+        base, query = url.split('?', 1)
+    else:
+        base, query = url, ''
+    params = []
+    for pair in query.split('&'):
+        if pair and pair.split('=', 1)[0] not in ('w', 'h', 'crop', 'resize', 'fit'):
+            params.append(pair)
+    params.extend([f'w={size}', f'h={size}', 'crop=1'])
+    return base + '?' + '&'.join(params)
 
 def extract_description(content):
     content = re.sub(r'---.*?---', '', content, flags=re.DOTALL)
@@ -58,18 +82,33 @@ def render_content(raw_content):
 
 def render_home_posts(all_posts):
     parts = []
-    for p in all_posts:
+    for index, p in enumerate(all_posts):
         title = html.escape(p["title"], quote=True)
-        cats = p.get("categories") or []
-        cat_block = ""
-        if cats:
-            tags = "".join(f'<span class="category-tag">{html.escape(c, quote=True)}</span>' for c in cats)
-            cat_block = f'\n                  <div class="post-categories">{tags}</div>'
+        initial = html.escape(next((char for char in p["title"] if char.isalnum()), "J").upper(), quote=True)
+        image = p.get("image")
+        if image:
+            image = html.escape(thumbnail_url(normalize_image_url(image)), quote=True)
+            alt = (p.get("image_alt") or p["title"]).strip()
+            alt = html.escape(alt, quote=True)
+            loading = "eager" if index < 4 else "lazy"
+            thumb = (
+                f'<div class="post-thumb">\n'
+                f'                      <img src="{image}" alt="{alt}" width="600" height="600" loading="{loading}" decoding="async" onerror="this.closest(\'.post-thumb\').classList.add(\'post-thumb--broken\')" />\n'
+                f'                      <span class="post-initial" aria-hidden="true">{initial}</span>\n'
+                f'                    </div>'
+            )
+        else:
+            thumb = (
+                f'<div class="post-thumb post-thumb--fallback" aria-hidden="true">\n'
+                f'                      <span class="post-initial">{initial}</span>\n'
+                f'                    </div>'
+            )
         parts.append(
             f'<article class="post-card">\n'
-            f'                  <span class="post-date">{p["date"]}</span>{cat_block}\n'
-            f'                  <a href="{p["slug"]}.html"><h2>{title}</h2></a>\n'
-            f'                  <a href="{p["slug"]}.html" class="read-more">Read →</a>\n'
+            f'                  <a class="post-link" href="{p["slug"]}.html">\n'
+            f'                    {thumb}\n'
+            f'                    <h2 class="post-title">{title}</h2>\n'
+            f'                  </a>\n'
             f'                </article>'
         )
     return "\n        ".join(parts)
@@ -98,6 +137,7 @@ def sync_posts():
         title, slug = "", ""
         date_obj = None
         categories = []
+        image, image_alt = "", ""
 
         for line in lines:
             if line.startswith('title:'):
@@ -114,6 +154,14 @@ def sync_posts():
                     categories = ast.literal_eval(cat_text)
                 except Exception:
                     categories = [c.strip() for c in cat_text.split(',')]
+            elif line.startswith('image_alt:'):
+                image_alt = line.replace('image_alt:', '').strip()
+                if image_alt.startswith('"') and image_alt.endswith('"'):
+                    image_alt = image_alt[1:-1].replace('\\"', '"')
+            elif line.startswith('image:'):
+                image = line.replace('image:', '').strip()
+                if image.startswith('"') and image.endswith('"'):
+                    image = image[1:-1]
 
         if not (title and date_obj and slug):
             continue
@@ -123,7 +171,9 @@ def sync_posts():
             "date": date_obj.strftime('%B %d, %Y'),
             "slug": slug,
             "categories": categories,
-            "file": filename
+            "file": filename,
+            "image": image or None,
+            "image_alt": image_alt or None
         })
 
     all_posts.sort(key=lambda x: (datetime.datetime.strptime(x['date'], '%B %d, %Y'), x['slug']), reverse=True)
@@ -140,7 +190,14 @@ def sync_posts():
         slug = p['slug']
         categories = p['categories']
 
-        image = extract_first_image(raw_content)
+        featured_image = p.get("image")
+        featured_image_alt = p.get("image_alt")
+        if not featured_image:
+            featured_image, featured_image_alt = extract_featured_image(raw_content)
+        featured_image = normalize_image_url(featured_image) if featured_image else None
+        p["image"] = featured_image
+        p["image_alt"] = featured_image_alt
+        image = featured_image or "https://jhimross.com/assets/about.jpg"
         description = extract_description(raw_content)
         content_html = render_content(raw_content)
         title_esc = html.escape(title, quote=True)

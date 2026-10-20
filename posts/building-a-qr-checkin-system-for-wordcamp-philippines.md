@@ -3,6 +3,8 @@ title: "Building a QR Check-in System for WordCamp Philippines"
 date: September 03, 2026
 slug: building-a-qr-checkin-system-for-wordcamp-philippines
 categories: ['Community', 'WordPress', 'Tech']
+image: "https://github.com/user-attachments/assets/2b884349-9a13-4997-9682-7c36aaf91141"
+image_alt: "Screenshot 2026-09-03 at 11 41 34 PM"
 ---
 
 One of the things I enjoy about organizing WordCamp is finding ways to make the event better—not just for attendees, but also for the volunteers working behind the scenes.

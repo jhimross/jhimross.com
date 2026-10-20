@@ -3,6 +3,8 @@ title: "Brewing WordPress Passion"
 date: 2024-04-01 04:37:41
 slug: brewing-wordpress-passion
 categories: ['Community', 'WordPress']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/4d1ee-53648545848_d67f163634_o-scaled-1.jpg"
+image_alt: "Brewing WordPress Passion"
 ---
 
 ### **Sharing the Love of WordPress:**

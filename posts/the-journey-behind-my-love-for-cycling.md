@@ -3,6 +3,8 @@ title: "The Journey Behind My Love for Cycling"
 date: 2024-01-09 10:19:48
 slug: the-journey-behind-my-love-for-cycling
 categories: ['Cycling', 'Self Development', 'Wellness']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/ab97f-ross-bike-scaled-1.jpg"
+image_alt: "The Journey Behind My Love for Cycling"
 ---
 
 Cycling has always been more than just a mode of transportation for me. It’s been a transformative journey—one that has shaped my body, mind, and spirit. From the first time I hopped on a bike to the countless rides I've taken since, cycling has become an essential part of my life. But beyond the thrill of the ride and the joy of exploring new paths, there’s a deeper connection for me—one rooted in personal growth and faith.

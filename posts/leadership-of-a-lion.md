@@ -3,6 +3,8 @@ title: "Leadership of a Lion"
 date: 2024-06-26 07:37:32
 slug: leadership-of-a-lion
 categories: ['Christian', 'Leadership']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/8ff08-304620335290eff67.87990365-1536x1024-1.jpg"
+image_alt: "Leadership of a Lion"
 ---
 
 **What is a Leader?**

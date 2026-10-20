@@ -3,6 +3,8 @@ title: "Are You on the Path of Most Resistance? Why Fixing Your Weaknesses Is Ho
 date: 2025-08-14 15:32:01
 slug: are-you-on-the-path-of-most-resistance-why-fixing-your-weaknesses-is-holding-you-back
 categories: ['Mindset', 'Self Development', 'Skills']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/3212b-close-up-of-a-flexed-arm-in-a-red-shirt-against-a-clear-blue-sky-symbolizing-strength-and-empowerment.-2080544-scaled-1.jpg"
+image_alt: "Are You on the Path of Most Resistance? Why Fixing Your Weaknesses Is Holding You Back?"
 ---
 
 What if we’ve been taught the wrong way to succeed?

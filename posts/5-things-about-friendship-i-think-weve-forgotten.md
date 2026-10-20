@@ -3,6 +3,8 @@ title: "5 Things About Friendship I Think We've Forgotten"
 date: 2026-10-10 12:00:00
 slug: 5-things-about-friendship-i-think-weve-forgotten
 categories: ['Thoughts', 'Relationship', 'Life']
+image: "https://jhimross.com/assets/friendship-black-coffee.webp"
+image_alt: "Hands holding a cup of black coffee"
 ---
 
 ![Hands holding a cup of black coffee](https://jhimross.com/assets/friendship-black-coffee.webp)

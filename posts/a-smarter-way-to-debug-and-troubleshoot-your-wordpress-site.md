@@ -3,6 +3,8 @@ title: "A Smarter Way to Debug and Troubleshoot Your WordPress Site"
 date: 2025-07-08 18:23:11
 slug: a-smarter-way-to-debug-and-troubleshoot-your-wordpress-site
 categories: ['Web Development', 'WordPress']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/72b52-eyeglasses-reflecting-computer-code-on-a-monitor-ideal-for-technology-and-programming-themes.-577585-scaled-1.jpg"
+image_alt: "A Smarter Way to Debug and Troubleshoot Your WordPress Site"
 tags: ['development', 'plugin']
 ---
 

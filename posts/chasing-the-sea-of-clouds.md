@@ -3,6 +3,8 @@ title: "Chasing the Sea of Clouds"
 date: 2026-01-24 21:09:00
 slug: chasing-the-sea-of-clouds
 categories: ['Hiking', 'Life', 'Travel']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2026/04/34f88-img_7855-scaled-1.webp"
+image_alt: "Chasing the Sea of Clouds"
 tags: ['Adventure']
 ---
 

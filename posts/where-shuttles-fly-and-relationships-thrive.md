@@ -3,6 +3,8 @@ title: "Where Shuttles Fly and Relationships Thrive"
 date: 2024-10-28 14:14:05
 slug: where-shuttles-fly-and-relationships-thrive
 categories: ['Relationship', 'Sports', 'Wellness']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/638b6-454453290_10232821137295857_2908630304731480973_n.jpg"
+image_alt: "Where Shuttles Fly and Relationships Thrive"
 ---
 
 Every weekend, my life takes on a rhythm of movement, laughter, and shared energy as I step onto the badminton court. It's not just about the game—it’s about the moments spent with people who matter to me.

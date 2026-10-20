@@ -3,6 +3,8 @@ title: "He is Risen! The Hope That Fuels My Life"
 date: 2025-04-20 15:18:00
 slug: he-is-risen-the-hope-that-fuels-my-life
 categories: ['Christian', 'Worship']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/6a59d-20240329202012129.jpg"
+image_alt: "He is Risen! The Hope That Fuels My Life"
 ---
 
 Today, I pause to reflect on the greatest truth that changed everything , "**Jesus is alive**!"

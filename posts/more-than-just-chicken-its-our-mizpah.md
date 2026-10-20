@@ -1,8 +1,10 @@
 ---
-title: "More Than Just Chicken, It's Our "Mizpah""
+title: "More Than Just Chicken, It's Our \"Mizpah\""
 date: 2025-05-13 01:52:48
 slug: more-than-just-chicken-its-our-mizpah
 categories: ['Faith', 'Relationship']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/51334-kfc-loaded.jpg"
+image_alt: "More Than Just Chicken, It's Our \"Mizpah\""
 ---
 
 You know, we have this small but meaningful tradition, one that might seem ordinary to others, but to me, it’s become something sacred.

@@ -3,6 +3,8 @@ title: "Apart from You, I Am Nothing"
 date: 2024-11-28 18:35:36
 slug: apart-from-you-i-am-nothing
 categories: ['Christian', 'Faith']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/6f9cf-2020-04-13.jpg"
+image_alt: "Apart from You, I Am Nothing"
 ---
 
 There’s a simple yet profound truth that has been on my heart lately, and it comes from a passage in the Gospel of John. In John 15:4-5, Jesus says:

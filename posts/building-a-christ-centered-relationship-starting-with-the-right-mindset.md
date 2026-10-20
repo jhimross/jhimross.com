@@ -3,6 +3,8 @@ title: "Building a Christ-Centered Relationship Starts with the Right Mindset"
 date: 2024-02-14 07:23:12
 slug: building-a-christ-centered-relationship-starting-with-the-right-mindset
 categories: ['Christian', 'Relationship']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/7b9be-julia-scaled-1.jpg"
+image_alt: "Building a Christ-Centered Relationship Starts with the Right Mindset"
 ---
 
 As followers of Christ, relationships are not just about companionship or personal fulfillment—they are an opportunity to reflect God’s love and purpose. Before pursuing someone you admire, it’s essential to examine your heart and align your intentions with God’s will. A Christ-centered relationship requires a mindset rooted in faith, selflessness, and a desire to glorify God together.

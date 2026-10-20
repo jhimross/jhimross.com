@@ -3,6 +3,8 @@ title: "In the Middle of the Storm"
 date: 2024-07-23 07:53:28
 slug: in-the-middle-of-the-storm
 categories: ['Christian', 'Faith']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/8ec56-middle-of-the-store.jpg"
+image_alt: "In the Middle of the Storm"
 ---
 
 Storms have a way of disrupting life—leaving behind destruction, fear, and uncertainty. While news headlines often highlight natural disasters, there are other storms just as devastating: sickness, financial hardship, and broken relationships. These personal storms threaten our peace, comfort, and joy, leaving us vulnerable to fear, doubt, and hopelessness.

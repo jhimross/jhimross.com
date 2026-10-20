@@ -3,6 +3,8 @@ title: "When Love Moves at Different Speeds"
 date: 2025-04-04 00:36:34
 slug: when-love-moves-at-different-speeds
 categories: ['Poem', 'Relationship']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/24032-20241117233844332.jpg"
+image_alt: "When Love Moves at Different Speeds"
 ---
 
 At times, on the path of love,  

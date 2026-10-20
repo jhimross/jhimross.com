@@ -3,6 +3,8 @@ title: "The Power of Your Attitude"
 date: 2024-04-02 07:48:52
 slug: the-power-of-your-attitude
 categories: ['Mindset', 'Self Development']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/7dd65-427766056_25470177122580759_7993501523168294899_n.jpg"
+image_alt: "The Power of Your Attitude"
 ---
 
 > _"Attitude, not aptitude, determines your altitude."_ – John Maxwell

@@ -3,6 +3,8 @@ title: "Honoring the Lamb Through the Cross in Song"
 date: 2025-04-07 22:43:53
 slug: honoring-the-lamb-through-the-cross-in-song
 categories: ['Christian', 'Worship']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/da7a2-christ-resurection-scaled-1.jpg"
+image_alt: "Honoring the Lamb Through the Cross in Song"
 ---
 
 As Easter draws near, our hearts naturally turn toward the cross, the empty tomb, and the glorious hope we have in Jesus. It's a season not only of remembrance, but of **worship** —a time to pause and reflect on the greatest act of love the world has ever known. In this sacred season, two worship songs echo loudly in my heart: **"Hallelujah to the Lamb"** by Don Moen and **"What He's Done"** by Passion.

@@ -3,6 +3,8 @@ title: "Remembering the Greatest Love of All"
 date: 2026-02-14 00:10:00
 slug: remembering-the-greatest-love-of-all
 categories: ['Christian', 'Faith', 'Love', 'Worship']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2026/04/7d18b-love-that-changes-everything.webp"
+image_alt: "Remembering the Greatest Love of All"
 ---
 
 Every February, the world celebrates Valentine’s Day (for this post, I'll call it Heart’s Day), a season filled with flowers, chocolates, romantic messages, and grand gestures of affection. While these expressions of love are meaningful, they point to something even greater: the unconditional love that comes from God.

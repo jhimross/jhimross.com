@@ -3,6 +3,8 @@ title: "Thirty and Grateful"
 date: 2025-08-28 17:07:00
 slug: thirty-and-grateful
 categories: ['Life']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/ab9d1-3-0.jpg"
+image_alt: "Thirty and Grateful"
 ---
 
 Okay, so the day is finally here, the big 3-0. It’s wild how fast it came. I swear I blinked and my twenties disappeared. I still remember my 20th birthday (landed my very first job that day!) and feeling like I had life all figured out. Spoiler alert: I didn’t. Ten years later, I know for sure I don’t, and honestly, that realization is freeing.

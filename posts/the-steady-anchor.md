@@ -3,6 +3,8 @@ title: "The Steady Anchor"
 date: 2026-01-04 00:57:02
 slug: the-steady-anchor
 categories: ['Faith', 'Random', 'Relationship']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2026/04/7faf7-a-rusty-anchor-sits-by-the-shore-with-bare-trees-and-rocks-in-islamorada-fl.-5683663-scaled-1.jpg"
+image_alt: "The Steady Anchor"
 ---
 
 Eleven years I chased the sun, Three times I fell, but I’m not done. For now, two years of "us" have passed, And I am holding you at last. I’m so thankful the "yes" finally came, And I get to whisper your beautiful name.

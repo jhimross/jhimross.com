@@ -1,8 +1,10 @@
 ---
-title: "How to Be a Great "Boss": A Foundational Guide to Effective Leadership"
+title: "How to Be a Great \"Boss\": A Foundational Guide to Effective Leadership"
 date: 2026-05-08 15:20:22
 slug: how-to-be-a-great-boss-a-foundational-guide-to-effective-leadership
 categories: ['Leadership', 'Mindset', 'Self Development']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2026/05/pexels-photo-36463969.jpeg"
+image_alt: "How to Be a Great \"Boss\": A Foundational Guide to Effective Leadership"
 tags: ['business', 'Life', 'mental-health', 'personal-development']
 ---
 

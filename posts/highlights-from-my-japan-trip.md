@@ -3,6 +3,8 @@ title: "Highlights from My Japan Trip"
 date: 2025-01-03 18:51:45
 slug: highlights-from-my-japan-trip
 categories: ['Travel']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/aa6d8-camera-king-gcam15-dec-12_50.iphone-pixel-3-scaled-1.jpg"
+image_alt: "Highlights from My Japan Trip"
 tags: ['Japan']
 ---
 

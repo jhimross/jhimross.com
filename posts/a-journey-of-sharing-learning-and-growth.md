@@ -3,6 +3,8 @@ title: "A Journey of Sharing, Learning, and Growth"
 date: 2023-08-23 07:46:00
 slug: a-journey-of-sharing-learning-and-growth
 categories: ['Blog', 'Random']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/1f271-sunset-at-empire-hotel-brunei-scaled-1.jpg"
+image_alt: "A Journey of Sharing, Learning, and Growth"
 ---
 
 Welcome to my corner of the web! I’m Jhimross Olinares—a coffee-loving WordPress enthusiast with a passion for helping others master WordPress and a love for sharing my experiences along the way.

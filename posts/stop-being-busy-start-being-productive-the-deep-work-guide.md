@@ -3,6 +3,8 @@ title: "Stop Being Busy, Start Being Productive - The Deep Work Guide"
 date: 2025-11-10 16:24:03
 slug: stop-being-busy-start-being-productive-the-deep-work-guide
 categories: ['Leadership', 'Mindset', 'Self Development']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/468a7-20251104161225516-scaled-1.jpg"
+image_alt: "Stop Being Busy, Start Being Productive - The Deep Work Guide"
 ---
 
 In today's world, the most valuable skill isn't multitasking...it's **focus**. This ability to concentrate, called **Deep Work** , is what separates the best from the rest.

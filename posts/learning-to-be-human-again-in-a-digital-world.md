@@ -3,6 +3,8 @@ title: "Learning to Be Human Again in a Digital World"
 date: September 24, 2026
 slug: learning-to-be-human-again-in-a-digital-world
 categories: ['Mindset', 'Self Development', 'Habit']
+image: "https://github.com/user-attachments/assets/2b85d654-98d1-4df2-ae84-327b49f410aa"
+image_alt: "Digital-Minimalist (1)"
 ---
 
 

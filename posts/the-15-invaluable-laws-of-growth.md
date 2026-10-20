@@ -3,6 +3,8 @@ title: "The 15 Invaluable Laws of Growth"
 date: 2026-01-06 15:10:17
 slug: the-15-invaluable-laws-of-growth
 categories: ['Leadership', 'Self Development']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2026/04/2106e-vibrant-close-up-of-a-young-tomato-seedling-sprouting-in-the-soil.-1002703-scaled-1.jpg"
+image_alt: "The 15 Invaluable Laws of Growth"
 ---
 
 We often hear the word **"potential."** It’s supposed to be a compliment, right? But lately, I’ve realized that "potential" is a heavy word. It implies something that exists but hasn't happened yet. As I was reading John Maxwell's _T[he 15 Invaluable Laws of Growth](https://www.goodreads.com/book/show/13529210-the-15-invaluable-laws-of-growth)_, one line hit me like a ton of bricks:

@@ -3,6 +3,8 @@ title: "The Power of Showing Up Before the Time"
 date: 2025-03-03 13:49:54
 slug: the-power-of-showing-up-before-the-time
 categories: ['Habit', 'Mindset']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/c6d10-img_20230818_143256-1.jpg"
+image_alt: "The Power of Showing Up Before the Time"
 ---
 
 Punctuality has always been an important value to me, but I've taken it a step further by making it a habit to arrive early — often well before the expected time. Whether it's a church gathering, a badminton game, or a casual meetup with friends, I intentionally show up ahead of schedule. Here's why this habit has become such an essential part of my life.

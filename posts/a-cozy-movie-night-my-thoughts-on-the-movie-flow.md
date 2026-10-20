@@ -1,8 +1,10 @@
 ---
-title: "A Cozy Movie Night: My Thoughts on the Movie "Flow""
+title: "A Cozy Movie Night: My Thoughts on the Movie \"Flow\""
 date: 2025-03-31 21:11:55
 slug: a-cozy-movie-night-my-thoughts-on-the-movie-flow
 categories: ['Hobby', 'Movie', 'Relationship']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/b2829-flow-featured-image.jpg"
+image_alt: "A Cozy Movie Night: My Thoughts on the Movie \"Flow\""
 ---
 
 Last night, Julia and I had a simple yet special movie night. I set up the projector in a room, and we enjoyed our favorite Jollibee feast Chickenjoy, Burger Steak, and iced coffee while watching the 2024 animated film **Flow**.

@@ -3,6 +3,8 @@ title: "What I Learned Co-Leading the Contributor Day Team for WordCamp Asia 202
 date: 2025-02-26 12:38:54
 slug: what-i-learned-co-leading-the-contributor-day-team-for-wordcamp-asia-2025
 categories: ['Community', 'WordPress']
+image: "https://jhimross.wordpress.com/wp-content/uploads/2025/11/5179d-t2s_9039-1-scaled-1.jpg"
+image_alt: "What I Learned Co-Leading the Contributor Day Team for WordCamp Asia 2025"
 tags: ['Contributor DAy']
 ---
 
